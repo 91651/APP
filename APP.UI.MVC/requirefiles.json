@@ -1,0 +1,12 @@
+﻿{
+  "Font": {
+    "outputFolder": "wwwroot/fonts",
+    "inputFiles": [
+      "node_modules/font-awesome/fonts/**"
+    ]
+  },
+  "JsPlugins": {
+    "outputFolder": "wwwroot/lib",
+    "inputFiles": []
+  }
+}

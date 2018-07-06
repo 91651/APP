@@ -1,0 +1,41 @@
+﻿[
+  {
+    "outputFileName": "wwwroot/css/lib.min.css",
+    "inputFiles": [
+      "node_modules/tether/dist/css/tether.min.css",
+      "node_modules/bootstrap/dist/css/bootstrap.min.css",
+      "node_modules/font-awesome/css/font-awesome.min.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/lib.min.js",
+    "inputFiles": [
+      "node_modules/jquery/dist/jquery.min.js",
+      "node_modules/jquery-pjax/jquery.pjax.js",
+      "node_modules/tether/dist/js/tether.min.js",
+      "node_modules/bootstrap/dist/js/bootstrap.min.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/admin/css/app.min.css",
+    "inputFiles": [
+      
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/admin/js/app.min.js",
+    "inputFiles": [
+      
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]
