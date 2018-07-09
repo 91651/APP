@@ -31,8 +31,8 @@
     <ProjectReference Include="..\APP.DbAccess.Entities\APP.DbAccess.Entities.csproj" />
     <ProjectReference Include="..\APP.DbAccess.Infrastructure\APP.DbAccess.Infrastructure.csproj" />
     <ProjectReference Include="..\APP.DbAccess.Repositories\APP.DbAccess.Repositories.csproj" />
-    <ProjectReference Include="..\APP.Framework.Identity\APP.Framework.Identity.csproj" />
-    <ProjectReference Include="..\APP.Framework.Security\APP.Framework.Security.csproj" />
+    <ProjectReference Include="..\APP.Framework\APP.Framework.Identity\APP.Framework.Identity.csproj" />
+    <ProjectReference Include="..\APP.Framework\APP.Framework.Security\APP.Framework.Security.csproj" />
   </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
