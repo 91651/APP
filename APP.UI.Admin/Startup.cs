@@ -1,3 +1,4 @@
+using APP.Framework.SpaServices.VueDevelopmentServer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -58,8 +59,8 @@ namespace APP.UI.Admin
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8010");
-                    //spa.UseAngularCliServer(npmScript: "serve"); // 目前没有针对Vue的CliServer https://github.com/aspnet/JavaScriptServices/issues/1712
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:8010");
+                    spa.UseVueDevelopmentServer(npmScript: "serve"); // 目前没有针对Vue的CliServer https://github.com/aspnet/JavaScriptServices/issues/1712
                 }
             });
         }
