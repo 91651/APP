@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './app/home/Home.vue';
-import About from './app/About.vue';
+import Main from './app/main/main.vue';
 
 Vue.use(Router);
 
@@ -11,12 +10,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home, // 使用require合并文件 require('./app/home/Home.vue')
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: About,
+      component: Main, // 使用require合并文件 require('./app/home/Home.vue')
     },
   ],
 });
