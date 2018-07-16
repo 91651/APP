@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\APP.Framework.SpaServices\APP.Framework.SpaServices.csproj" />
+    <ProjectReference Include="..\APP.Framework\APP.Framework.SpaServices\APP.Framework.SpaServices.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
