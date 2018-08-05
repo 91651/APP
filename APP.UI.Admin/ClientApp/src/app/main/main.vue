@@ -1,37 +1,39 @@
 <template>
-    <Layout style="height: 100%" class="main">
-        <Sider hide-trigger collapsible :width="210" :collapsed-width="64" v-model="collapsed">
-            <Header class="header-con">
-                <header-bar :collapsed="collapsed" @on-coll-change="handleCollapsedChange">
-                    <user :user-avator="userAvator" />
-                    <language @on-lang-change="setLocal" style="margin-right: 10px;" :lang="local" />
-                    <fullscreen v-model="isFullscreen" style="margin-right: 10px;" />
-                </header-bar>
+    <div class="layout">
+        <Layout :style="{position: 'fixed', width: '100%'}">
+            <Header>
+                <Menu mode="horizontal" theme="dark" active-name="1">
+                    <div class="layout-logo"></div>
+                </Menu>
             </Header>
-            <side-menu accordion :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
-                <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
-                <div class="logo-con">
-                    <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
-                    <img v-show="collapsed" :src="minLogo" key="min-logo" />
-                </div>
-            </side-menu>
-        </Sider>
-        <Layout>
-            
-            <Content>
-                <Layout>
-                    <div class="tag-nav-wrapper">
-                        <tags-nav :value="$route" @input="handleClick" :list="tagNavList" @on-close="handleCloseTag" />
-                    </div>
-                    <Content class="content-wrapper">
-                        <keep-alive :include="cacheList">
-                            <router-view />
-                        </keep-alive>
+            <Layout>
+                <Sider hide-trigger :style="{background: '#fff'}">
+                    <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
+                        <Submenu name="1">
+                            <template slot="title">
+                                <Icon type="ios-navigate"></Icon>
+                                文章管理
+                            </template>
+                            <MenuItem name="1-1"><span>分类列表</span></MenuItem>
+                            <MenuItem name="1-2"><span>文章列表</span></MenuItem>
+                        </Submenu>
+                    </Menu>
+                </Sider>
+                <Layout :style="{padding: '0 24px 24px'}">
+                    <Breadcrumb :style="{margin: '24px 0'}">
+                        <BreadcrumbItem>Home</BreadcrumbItem>
+                        <BreadcrumbItem>Components</BreadcrumbItem>
+                        <BreadcrumbItem>Layout</BreadcrumbItem>
+                    </Breadcrumb>
+                    <Content :style="{background: '#fff', minHeight: '500px'}">
+                        <router-view/>
                     </Content>
                 </Layout>
-            </Content>
+            </Layout>
+            <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>
         </Layout>
-    </Layout>
+    </div>
 </template>
 
 <script lang="ts" src="./main.ts"></script>
+
