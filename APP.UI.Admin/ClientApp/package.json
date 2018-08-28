@@ -15,7 +15,6 @@
     }
   },
   "dependencies": {
-    "express": "^4.16.3",
     "iview": "^3.0.0",
     "vue": "^2.5.17",
     "vue-property-decorator": "^7.0.0",
