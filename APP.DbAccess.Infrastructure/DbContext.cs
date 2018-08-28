@@ -1,8 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using APP.DbAccess.Entities;
-
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace APP.DbAccess.Infrastructure
 {
@@ -42,6 +43,22 @@ namespace APP.DbAccess.Infrastructure
             modelBuilder.Entity<UserLogin<TKey>>().ToTable("UserLogin");
             modelBuilder.Entity<RoleClaim<TKey>>().ToTable("RoleClaim");
             modelBuilder.Entity<UserToken<TKey>>().ToTable("UserToken");
+        }
+    }
+
+    public static class ModelBuilderExtensions
+    {
+        public static void RemovePluralizingTableNameConvention(this ModelBuilder modelBuilder)
+        {
+            foreach (IMutableEntityType entity in modelBuilder.Model.GetEntityTypes())
+            {
+                entity.Relational().TableName = entity.DisplayName();
+
+                //if (entity.ClrType == null)
+                //    continue;
+                //entity.Relational().TableName = entity.ClrType.Name;
+            }
+
         }
     }
 }
