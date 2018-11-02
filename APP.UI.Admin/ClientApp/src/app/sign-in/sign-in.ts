@@ -16,9 +16,10 @@ export default class SignInComponent extends Vue {
         ]
       };
       private handleSubmit(): void {
-          let form: any = this.$refs.signInForm;
+          const form: any = this.$refs.signInForm;
           form.validate((valid: any) => {
             if (valid) {
+              
             }
           })
       }

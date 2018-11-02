@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NSwag.AspNetCore;
 
 namespace APP.UI.Admin
 {
@@ -51,7 +52,7 @@ namespace APP.UI.Admin
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
-
+            app.UseSwaggerUi3WithApiExplorer(s => s.GeneratorSettings.Title = "APP");
             app.UseSpa(spa =>
             {
 

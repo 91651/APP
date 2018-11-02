@@ -10,7 +10,7 @@
   },
   "devConfig": {
     "genClient": {
-      "input": "http://cnbjs1bms001:51/swagger/docs/v1",
+      "input": "http://localhost:2217/swagger/v1/swagger.json",
       "output": "src/api-client/client.ts"
     }
   },
