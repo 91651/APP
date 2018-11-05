@@ -1,24 +1,26 @@
-import { AccountClient } from '../api-client/client';
+import { AuthClient } from '../api-client/client';
 
-let account = new AccountClient(process.env.npm_package_devConfig_apiUrl);
+let _auth = new AuthClient(process.env.npm_package_devConfig_apiUrl);
 
 export const auth = {
   state: {
     token: ''
   },
   actions: {
-    signIn() {
-      account.signIn().then((data)=>{
-        auth.state.token = 'ddd';
-        window.localStorage.setItem('Token', data);
+    signIn(vuex: any, data: any): Promise<string> {
+      return new Promise((resolve, reject) => {
+        _auth.signIn(data.name, data.pwd).then((d) => {
+          auth.state.token = d;
+          window.localStorage.setItem('Token', d);
+          resolve();
+        });
       });
-    }
-  },
+  }},
   getters : {
-    getToken: ( _state: any ) => {
-    if (!_state.token) {
+    getToken: ( state: any ) => {
+    if (!state.token) {
     return window.localStorage.getItem('Token');
     } else {
-    return _state.token;
+    return state.token;
     }
 }}}

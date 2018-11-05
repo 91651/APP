@@ -4,7 +4,7 @@ import './sign-in.less';
 
 @Component
 export default class SignInComponent extends Vue {
-  @Action private signIn!: () => void;
+  @Action private signIn!: (data: {}) => Promise<string>;
   private signInForm: any = {
         userName: '',
         password: ''
@@ -21,8 +21,9 @@ export default class SignInComponent extends Vue {
           const form: any = this.$refs.signInForm;
           form.validate((valid: any) => {
             if (valid) {
-              this.signIn();
-              this.$router.replace('/');
+              this.signIn({name: this.signInForm.userName, pwd: this.signInForm.password}).then(() => {
+                this.$router.replace('/');
+              });
             }
           })
       }

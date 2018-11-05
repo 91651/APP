@@ -6,7 +6,7 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-export class AccountClient {
+export class AuthClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: (key: string, value: any) => any = undefined;
@@ -16,8 +16,12 @@ export class AccountClient {
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:2217";
     }
 
-    signIn(): Promise<boolean> {
-        let url_ = this.baseUrl + "/api/Account";
+    signIn(name: string, pwd: string): Promise<string> {
+        let url_ = this.baseUrl + "/api/Auth?";
+        if (name !== undefined)
+            url_ += "name=" + encodeURIComponent("" + name) + "&"; 
+        if (pwd !== undefined)
+            url_ += "pwd=" + encodeURIComponent("" + pwd) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -32,7 +36,7 @@ export class AccountClient {
         });
     }
 
-    protected processSignIn(response: Response): Promise<boolean> {
+    protected processSignIn(response: Response): Promise<string> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
@@ -47,7 +51,7 @@ export class AccountClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<boolean>(<any>null);
+        return Promise.resolve<string>(<any>null);
     }
 }
 
