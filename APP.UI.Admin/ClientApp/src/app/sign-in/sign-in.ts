@@ -1,9 +1,11 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import { State, Action, Getter } from 'vuex-class';
 import './sign-in.less';
 
 @Component
 export default class SignInComponent extends Vue {
-      public signInForm: any = {
+  @Action private signIn!: () => void;
+  private signInForm: any = {
         userName: '',
         password: ''
       };
@@ -19,7 +21,7 @@ export default class SignInComponent extends Vue {
           const form: any = this.$refs.signInForm;
           form.validate((valid: any) => {
             if (valid) {
-              
+              this.signIn();
             }
           })
       }
