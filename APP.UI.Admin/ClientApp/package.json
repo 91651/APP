@@ -9,6 +9,7 @@
     "generate-client": "node_modules/.bin/nswag swagger2tsclient /input:%npm_package_devConfig_genClient_input% /output:%npm_package_devConfig_genClient_output%"
   },
   "devConfig": {
+    "apiUrl":"http://localhost:2217/",
     "genClient": {
       "input": "http://localhost:2217/swagger/v1/swagger.json",
       "output": "src/api-client/client.ts"

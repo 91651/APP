@@ -22,6 +22,7 @@ export default class SignInComponent extends Vue {
           form.validate((valid: any) => {
             if (valid) {
               this.signIn();
+              this.$router.replace('/');
             }
           })
       }
