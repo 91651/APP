@@ -9,7 +9,9 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using NSwag;
 using NSwag.AspNetCore;
+using NSwag.SwaggerGeneration.Processors.Security;
 
 namespace APP.UI.Admin
 {
@@ -51,8 +53,8 @@ namespace APP.UI.Admin
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
 
@@ -94,7 +96,15 @@ namespace APP.UI.Admin
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSwaggerUi3WithApiExplorer(s => s.GeneratorSettings.Title = "APP");
+            app.UseSwaggerUi3WithApiExplorer(s => {
+                s.GeneratorSettings.Title = "APP";
+                s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("apikey", new SwaggerSecurityScheme
+                {
+                    Type = SwaggerSecuritySchemeType.ApiKey,
+                    Name = "Authorization",
+                    In = SwaggerSecurityApiKeyLocation.Header
+                }));
+            });
             app.UseSpa(spa =>
             {
 

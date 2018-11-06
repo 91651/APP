@@ -1,4 +1,4 @@
-import { AuthClient } from '../api-client/client';
+import { AuthClient } from '@/api-client/client';
 
 let _auth = new AuthClient(process.env.npm_package_devConfig_apiUrl);
 
@@ -7,7 +7,7 @@ export const auth = {
     token: ''
   },
   actions: {
-    signIn(vuex: any, data: any): Promise<string> {
+    signIn(vuex: any, data: any): Promise<void> {
       return new Promise((resolve, reject) => {
         _auth.signIn(data.name, data.pwd).then((d) => {
           auth.state.token = d;
@@ -15,7 +15,8 @@ export const auth = {
           resolve();
         });
       });
-  }},
+  }
+},
   getters : {
     getToken: ( state: any ) => {
     if (!state.token) {

@@ -18,6 +18,11 @@ const router: Router = new Router({
       name: 'home',
       component: Main, // 使用require合并文件 require('./app/home/Home.vue')
     },
+    {
+      path: '/account',
+      name: 'account',
+      component:  () => import('./app/account/account.vue')
+    }
   ],
 });
 

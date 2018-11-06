@@ -4,7 +4,7 @@ import './sign-in.less';
 
 @Component
 export default class SignInComponent extends Vue {
-  @Action private signIn!: (data: {}) => Promise<string>;
+  @Action private signIn!: (data: {}) => Promise<void>;
   private signInForm: any = {
         userName: '',
         password: ''

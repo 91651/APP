@@ -17,6 +17,13 @@
                             <MenuItem name="1-1"><span>分类列表</span></MenuItem>
                             <MenuItem name="1-2"><span>文章列表</span></MenuItem>
                         </Submenu>
+                        <Submenu name="1">
+                            <template slot="title">
+                                <Icon type="ios-navigate"></Icon>
+                                用户管理
+                            </template>
+                            <MenuItem name="2-1" to="/account"><span>用户列表</span></MenuItem>
+                        </Submenu>
                     </Menu>
                 </Sider>
                 <Layout :style="{padding: '0 24px 24px'}">
