@@ -18,5 +18,15 @@ namespace APP.UI.Admin.Controllers
             list.Add("王五");
             return list;
         }
+
+        [HttpPost]
+        public ActionResult<List<string>> Post()
+        {
+            var list = new List<string>();
+            list.Add("张三");
+            list.Add("李四");
+            list.Add("王五");
+            return list;
+        }
     }
 }

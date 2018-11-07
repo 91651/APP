@@ -33,7 +33,9 @@
                         <BreadcrumbItem>Layout</BreadcrumbItem>
                     </Breadcrumb>
                     <Content :style="{background: '#fff', minHeight: '500px'}">
-                        <router-view/>
+                        <keep-alive>
+                            <router-view v-if="$route.meta.keepAlive"/>
+                        </keep-alive>
                     </Content>
                 </Layout>
             </Layout>

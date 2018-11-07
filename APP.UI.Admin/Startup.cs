@@ -98,11 +98,16 @@ namespace APP.UI.Admin
 
             app.UseSwaggerUi3WithApiExplorer(s => {
                 s.GeneratorSettings.Title = "APP";
-                s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("apikey", new SwaggerSecurityScheme
+                s.GeneratorSettings.OperationProcessors.Add(new OperationSecurityScopeProcessor("Bearer"));
+                s.PostProcess = document =>
+                {
+                    document.Security.Add((new SwaggerSecurityRequirement { { "Bearer", new string[] { } }, }));
+                };
+                s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("Bearer", new SwaggerSecurityScheme
                 {
                     Type = SwaggerSecuritySchemeType.ApiKey,
                     Name = "Authorization",
-                    In = SwaggerSecurityApiKeyLocation.Header
+                    In = SwaggerSecurityApiKeyLocation.Header,
                 }));
             });
             app.UseSpa(spa =>

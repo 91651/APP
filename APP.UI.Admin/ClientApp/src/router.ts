@@ -17,13 +17,21 @@ const router: Router = new Router({
       path: '/',
       name: 'home',
       component: Main, // 使用require合并文件 require('./app/home/Home.vue')
-    },
-    {
-      path: '/account',
-      name: 'account',
-      component:  () => import('./app/account/account.vue')
+      meta: {
+        keepAlive: true // 需要被缓存
+      },
+      children: [
+        {
+          path: '/account',
+          name: 'account',
+          component:  () => import('./app/account/account.vue'),
+          meta: {
+            keepAlive: true
+          }
+        }
+      ]
     }
-  ],
+  ]
 });
 
 router.beforeEach(( to: any, from: any, next: any ) => {

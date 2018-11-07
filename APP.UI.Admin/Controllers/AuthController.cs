@@ -24,15 +24,15 @@ namespace APP.UI.Admin.Controllers
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-                var tokeOptions = new JwtSecurityToken(
+                var tokenOptions = new JwtSecurityToken(
                     issuer: "http://localhost:2217",
                     audience: "http://localhost:8010",
                     claims: new List<Claim>(),
-                    expires: DateTime.Now.AddMinutes(5),
+                    expires: DateTime.Now.AddDays(1),
                     signingCredentials: signinCredentials
                 );
 
-                return new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+                return  new JwtSecurityTokenHandler().WriteToken(tokenOptions);
             }
             else
             {
