@@ -1,5 +1,9 @@
 using System.Text;
+using APP.DbAccess.Repositories;
+using APP.Framework.Services;
 using APP.Framework.SpaServices.VueDevelopmentServer;
+using AutoMapper;
+using BC.Microsoft.DependencyInjection.Plus;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -35,7 +39,7 @@ namespace APP.UI.Admin
                                  .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddAutoMapper(); //添加AutoMapper服务
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigin", builder =>
@@ -68,6 +72,10 @@ namespace APP.UI.Admin
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            //注入项目类
+            services.AddScopedScan(typeof(Repository<>));
+            services.AddScopedScan(typeof(Service));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -96,7 +104,8 @@ namespace APP.UI.Admin
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSwaggerUi3WithApiExplorer(s => {
+            app.UseSwaggerUi3WithApiExplorer(s =>
+            {
                 s.GeneratorSettings.Title = "APP";
                 s.GeneratorSettings.OperationProcessors.Add(new OperationSecurityScopeProcessor("Bearer"));
                 s.PostProcess = document =>

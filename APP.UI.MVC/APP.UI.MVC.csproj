@@ -28,9 +28,7 @@
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\APP.DbAccess.Entities\APP.DbAccess.Entities.csproj" />
-    <ProjectReference Include="..\APP.DbAccess.Infrastructure\APP.DbAccess.Infrastructure.csproj" />
-    <ProjectReference Include="..\APP.DbAccess.Repositories\APP.DbAccess.Repositories.csproj" />
+    <ProjectReference Include="..\APP.Framework.Services\APP.Framework.Services.csproj" />
     <ProjectReference Include="..\APP.Framework\APP.Framework.Identity\APP.Framework.Identity.csproj" />
     <ProjectReference Include="..\APP.Framework\APP.Framework.Security\APP.Framework.Security.csproj" />
   </ItemGroup>

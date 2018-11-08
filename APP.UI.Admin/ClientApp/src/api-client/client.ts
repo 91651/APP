@@ -10,13 +10,13 @@ export default class BaseClient {
     protected transformOptions(options: RequestInit) {
         const token = window.localStorage.getItem('Token');
         let headers = new Headers(options.headers);
-        headers.append("Authorization", "Bearer " + token); 
+        headers.append("Authorization", "Bearer " + token);
         options.headers = headers;
         return Promise.resolve(options);
     }
 }
 
-export class AccountClient extends BaseClient {
+export class UserClient extends BaseClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: (key: string, value: any) => any = undefined;
@@ -28,7 +28,7 @@ export class AccountClient extends BaseClient {
     }
 
     get(): Promise<string[]> {
-        let url_ = this.baseUrl + "/api/Account";
+        let url_ = this.baseUrl + "/api/User";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -50,25 +50,25 @@ export class AccountClient extends BaseClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [];
-                for (let item of resultData200)
-                    result200.push(item);
-            }
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (resultData200 && resultData200.constructor === Array) {
+                    result200 = [];
+                    for (let item of resultData200)
+                        result200.push(item);
+                }
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<string[]>(<any>null);
     }
 
     post(): Promise<string[]> {
-        let url_ = this.baseUrl + "/api/Account";
+        let url_ = this.baseUrl + "/api/User";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -90,18 +90,18 @@ export class AccountClient extends BaseClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [];
-                for (let item of resultData200)
-                    result200.push(item);
-            }
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (resultData200 && resultData200.constructor === Array) {
+                    result200 = [];
+                    for (let item of resultData200)
+                        result200.push(item);
+                }
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<string[]>(<any>null);
@@ -122,9 +122,9 @@ export class AuthClient extends BaseClient {
     signIn(name: string, pwd: string): Promise<string> {
         let url_ = this.baseUrl + "/api/Auth?";
         if (name !== undefined)
-            url_ += "name=" + encodeURIComponent("" + name) + "&"; 
+            url_ += "name=" + encodeURIComponent("" + name) + "&";
         if (pwd !== undefined)
-            url_ += "pwd=" + encodeURIComponent("" + pwd) + "&"; 
+            url_ += "pwd=" + encodeURIComponent("" + pwd) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -146,14 +146,14 @@ export class AuthClient extends BaseClient {
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return result200;
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+                return result200;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Promise.resolve<string>(<any>null);
@@ -163,10 +163,10 @@ export class AuthClient extends BaseClient {
 
 export class SwaggerException extends Error {
     message: string;
-    status: number; 
-    response: string; 
+    status: number;
+    response: string;
     headers: { [key: string]: any; };
-    result: any; 
+    result: any;
 
     constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
         super();
@@ -186,7 +186,7 @@ export class SwaggerException extends Error {
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): any {
-    if(result !== null && result !== undefined)
+    if (result !== null && result !== undefined)
         throw result;
     else
         throw new SwaggerException(message, status, response, headers, null);

@@ -7,48 +7,48 @@ namespace APP.DbAccess.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly AppDbContext Db;
-        protected readonly DbSet<TEntity> DbSet;
+        private readonly AppDbContext _db;
+        private readonly DbSet<TEntity> _dbSet;
 
         public Repository(AppDbContext context)
         {
-            Db = context;
-            DbSet = Db.Set<TEntity>();
+            _db = context;
+            _dbSet = _db.Set<TEntity>();
         }
 
         public virtual void Add(TEntity obj)
         {
-            DbSet.Add(obj);
+            _dbSet.Add(obj);
         }
 
         public virtual TEntity GetById(Guid id)
         {
-            return DbSet.Find(id);
+            return _dbSet.Find(id);
         }
 
         public virtual IQueryable<TEntity> GetAll()
         {
-            return DbSet;
+            return _dbSet;
         }
 
         public virtual void Update(TEntity obj)
         {
-            DbSet.Update(obj);
+            _dbSet.Update(obj);
         }
 
         public virtual void Remove(Guid id)
         {
-            DbSet.Remove(DbSet.Find(id));
+            _dbSet.Remove(_dbSet.Find(id));
         }
 
         public int SaveChanges()
         {
-            return Db.SaveChanges();
+            return _db.SaveChanges();
         }
 
         public void Dispose()
         {
-            Db.Dispose();
+            _db.Dispose();
             GC.SuppressFinalize(this);
         }
     }

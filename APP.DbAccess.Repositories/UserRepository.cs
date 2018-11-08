@@ -5,7 +5,7 @@ namespace APP.DbAccess.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        private AppDbContext _dbContext;
+        private readonly AppDbContext _dbContext;
 
         public UserRepository(AppDbContext context)
             : base(context)

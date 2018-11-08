@@ -1,6 +1,8 @@
-﻿namespace APP.DbAccess.Repositories
+﻿using APP.DbAccess.Entities;
+
+namespace APP.DbAccess.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
     }
 }

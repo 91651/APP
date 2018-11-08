@@ -22,7 +22,7 @@
                                 <Icon type="ios-navigate"></Icon>
                                 用户管理
                             </template>
-                            <MenuItem name="2-1" to="/account"><span>用户列表</span></MenuItem>
+                            <MenuItem name="2-1" to="/user"><span>用户列表</span></MenuItem>
                         </Submenu>
                     </Menu>
                 </Sider>

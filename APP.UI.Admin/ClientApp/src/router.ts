@@ -22,9 +22,9 @@ const router: Router = new Router({
       },
       children: [
         {
-          path: '/account',
-          name: 'account',
-          component:  () => import('./app/account/account.vue'),
+          path: '/user',
+          name: 'user',
+          component: () => import('./app/user/user.vue'),
           meta: {
             keepAlive: true
           }
@@ -34,16 +34,16 @@ const router: Router = new Router({
   ]
 });
 
-router.beforeEach(( to: any, from: any, next: any ) => {
+router.beforeEach((to: any, from: any, next: any) => {
   const isAuth = store.getters.getToken;
   if (isAuth) {
-      next();
+    next();
   } else {
-      if (to.path === '/signIn') { // 这就是跳出死循环的关键
-          next();
-      } else {
-          next('/signIn');
-      }
+    if (to.path === '/signIn') { // 这就是跳出死循环的关键
+      next();
+    } else {
+      next('/signIn');
+    }
   }
 })
 
