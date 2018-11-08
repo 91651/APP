@@ -1,3 +1,8 @@
+var path = require('path');
+
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+
+
 module.exports = {
   baseUrl: "/",
   chainWebpack: config => {
@@ -14,5 +19,13 @@ module.exports = {
     //hotOnly: false,
     //proxy: null, // string | Object
     //before: app => {}
+  },
+  configureWebpack: {
+    plugins: [
+      new CopyWebpackPlugin([{
+        from: path.join(__dirname + '/src', 'app-config.json'),
+        to: path.join(__dirname, 'dist/')
+      }])
+    ]
   }
 }
