@@ -1,5 +1,8 @@
 using System.Text;
+using APP.DbAccess.Entities;
+using APP.DbAccess.Infrastructure;
 using APP.DbAccess.Repositories;
+using APP.Framework.Identity;
 using APP.Framework.Services;
 using APP.Framework.SpaServices.VueDevelopmentServer;
 using AutoMapper;
@@ -8,8 +11,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -31,24 +36,22 @@ namespace APP.UI.Admin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDbContext>(option => option.UseSqlite(Configuration["ConnectionStrings:SqliteConnection"]));
+            services.AddIdentity<User, Role>().AppAddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
             services.AddMvc(options =>
             {
                 //默认不允许匿名访问
-                var policy = new AuthorizationPolicyBuilder()
-                                 .RequireAuthenticatedUser()
-                                 .Build();
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddAutoMapper(); //添加AutoMapper服务
+            //添加AutoMapper服务
+            services.AddAutoMapper();
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigin", builder =>
                 {
-                    builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials();
-
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();
                 });
             });
 
@@ -61,7 +64,6 @@ namespace APP.UI.Admin
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-
                     ValidIssuer = "http://localhost:2217",
                     ValidAudience = "http://localhost:8010",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))

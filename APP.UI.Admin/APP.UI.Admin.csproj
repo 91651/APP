@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APP.Framework.Services\APP.Framework.Services.csproj" />
+    <ProjectReference Include="..\APP.Framework\APP.Framework.Identity\APP.Framework.Identity.csproj" />
     <ProjectReference Include="..\APP.Framework\APP.Framework.SpaServices\APP.Framework.SpaServices.csproj" />
   </ItemGroup>
 
