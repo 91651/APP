@@ -20,42 +20,42 @@ namespace APP.Framework.Identity
 
         public UserStore(TContext context, IdentityErrorDescriber describer = null) : base(context, describer) { }
 
-        protected override UserRole<TKey> CreateUserRole(TUser user, TRole role)
-        {
-            return new UserRole<TKey>()
-            {
-                UserId = user.Id,
-                RoleId = role.Id
-            };
-        }
+        //protected override UserRole<TKey> CreateUserRole(TUser user, TRole role)
+        //{
+        //    return new UserRole<TKey>()
+        //    {
+        //        UserId = user.Id,
+        //        RoleId = role.Id
+        //    };
+        //}
 
-        protected override UserClaim<TKey> CreateUserClaim(TUser user, Claim claim)
-        {
-            var userClaim = new UserClaim<TKey> { UserId = user.Id };
-            userClaim.InitializeFromClaim(claim);
-            return userClaim;
-        }
+        //protected override UserClaim<TKey> CreateUserClaim(TUser user, Claim claim)
+        //{
+        //    var userClaim = new UserClaim<TKey> { UserId = user.Id };
+        //    userClaim.InitializeFromClaim(claim);
+        //    return userClaim;
+        //}
 
-        protected override UserLogin<TKey> CreateUserLogin(TUser user, UserLoginInfo login)
-        {
-            return new UserLogin<TKey>
-            {
-                UserId = user.Id,
-                ProviderKey = login.ProviderKey,
-                LoginProvider = login.LoginProvider,
-                ProviderDisplayName = login.ProviderDisplayName
-            };
-        }
+        //protected override UserLogin<TKey> CreateUserLogin(TUser user, UserLoginInfo login)
+        //{
+        //    return new UserLogin<TKey>
+        //    {
+        //        UserId = user.Id,
+        //        ProviderKey = login.ProviderKey,
+        //        LoginProvider = login.LoginProvider,
+        //        ProviderDisplayName = login.ProviderDisplayName
+        //    };
+        //}
 
-        protected override UserToken<TKey> CreateUserToken(TUser user, string loginProvider, string name, string value)
-        {
-            return new UserToken<TKey>
-            {
-                UserId = user.Id,
-                LoginProvider = loginProvider,
-                Name = name,
-                Value = value
-            };
-        }
+        //protected override UserToken<TKey> CreateUserToken(TUser user, string loginProvider, string name, string value)
+        //{
+        //    return new UserToken<TKey>
+        //    {
+        //        UserId = user.Id,
+        //        LoginProvider = loginProvider,
+        //        Name = name,
+        //        Value = value
+        //    };
+        //}
     }
 }

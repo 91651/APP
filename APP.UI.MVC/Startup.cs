@@ -42,6 +42,7 @@ namespace APP.UI.MVC
             {
                 var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
                 db.Database.EnsureCreated();
+                db.InitUser();
             }
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -50,7 +51,6 @@ namespace APP.UI.MVC
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.ApplicationServices.InitUser();
                 // Browser Link is not compatible with Kestrel 1.1.0
                 // For details on enabling Browser Link, see https://go.microsoft.com/fwlink/?linkid=840936
                 // app.UseBrowserLink();

@@ -47,13 +47,7 @@ namespace APP.UI.Admin
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             //添加AutoMapper服务
             services.AddAutoMapper();
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigin", builder =>
-                {
-                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();
-                });
-            });
+            services.AddCors(/*options =>{ options.AddPolicy("AllowAllOrigin", builder =>{ builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();});})*/);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -83,6 +77,13 @@ namespace APP.UI.Admin
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
+                db.Database.EnsureCreated();
+                db.InitUser();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -97,7 +98,7 @@ namespace APP.UI.Admin
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseCors("AllowAllOrigin");
+            app.UseCors(/*"AllowAllOrigin"*/);
             app.UseAuthentication();
             app.UseMvc(routes =>
             {
@@ -121,17 +122,17 @@ namespace APP.UI.Admin
                     In = SwaggerSecurityApiKeyLocation.Header,
                 }));
             });
-            app.UseSpa(spa =>
-            {
+            //app.UseSpa(spa =>
+            //{
 
-                spa.Options.SourcePath = "ClientApp";
+            //    spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:8010");
-                    spa.UseVueDevelopmentServer(npmScript: "serve"); // 目前没有针对Vue的CliServer https://github.com/aspnet/JavaScriptServices/issues/1712
-                }
-            });
+            //    if (env.IsDevelopment())
+            //    {
+            //        //spa.UseProxyToSpaDevelopmentServer("http://localhost:8010");
+            //        spa.UseVueDevelopmentServer(npmScript: "serve"); // 目前没有针对Vue的CliServer https://github.com/aspnet/JavaScriptServices/issues/1712
+            //    }
+            //});
         }
     }
 }

@@ -6,9 +6,9 @@ namespace APP.DbAccess.Infrastructure
 {
     public static class InitDb
     {
-        public static void InitUser(this IServiceProvider service)
+        public static void InitUser(this AppDbContext db)
         {
-            var db = (AppDbContext)service.GetService(typeof(AppDbContext));
+            //var db = (AppDbContext)service.GetService(typeof(AppDbContext));
 
             if (db.Database != null)
             {

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using APP.DbAccess.Entities;
+using APP.Framework.Services.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -26,28 +29,47 @@ namespace APP.UI.Admin.Controllers
         }
 
         [HttpGet, AllowAnonymous]
-        public ActionResult<string> SignIn(string name, string pwd)
+        public async Task<ActionResult<AuthModel>> SignIn(string name, string pwd)
         {
-            var result = _signInManager.PasswordSignInAsync(name, pwd, false, lockoutOnFailure: false).Result;
-            if (result.Succeeded)
+            var result = new AuthModel();
+            var user = await _userManager.FindByNameAsync(name);
+            if (user == null)
+            {
+                result.Status = "用户不存在！";
+                return result;
+            }
+            var signIn = await _signInManager.PasswordSignInAsync(user, pwd, false, false);
+            if (signIn.Succeeded)
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                 var tokenOptions = new JwtSecurityToken(
-                    issuer: "http://localhost:2217",
-                    audience: "http://localhost:8010",
-                    claims: new List<Claim>(),
                     expires: DateTime.Now.AddDays(1),
                     signingCredentials: signinCredentials
                 );
-
-                return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+                result.UserName = user.UserName;
+                result.Status = "成功";
+                result.TokenType = JwtBearerDefaults.AuthenticationScheme;
+                result.Token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            }
+            else if (signIn.IsLockedOut)
+            {
+                result.Status = "用户已经被锁定，目前无法登录！";
             }
             else
             {
-                return Unauthorized();
+                result.Status = "账号或密码无效！";
             }
+            //return Unauthorized();
+            return result;
+        }
+        [HttpGet, AllowAnonymous]
+        [Route("GetUser")]
+        public ActionResult GetUser()
+        {
+            var a = _signInManager.Context.User;
+            return Ok();
         }
     }
 }
