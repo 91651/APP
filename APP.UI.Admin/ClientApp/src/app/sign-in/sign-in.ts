@@ -4,10 +4,12 @@ import './sign-in.less';
 
 @Component
 export default class SignInComponent extends Vue {
-  @Action private signIn!: (data: {}) => Promise<void>;
+  @Action private signIn!: (data: {}) => Promise<any>;
+
   private signInForm: any = {
         userName: '',
-        password: ''
+        password: '',
+        message:''
       };
       private rules: any = {
         userName: [
@@ -21,10 +23,14 @@ export default class SignInComponent extends Vue {
           const form: any = this.$refs.signInForm;
           form.validate((valid: any) => {
             if (valid) {
-              this.signIn({name: this.signInForm.userName, pwd: this.signInForm.password}).then(() => {
-                this.$router.replace('/');
+              this.signIn({name: this.signInForm.userName, pwd: this.signInForm.password}).then(r => {
+                if (r.token) {
+                  this.$router.replace('/');
+                } else {
+                  this.signInForm.message = r.status;
+                }
               });
             }
-          })
+          });
       }
 }

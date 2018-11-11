@@ -5,12 +5,14 @@ export const auth = {
     token: ''
   },
   actions: {
-    signIn(vuex: any, data: any): Promise<void> {
+    signIn(vuex: any, data: any): Promise<any> {
       return new Promise((resolve, reject) => {
         _Auth.signIn(data.name, data.pwd).then((d) => {
-          auth.state.token = d;
-          window.localStorage.setItem('Token', d);
-          resolve();
+          if (d.token) {
+            auth.state.token = d.token;
+            window.localStorage.setItem('Token', d.token);
+          }
+          resolve(d);
         });
       });
   }

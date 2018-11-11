@@ -47,7 +47,7 @@ namespace APP.UI.Admin
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             //Ìí¼ÓAutoMapper·þÎñ
             services.AddAutoMapper();
-            services.AddCors(/*options =>{ options.AddPolicy("AllowAllOrigin", builder =>{ builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();});})*/);
+            services.AddCors( options =>{ options.AddPolicy("AllowAllOrigin", builder =>{ builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();});});
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -98,7 +98,7 @@ namespace APP.UI.Admin
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseCors(/*"AllowAllOrigin"*/);
+            app.UseCors("AllowAllOrigin");
             app.UseAuthentication();
             app.UseMvc(routes =>
             {

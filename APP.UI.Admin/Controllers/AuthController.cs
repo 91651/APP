@@ -64,12 +64,5 @@ namespace APP.UI.Admin.Controllers
             //return Unauthorized();
             return result;
         }
-        [HttpGet, AllowAnonymous]
-        [Route("GetUser")]
-        public ActionResult GetUser()
-        {
-            var a = _signInManager.Context.User;
-            return Ok();
-        }
     }
 }
