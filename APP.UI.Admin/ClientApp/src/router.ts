@@ -28,6 +28,14 @@ const router: Router = new Router({
           meta: {
             keepAlive: true
           }
+        },
+        {
+          path: '/article',
+          name: 'article',
+          component: () => import('./app/article/article.vue'),
+          meta: {
+            keepAlive: true
+          }
         }
       ]
     }

@@ -5,12 +5,12 @@ namespace APP.DbAccess.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        private readonly AppDbContext _dbContext;
+        private readonly AppDbContext _db;
 
-        public UserRepository(AppDbContext context)
-            : base(context)
+        public UserRepository(AppDbContext dbContext)
+            : base(dbContext)
         {
-            _dbContext = context;
+            _db = dbContext;
         }
         /*
          _dbContext.Channels.Where(w => w.Id != "").Update(u => new Channel { State = 3 });

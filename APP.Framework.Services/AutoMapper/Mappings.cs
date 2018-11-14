@@ -10,6 +10,8 @@ namespace APP.Framework.Services.AutoMapper
     {
         public Mappings()
         {
+            CreateMap<Article, ArticleModel>().ReverseMap();
+            CreateMap<Article, ArticleListModel>();
             CreateMap<User, UserModel>();
         }
 

@@ -58,7 +58,7 @@ namespace APP.UI.Admin
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "http://localhost:2217",
+                    ValidIssuer = "http://localhost:56833",
                     ValidAudience = "http://localhost:8010",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                 };

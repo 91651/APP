@@ -15,7 +15,7 @@
                                 文章管理
                             </template>
                             <MenuItem name="1-1"><span>分类列表</span></MenuItem>
-                            <MenuItem name="1-2"><span>文章列表</span></MenuItem>
+                            <MenuItem name="1-2" to="/article"><span>文章列表</span></MenuItem>
                         </Submenu>
                         <Submenu name="1">
                             <template slot="title">
@@ -26,13 +26,13 @@
                         </Submenu>
                     </Menu>
                 </Sider>
-                <Layout :style="{padding: '0 24px 24px'}">
-                    <Breadcrumb :style="{margin: '24px 0'}">
+                <Layout>
+                    <Breadcrumb :style="{margin: '10px'}">
                         <BreadcrumbItem>Home</BreadcrumbItem>
                         <BreadcrumbItem>Components</BreadcrumbItem>
                         <BreadcrumbItem>Layout</BreadcrumbItem>
                     </Breadcrumb>
-                    <Content :style="{background: '#fff', minHeight: '500px'}">
+                    <Content class="content-wrapper">
                         <keep-alive>
                             <router-view v-if="$route.meta.keepAlive"/>
                         </keep-alive>

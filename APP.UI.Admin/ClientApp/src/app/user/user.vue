@@ -1,5 +1,5 @@
 <template>
-  <div class="signin">
+  <div>
     <button @click="getUserList()">获取用户列表</button>
   </div>
 </template>

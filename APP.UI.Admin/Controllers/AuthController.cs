@@ -45,6 +45,9 @@ namespace APP.UI.Admin.Controllers
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                 var tokenOptions = new JwtSecurityToken(
+                    issuer: "http://localhost:56833",
+                    audience: "http://localhost:8010",
+                    claims: new List<Claim>(),
                     expires: DateTime.Now.AddDays(1),
                     signingCredentials: signinCredentials
                 );

@@ -10,6 +10,7 @@ namespace APP.DbAccess.Repositories
         IQueryable<TEntity> GetAll();
         void Update(TEntity obj);
         void Remove(Guid id);
+        int SaveChanges();
 
     }
 }

@@ -16,6 +16,98 @@ export default class BaseClient {
     }
 }
 
+export class ArticleClient extends BaseClient {
+    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+    private baseUrl: string;
+    protected jsonParseReviver: (key: string, value: any) => any = undefined;
+
+    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+        super();
+        this.http = http ? http : <any>window;
+        this.baseUrl = baseUrl ? baseUrl : "http://localhost:56833";
+    }
+
+    addArticle(model: ArticleModel): Promise<string> {
+        let url_ = this.baseUrl + "/api/Article/AddArticle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processAddArticle(_response);
+        });
+    }
+
+    protected processAddArticle(response: Response): Promise<string> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string>(<any>null);
+    }
+
+    getArticles(): Promise<ArticleListModel[]> {
+        let url_ = this.baseUrl + "/api/Article/GetArticles";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetArticles(_response);
+        });
+    }
+
+    protected processGetArticles(response: Response): Promise<ArticleListModel[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(ArticleListModel.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ArticleListModel[]>(<any>null);
+    }
+}
+
 export class AuthClient extends BaseClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
@@ -65,40 +157,6 @@ export class AuthClient extends BaseClient {
             });
         }
         return Promise.resolve<AuthModel>(<any>null);
-    }
-
-    getUser(): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/Auth/GetUser";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processGetUser(_response);
-        });
-    }
-
-    protected processGetUser(response: Response): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse>(<any>null);
     }
 }
 
@@ -152,6 +210,142 @@ export class UserClient extends BaseClient {
         }
         return Promise.resolve<UserModel[]>(<any>null);
     }
+}
+
+export class ArticleModel implements IArticleModel {
+    id?: string;
+    title?: string;
+    subTitle?: string;
+    userId?: string;
+    ownerId?: string;
+    channelId?: string;
+    author?: string;
+    context?: string;
+    created: Date;
+    updated: Date;
+    state: number;
+
+    constructor(data?: IArticleModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.title = data["title"];
+            this.subTitle = data["subTitle"];
+            this.userId = data["userId"];
+            this.ownerId = data["ownerId"];
+            this.channelId = data["channelId"];
+            this.author = data["author"];
+            this.context = data["context"];
+            this.created = data["created"] ? new Date(data["created"].toString()) : <any>undefined;
+            this.updated = data["updated"] ? new Date(data["updated"].toString()) : <any>undefined;
+            this.state = data["state"];
+        }
+    }
+
+    static fromJS(data: any): ArticleModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ArticleModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["subTitle"] = this.subTitle;
+        data["userId"] = this.userId;
+        data["ownerId"] = this.ownerId;
+        data["channelId"] = this.channelId;
+        data["author"] = this.author;
+        data["context"] = this.context;
+        data["created"] = this.created ? this.created.toISOString() : <any>undefined;
+        data["updated"] = this.updated ? this.updated.toISOString() : <any>undefined;
+        data["state"] = this.state;
+        return data; 
+    }
+}
+
+export interface IArticleModel {
+    id?: string;
+    title?: string;
+    subTitle?: string;
+    userId?: string;
+    ownerId?: string;
+    channelId?: string;
+    author?: string;
+    context?: string;
+    created: Date;
+    updated: Date;
+    state: number;
+}
+
+export class ArticleListModel implements IArticleListModel {
+    id?: string;
+    title?: string;
+    userName?: string;
+    channelName?: string;
+    created: Date;
+    updated: Date;
+    state: number;
+
+    constructor(data?: IArticleListModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.title = data["title"];
+            this.userName = data["userName"];
+            this.channelName = data["channelName"];
+            this.created = data["created"] ? new Date(data["created"].toString()) : <any>undefined;
+            this.updated = data["updated"] ? new Date(data["updated"].toString()) : <any>undefined;
+            this.state = data["state"];
+        }
+    }
+
+    static fromJS(data: any): ArticleListModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ArticleListModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["title"] = this.title;
+        data["userName"] = this.userName;
+        data["channelName"] = this.channelName;
+        data["created"] = this.created ? this.created.toISOString() : <any>undefined;
+        data["updated"] = this.updated ? this.updated.toISOString() : <any>undefined;
+        data["state"] = this.state;
+        return data; 
+    }
+}
+
+export interface IArticleListModel {
+    id?: string;
+    title?: string;
+    userName?: string;
+    channelName?: string;
+    created: Date;
+    updated: Date;
+    state: number;
 }
 
 export class AuthModel implements IAuthModel {
@@ -240,13 +434,6 @@ export class UserModel implements IUserModel {
 export interface IUserModel {
     id?: string;
     userName?: string;
-}
-
-export interface FileResponse {
-    data: Blob;
-    status: number;
-    fileName?: string;
-    headers?: { [name: string]: any };
 }
 
 export class SwaggerException extends Error {
