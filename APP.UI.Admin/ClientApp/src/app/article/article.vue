@@ -1,17 +1,23 @@
 <template>
   <Card>
+    <span>{{ new Date() | moment("YYYY") }}</span>
       <Table :columns="[
                     {
-                        title: 'id',
+                        title: '序号',
                         key: 'id'
                     },
                     {
-                        title: 'title',
+                        title: '标题',
                         key: 'title'
                     },
                     {
-                        title: 'created',
-                        key: 'created'
+                        title: '创建时间',
+                        key: 'created',
+                        render: (h,params)=>{
+                            return h('div',
+                                $moment(params.row.created).startOf('hour').fromNow()
+                            )
+                        }
                     }
                 ]" :data="articles"></Table>
     </Card>
