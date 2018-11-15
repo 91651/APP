@@ -4,14 +4,12 @@ using APP.DbAccess.Infrastructure;
 using APP.DbAccess.Repositories;
 using APP.Framework.Identity;
 using APP.Framework.Services;
-using APP.Framework.SpaServices.VueDevelopmentServer;
 using AutoMapper;
 using BC.Microsoft.DependencyInjection.Plus;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -37,20 +35,13 @@ namespace APP.UI.Admin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(option => option.UseSqlite(Configuration["ConnectionStrings:SqliteConnection"]));
-            services.AddIdentity<User, Role>().AppAddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<User, Role>().AppAddEntityFrameworkStores<AppDbContext>();
 
-            services.AddMvc(options =>
-            {
-                //默认不允许匿名访问
-                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-                options.Filters.Add(new AuthorizeFilter(policy));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             //添加AutoMapper服务
             services.AddAutoMapper();
-            services.AddCors( options =>{ options.AddPolicy("AllowAllOrigin", builder =>{ builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();});});
+            services.AddCors(options => { options.AddPolicy("AllowAllOrigin", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials(); }); });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -64,14 +55,19 @@ namespace APP.UI.Admin
                 };
             });
 
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
-
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
             //注入项目类
             services.AddScopedScan(typeof(Repository<>));
             services.AddScopedScan(typeof(Service));
+            services.AddMvc(options =>
+            {
+                //默认不允许匿名访问
+                var policy = new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -124,9 +120,7 @@ namespace APP.UI.Admin
             });
             //app.UseSpa(spa =>
             //{
-
             //    spa.Options.SourcePath = "ClientApp";
-
             //    if (env.IsDevelopment())
             //    {
             //        //spa.UseProxyToSpaDevelopmentServer("http://localhost:8010");
