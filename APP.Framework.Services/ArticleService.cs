@@ -30,7 +30,7 @@ namespace APP.Framework.Services
 
         public List<ArticleListModel> GetArticles()
         {
-            var users = _articleRepository.GetAll().ToList();
+            var users = _articleRepository.GetAll().Take(5).ToList();
             return _mapper.Map<List<ArticleListModel>>(users);
         }
     }

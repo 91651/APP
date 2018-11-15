@@ -11,4 +11,10 @@ export default class ArticleComponent extends Vue {
   private mounted() {
     _Article.getArticles().then(r => { this.articles = r });
   }
+  private pageChange(page: number) {
+    debugger;
+  }
+  private pageSizeChange(size: number) {
+    debugger;
+  }
 }

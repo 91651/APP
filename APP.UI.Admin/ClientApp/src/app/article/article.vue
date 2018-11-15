@@ -1,6 +1,5 @@
 <template>
   <Card>
-    <span>{{ new Date() | moment("YYYY") }}</span>
       <Table :columns="[
                     {
                         title: '序号',
@@ -15,11 +14,12 @@
                         key: 'created',
                         render: (h,params)=>{
                             return h('div',
-                                $moment(params.row.created).startOf('hour').fromNow()
+                                $moment(params.row.created).fromNow()
                             )
                         }
                     }
                 ]" :data="articles"></Table>
+                <Page :total="100" show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange" />
     </Card>
 </template>
 

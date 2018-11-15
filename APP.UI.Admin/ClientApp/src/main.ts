@@ -4,13 +4,19 @@ import store from './store/index';
 
 import 'iview/dist/styles/iview.css';
 import iView from 'iview';
-import moment from 'vue-moment';
-
+import vueMoment from 'vue-moment';
+import moment from 'moment';
 
 import App from './app/app.vue';
 
 Vue.use(iView);
-Vue.use(moment);
+
+moment.locale('zh-cn');
+
+Vue.use(vueMoment, {
+  moment
+});
+
 
 new Vue({
   router,
