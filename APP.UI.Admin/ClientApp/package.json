@@ -10,7 +10,7 @@
   },
   "devConfig": {
     "genClient": {
-      "input": "http://localhost:56833/swagger/v1/swagger.json",
+      "input": "http://localhost:65412/swagger/v1/swagger.json",
       "output": "src/api-client/client.ts",
       "extCode": "src/api-client/base.ts"
     }

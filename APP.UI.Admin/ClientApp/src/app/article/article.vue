@@ -1,7 +1,19 @@
 <template>
   <Card>
-    <button @click='getArticles' >dddd</button>
-      <!-- <Table :data="articles"></Table> -->
+      <Table :columns="[
+                    {
+                        title: 'id',
+                        key: 'id'
+                    },
+                    {
+                        title: 'title',
+                        key: 'title'
+                    },
+                    {
+                        title: 'created',
+                        key: 'created'
+                    }
+                ]" :data="articles"></Table>
     </Card>
 </template>
 
