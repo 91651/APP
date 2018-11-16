@@ -22,10 +22,10 @@ namespace APP.UI.Admin.Controllers
             return _articleService.AddArticle(model);
         }
 
-        [HttpGet, Route("GetArticles")]
-        public ActionResult<List<ArticleListModel>> GetArticles()
+        [HttpPost, Route("GetArticles")]
+        public ActionResult<List<ArticleListModel>> GetArticles(SearchArticleModel model)
         {
-            return _articleService.GetArticles();
+            return _articleService.GetArticles(model);
         }
     }
 }

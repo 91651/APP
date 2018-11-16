@@ -67,13 +67,17 @@ export class ArticleClient extends BaseClient {
         return Promise.resolve<string>(<any>null);
     }
 
-    getArticles(): Promise<ArticleListModel[]> {
+    getArticles(model: SearchArticleModel): Promise<ArticleListModel[]> {
         let url_ = this.baseUrl + "/api/Article/GetArticles";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(model);
+
         let options_ = <RequestInit>{
-            method: "GET",
+            body: content_,
+            method: "POST",
             headers: {
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             }
         };
@@ -346,6 +350,179 @@ export interface IArticleListModel {
     created: Date;
     updated: Date;
     state: number;
+}
+
+export class Query implements IQuery {
+    take: number;
+    skip: number;
+    sort?: Sort[];
+    filter?: Filter[];
+
+    constructor(data?: IQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.take = data["take"];
+            this.skip = data["skip"];
+            if (data["sort"] && data["sort"].constructor === Array) {
+                this.sort = [];
+                for (let item of data["sort"])
+                    this.sort.push(Sort.fromJS(item));
+            }
+            if (data["filter"] && data["filter"].constructor === Array) {
+                this.filter = [];
+                for (let item of data["filter"])
+                    this.filter.push(Filter.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): Query {
+        data = typeof data === 'object' ? data : {};
+        let result = new Query();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["take"] = this.take;
+        data["skip"] = this.skip;
+        if (this.sort && this.sort.constructor === Array) {
+            data["sort"] = [];
+            for (let item of this.sort)
+                data["sort"].push(item.toJSON());
+        }
+        if (this.filter && this.filter.constructor === Array) {
+            data["filter"] = [];
+            for (let item of this.filter)
+                data["filter"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IQuery {
+    take: number;
+    skip: number;
+    sort?: Sort[];
+    filter?: Filter[];
+}
+
+export class SearchArticleModel extends Query implements ISearchArticleModel {
+
+    constructor(data?: ISearchArticleModel) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+        }
+    }
+
+    static fromJS(data: any): SearchArticleModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchArticleModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface ISearchArticleModel extends IQuery {
+}
+
+export class Sort implements ISort {
+    field?: string;
+    desc: boolean;
+
+    constructor(data?: ISort) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.field = data["field"];
+            this.desc = data["desc"];
+        }
+    }
+
+    static fromJS(data: any): Sort {
+        data = typeof data === 'object' ? data : {};
+        let result = new Sort();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["desc"] = this.desc;
+        return data; 
+    }
+}
+
+export interface ISort {
+    field?: string;
+    desc: boolean;
+}
+
+export class Filter implements IFilter {
+    field?: string;
+    value?: any;
+
+    constructor(data?: IFilter) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.field = data["field"];
+            this.value = data["value"];
+        }
+    }
+
+    static fromJS(data: any): Filter {
+        data = typeof data === 'object' ? data : {};
+        let result = new Filter();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["field"] = this.field;
+        data["value"] = this.value;
+        return data; 
+    }
+}
+
+export interface IFilter {
+    field?: string;
+    value?: any;
 }
 
 export class AuthModel implements IAuthModel {

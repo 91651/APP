@@ -6,6 +6,6 @@ namespace APP.Framework.Services
     public interface IArticleService
     {
         string AddArticle(ArticleModel model);
-        List<ArticleListModel> GetArticles();
+        List<ArticleListModel> GetArticles(SearchArticleModel model);
     }
 }

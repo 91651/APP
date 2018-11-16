@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using APP.DbAccess.Entities;
 using APP.DbAccess.Repositories;
 using APP.Framework.Services.Models;
 using AutoMapper;
+using IView.AspNetCore.DynamicLinq;
 
 namespace APP.Framework.Services
 {
@@ -28,10 +30,14 @@ namespace APP.Framework.Services
             return entity.Id;
         }
 
-        public List<ArticleListModel> GetArticles()
+        public List<ArticleListModel> GetArticles(SearchArticleModel model)
         {
-            var users = _articleRepository.GetAll().Take(5).ToList();
-            return _mapper.Map<List<ArticleListModel>>(users);
+            List<Sort> sorts = new List<Sort>();
+            //sorts.Add(new Sort { Field = "Title", Desc = true });
+            //sorts.Add(new Sort { Field = "Created"});
+
+            var users = _articleRepository.GetAll().ToDataSourceResult(model);
+            return _mapper.Map<List<ArticleListModel>>(users.Data);
         }
     }
 }
