@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 using APP.DbAccess.Entities;
 using APP.DbAccess.Repositories;
 using APP.Framework.Services.Models;
@@ -30,14 +31,32 @@ namespace APP.Framework.Services
             return entity.Id;
         }
 
-        public List<ArticleListModel> GetArticles(SearchArticleModel model)
+        public ResultModel<List<ArticleListModel>> GetArticles(SearchArticleModel model)
         {
-            List<Sort> sorts = new List<Sort>();
-            //sorts.Add(new Sort { Field = "Title", Desc = true });
-            //sorts.Add(new Sort { Field = "Created"});
-
-            var users = _articleRepository.GetAll().ToDataSourceResult(model);
-            return _mapper.Map<List<ArticleListModel>>(users.Data);
+            Expression<Func<Article, bool>> ex = t => true;
+            if (!string.IsNullOrWhiteSpace(model.Id))
+            {
+                ex = t => t.Id.Contains(model.Id);
+            }
+            if (!string.IsNullOrWhiteSpace(model.Title))
+            {
+                ex = ex.And(t => t.Title.Contains(model.Title));
+            }
+            if (!string.IsNullOrWhiteSpace(model.UserName))
+            {
+                ex = ex.And(t => t.User.UserName.Contains(model.UserName));
+            }
+            if (model.CreatedDate != null)
+            {
+                var createdDate = model.CreatedDate?.Date;
+                ex = ex.And(t => t.Created.Date == createdDate);
+            }
+            var users = _articleRepository.GetAll().Where(ex).ToDataSourceResult(model);
+            return new ResultModel<List<ArticleListModel>>
+            {
+                Data = _mapper.Map<List<ArticleListModel>>(users.Data),
+                Total = users.Total
+            };
         }
     }
 }

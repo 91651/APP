@@ -22,6 +22,7 @@ namespace IView.AspNetCore.DynamicLinq
                 var sortStr = string.Join(",", sorts?.Select(sort => $"{sort.Field} " + (sort.Desc ? "descending " : " ")));
                 queryable = queryable.OrderBy(sortStr);
             }
+            result.Total = queryable.Count();
             if(skip > 0)
             {
                 queryable = queryable.Skip(skip);

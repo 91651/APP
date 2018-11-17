@@ -1,9 +1,13 @@
 <template>
   <Card>
-      <div class="padding-10">
-      <Button class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
-    </div>
-      <Table height="600" :columns="[
+      <Row :gutter="10" class="padding-10">
+          <Col span="4"><Input v-model="serach.id" placeholder="序号" /></Col>
+          <Col span="4"><Input v-model="serach.title" placeholder="标题" /></Col>
+          <Col span="4"><Input v-model="serach.userName" placeholder="创建者" /></Col>
+          <Col span="3"><DatePicker type="date" v-model="serach.createdDate" placeholder="创建时间" ></DatePicker></Col>
+        <Button class="search-btn" type="primary" @click="getArticles" ><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
+    </Row>
+      <Table :columns="[
                     {
                         title: '序号',
                         key: 'id'
@@ -22,7 +26,7 @@
                         }
                     }
                 ]" :data="articles"></Table>
-                <Row class="padding-10 text-right"><Page :total="100" show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange" /></Row>
+                <Row class="padding-10 text-right"><Page :total="10" show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange" /></Row>
                 
     </Card>
 </template>
