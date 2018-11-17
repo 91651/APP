@@ -11,11 +11,6 @@ namespace APP.UI.Admin.Controllers
     {
         private readonly IArticleService _articleService;
 
-        [HttpGet, Route("GetArticles")]
-        public ActionResult<ResultModel<string>> GetTest()
-        {
-            return new ResultModel<string>();
-        }
         public ArticleController(IArticleService articleService)
         {
             _articleService = articleService;

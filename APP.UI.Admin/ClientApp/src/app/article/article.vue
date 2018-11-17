@@ -25,8 +25,8 @@
                             )
                         }
                     }
-                ]" :data="articles"></Table>
-                <Row class="padding-10 text-right"><Page :total="10" show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange" /></Row>
+                ]" :data="articles.data"></Table>
+                <Row class="padding-10 text-right"><Page :total="articles.total" show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange" /></Row>
                 
     </Card>
 </template>

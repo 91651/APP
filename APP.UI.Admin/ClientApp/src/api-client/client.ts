@@ -6,7 +6,7 @@
 //----------------------
 // ReSharper disable InconsistentNaming
 
-export default class BaseClient {
+export class BaseClient {
     protected transformOptions(options: RequestInit) {
         const token = window.localStorage.getItem('Token');
         let headers = new Headers(options.headers);
@@ -25,82 +25,6 @@ export class ArticleClient extends BaseClient {
         super();
         this.http = http ? http : <any>window;
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:56833";
-    }
-
-    getTest(): Promise<ResultModelOfString> {
-        let url_ = this.baseUrl + "/api/Article/GetArticles";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processGetTest(_response);
-        });
-    }
-
-    protected processGetTest(response: Response): Promise<ResultModelOfString> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ResultModelOfString.fromJS(resultData200) : <any>null;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<ResultModelOfString>(<any>null);
-    }
-
-    getArticles(model: SearchArticleModel): Promise<ResultModelOfListOfArticleListModel> {
-        let url_ = this.baseUrl + "/api/Article/GetArticles";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(model);
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            }
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processGetArticles(_response);
-        });
-    }
-
-    protected processGetArticles(response: Response): Promise<ResultModelOfListOfArticleListModel> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ResultModelOfListOfArticleListModel.fromJS(resultData200) : <any>null;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<ResultModelOfListOfArticleListModel>(<any>null);
     }
 
     addArticle(model: ArticleModel): Promise<string> {
@@ -141,6 +65,46 @@ export class ArticleClient extends BaseClient {
             });
         }
         return Promise.resolve<string>(<any>null);
+    }
+
+    getArticles(model: SearchArticleModel): Promise<ResultModelOfListOfArticleListModel> {
+        let url_ = this.baseUrl + "/api/Article/GetArticles";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetArticles(_response);
+        });
+    }
+
+    protected processGetArticles(response: Response): Promise<ResultModelOfListOfArticleListModel> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ResultModelOfListOfArticleListModel.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ResultModelOfListOfArticleListModel>(<any>null);
     }
 }
 
@@ -246,46 +210,6 @@ export class UserClient extends BaseClient {
         }
         return Promise.resolve<UserModel[]>(<any>null);
     }
-}
-
-export class ResultModelOfString implements IResultModelOfString {
-    data?: string;
-    total: number;
-
-    constructor(data?: IResultModelOfString) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.data = data["data"];
-            this.total = data["total"];
-        }
-    }
-
-    static fromJS(data: any): ResultModelOfString {
-        data = typeof data === 'object' ? data : {};
-        let result = new ResultModelOfString();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["data"] = this.data;
-        data["total"] = this.total;
-        return data; 
-    }
-}
-
-export interface IResultModelOfString {
-    data?: string;
-    total: number;
 }
 
 export class ArticleModel implements IArticleModel {
@@ -778,4 +702,11 @@ function throwException(message: string, status: number, response: string, heade
         throw result;
     else
         throw new SwaggerException(message, status, response, headers, null);
+}
+
+/* tslint:disable */
+
+export class Result<T>{
+    data?: T
+    total?: number
 }
