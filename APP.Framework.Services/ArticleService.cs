@@ -33,6 +33,7 @@ namespace APP.Framework.Services
 
         public ResultModel<List<ArticleListModel>> GetArticles(SearchArticleModel model)
         {
+            model.Sort = new List<Sort> { new Sort { Field = "Created", Desc = true } };
             Expression<Func<Article, bool>> ex = t => true;
             if (!string.IsNullOrWhiteSpace(model.Id))
             {

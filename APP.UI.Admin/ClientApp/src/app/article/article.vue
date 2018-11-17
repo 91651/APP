@@ -4,7 +4,7 @@
           <Col span="4"><Input v-model="serach.id" placeholder="序号" /></Col>
           <Col span="4"><Input v-model="serach.title" placeholder="标题" /></Col>
           <Col span="4"><Input v-model="serach.userName" placeholder="创建者" /></Col>
-          <Col span="3"><DatePicker type="date" v-model="serach.createdDate" placeholder="创建时间" ></DatePicker></Col>
+          <Col span="3"><DatePicker type="date" v-model="serach.createdDate" format="yyyy-MM-dd" placeholder="创建时间" ></DatePicker></Col>
         <Button class="search-btn" type="primary" @click="getArticles" ><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
     </Row>
       <Table :columns="[
@@ -21,7 +21,7 @@
                         key: 'created',
                         render: (h,params)=>{
                             return h('div',
-                                $moment(params.row.created).fromNow()
+                                $moment(params.row.created).add(1, 'day') < new Date()  && $moment(params.row.created).format('LL') ||  $moment(params.row.created).startOf('hour').fromNow()
                             )
                         }
                     }
