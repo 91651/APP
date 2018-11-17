@@ -3,6 +3,7 @@ import router from './router';
 import store from './store/index';
 
 import 'iview/dist/styles/iview.css';
+import './global.less';
 import iView from 'iview';
 import vueMoment from 'vue-moment';
 import moment from 'moment';

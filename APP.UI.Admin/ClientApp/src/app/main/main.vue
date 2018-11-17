@@ -1,6 +1,5 @@
 <template>
-    <div class="layout">
-        <Layout :style="{position: 'fixed', width: '100%'}">
+        <Layout class="main">
             <Header>
                 <Menu mode="horizontal" theme="dark" active-name="1">
                     <div class="layout-logo"></div>
@@ -41,7 +40,6 @@
             </Layout>
             <Footer class="layout-footer-center">2011-2016 &copy; TalkingData</Footer>
         </Layout>
-    </div>
 </template>
 
 <script lang="ts" src="./main.ts"></script>

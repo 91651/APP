@@ -1,6 +1,9 @@
 <template>
   <Card>
-      <Table :columns="[
+      <div class="padding-10">
+      <Button class="search-btn" type="primary"><Icon type="search"/>&nbsp;&nbsp;搜索</Button>
+    </div>
+      <Table height="600" :columns="[
                     {
                         title: '序号',
                         key: 'id'
@@ -19,7 +22,8 @@
                         }
                     }
                 ]" :data="articles"></Table>
-                <Page :total="100" show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange" />
+                <Row class="padding-10 text-right"><Page :total="100" show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange" /></Row>
+                
     </Card>
 </template>
 

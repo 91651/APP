@@ -10,12 +10,18 @@ export default class ArticleComponent extends Vue {
   private serach: SearchArticleModel = new SearchArticleModel();
 
   private mounted() {
+    this.getArticles();
+  }
+  private getArticles(){
+    this.serach.take = this.serach.take || 10;
     _Article.getArticles(this.serach).then(r => { this.articles = r });
   }
   private pageChange(page: number) {
     this.serach.skip = page * 2;
+    this.getArticles();
   }
   private pageSizeChange(size: number) {
-    debugger;
+    this.serach.take = size;
+    this.getArticles();
   }
 }
