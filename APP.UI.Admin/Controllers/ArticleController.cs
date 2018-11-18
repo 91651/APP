@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using APP.Framework.Services;
 using APP.Framework.Services.Models;
+using IView.AspNetCore.DynamicLinq;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APP.UI.Admin.Controllers
@@ -26,6 +27,16 @@ namespace APP.UI.Admin.Controllers
         public ActionResult<ResultModel<List<ArticleListModel>>> GetArticles(SearchArticleModel model)
         {
             return _articleService.GetArticles(model);
+        }
+        [HttpPost, Route("AddChannel")]
+        public ActionResult<string> AddChannel(ChannelModel model)
+        {
+            return _articleService.AddChannel(model);
+        }
+        [HttpGet, Route("GetChannelsToCascader")]
+        public ActionResult<List<Cascader>> GetChannelsToCascader(string channelId)
+        {
+            return _articleService.GetChannelsToCascader(channelId);
         }
     }
 }

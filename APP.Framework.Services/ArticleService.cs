@@ -15,11 +15,13 @@ namespace APP.Framework.Services
     {
         private readonly IMapper _mapper;
         private readonly IArticleRepository _articleRepository;
+        private readonly IChannelRepository _channleRepository;
 
-        public ArticleService(IMapper mapper, IArticleRepository articleRepository)
+        public ArticleService(IMapper mapper, IArticleRepository articleRepository, IChannelRepository channleRepository)
         {
             _mapper = mapper;
             _articleRepository = articleRepository;
+            _channleRepository = channleRepository;
         }
 
         public string AddArticle(ArticleModel model)
@@ -58,6 +60,40 @@ namespace APP.Framework.Services
                 Data = _mapper.Map<List<ArticleListModel>>(users.Data),
                 Total = users.Total
             };
+        }
+        public string AddChannel(ChannelModel model)
+        {
+            var channel = _channleRepository.GetAll().Where(c => c.Title == model.Title.Trim() && c.ParentId == model.ParentId).FirstOrDefault();
+            if (channel != null)
+            {
+                return channel.Id;
+            }
+            var entity = _mapper.Map<Channel>(model);
+            entity.Id = Guid.NewGuid().ToString();
+            entity.State = 1;
+            _channleRepository.Add(entity);
+            _articleRepository.SaveChanges();
+            return entity.Id;
+        }
+        public List<Cascader> GetChannelsToCascader(string channelId)
+        {
+            var channels = _channleRepository.GetAll().Where(c => c.State == 1).ToList();
+            var result = new List<Cascader>();
+            foreach (var c in channels.Where(c => c.ParentId == channelId))
+            {
+                var model = new Cascader
+                {
+                    Label = c.Title,
+                    Value = c.Id
+                };
+                if(channels.Any(a => a.ParentId == c.Id))
+                {
+                    model.Children = new List<Cascader>();
+                    model.Loading = false;
+                }
+                result.Add(model);
+            }
+            return result;
         }
     }
 }

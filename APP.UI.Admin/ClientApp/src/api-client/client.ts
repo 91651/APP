@@ -106,6 +106,88 @@ export class ArticleClient extends BaseClient {
         }
         return Promise.resolve<ResultModelOfListOfArticleListModel>(<any>null);
     }
+
+    addChannel(model: ChannelModel): Promise<string> {
+        let url_ = this.baseUrl + "/api/Article/AddChannel";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processAddChannel(_response);
+        });
+    }
+
+    protected processAddChannel(response: Response): Promise<string> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<string>(<any>null);
+    }
+
+    getChannelsToCascader(channelId: string): Promise<Cascader[]> {
+        let url_ = this.baseUrl + "/api/Article/GetChannelsToCascader?";
+        if (channelId !== undefined)
+            url_ += "channelId=" + encodeURIComponent("" + channelId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processGetChannelsToCascader(_response);
+        });
+    }
+
+    protected processGetChannelsToCascader(response: Response): Promise<Cascader[]> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(Cascader.fromJS(item));
+            }
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<Cascader[]>(<any>null);
+    }
 }
 
 export class AuthClient extends BaseClient {
@@ -583,6 +665,114 @@ export class Filter implements IFilter {
 export interface IFilter {
     field?: string;
     value?: any;
+}
+
+export class ChannelModel implements IChannelModel {
+    id?: string;
+    parentId?: string;
+    title?: string;
+    description?: string;
+    state: number;
+
+    constructor(data?: IChannelModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.parentId = data["parentId"];
+            this.title = data["title"];
+            this.description = data["description"];
+            this.state = data["state"];
+        }
+    }
+
+    static fromJS(data: any): ChannelModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ChannelModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["parentId"] = this.parentId;
+        data["title"] = this.title;
+        data["description"] = this.description;
+        data["state"] = this.state;
+        return data; 
+    }
+}
+
+export interface IChannelModel {
+    id?: string;
+    parentId?: string;
+    title?: string;
+    description?: string;
+    state: number;
+}
+
+export class Cascader implements ICascader {
+    value?: string;
+    label?: string;
+    children?: Cascader[];
+    loading?: boolean;
+
+    constructor(data?: ICascader) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.value = data["value"];
+            this.label = data["label"];
+            if (data["children"] && data["children"].constructor === Array) {
+                this.children = [];
+                for (let item of data["children"])
+                    this.children.push(Cascader.fromJS(item));
+            }
+            this.loading = data["loading"];
+        }
+    }
+
+    static fromJS(data: any): Cascader {
+        data = typeof data === 'object' ? data : {};
+        let result = new Cascader();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["value"] = this.value;
+        data["label"] = this.label;
+        if (this.children && this.children.constructor === Array) {
+            data["children"] = [];
+            for (let item of this.children)
+                data["children"].push(item.toJSON());
+        }
+        data["loading"] = this.loading;
+        return data; 
+    }
+}
+
+export interface ICascader {
+    value?: string;
+    label?: string;
+    children?: Cascader[];
+    loading?: boolean;
 }
 
 export class AuthModel implements IAuthModel {
