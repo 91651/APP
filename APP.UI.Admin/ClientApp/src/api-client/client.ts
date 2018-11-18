@@ -302,10 +302,11 @@ export class ArticleModel implements IArticleModel {
     ownerId?: string;
     channelId?: string;
     author?: string;
-    context?: string;
+    editor: number;
+    content?: string;
     created: Date;
     updated: Date;
-    state: number;
+    state?: number;
 
     constructor(data?: IArticleModel) {
         if (data) {
@@ -325,7 +326,8 @@ export class ArticleModel implements IArticleModel {
             this.ownerId = data["ownerId"];
             this.channelId = data["channelId"];
             this.author = data["author"];
-            this.context = data["context"];
+            this.editor = data["editor"];
+            this.content = data["content"];
             this.created = data["created"] ? new Date(data["created"].toString()) : <any>undefined;
             this.updated = data["updated"] ? new Date(data["updated"].toString()) : <any>undefined;
             this.state = data["state"];
@@ -348,7 +350,8 @@ export class ArticleModel implements IArticleModel {
         data["ownerId"] = this.ownerId;
         data["channelId"] = this.channelId;
         data["author"] = this.author;
-        data["context"] = this.context;
+        data["editor"] = this.editor;
+        data["content"] = this.content;
         data["created"] = this.created ? this.created.toISOString() : <any>undefined;
         data["updated"] = this.updated ? this.updated.toISOString() : <any>undefined;
         data["state"] = this.state;
@@ -364,10 +367,11 @@ export interface IArticleModel {
     ownerId?: string;
     channelId?: string;
     author?: string;
-    context?: string;
+    editor: number;
+    content?: string;
     created: Date;
     updated: Date;
-    state: number;
+    state?: number;
 }
 
 export class ResultModelOfListOfArticleListModel implements IResultModelOfListOfArticleListModel {

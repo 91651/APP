@@ -27,9 +27,9 @@ namespace APP.DbAccess.Entities
 
         [MaxLength(60)]
         public string Author { get; set; }
-
+        public int? Editor { get; set; }
         [MaxLength]
-        public string Context { get; set; }
+        public string Content { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int State { get; set; }

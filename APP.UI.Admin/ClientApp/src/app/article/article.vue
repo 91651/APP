@@ -41,7 +41,8 @@
                 <Input v-model="article.subTitle" placeholder="请输入文章简介"></Input>
             </FormItem>
             <Row>
-                <Col span="20"><FormItem label="栏目">
+                <Col span="20">
+                <FormItem label="栏目">
                     <Cascader :data="channels" :load-data="getChildrenChannels" change-on-select @on-change="articleCascaderChange" v-model="article._channel" placeholder="请选择文章栏目"></Cascader>
                 </FormItem>
                 </Col>
@@ -57,6 +58,24 @@
                 </Poptip>
                  
             </Row>
+            <FormItem label="Markdown">
+                <Tooltip theme="light" :disabled="articleForm.disabledEditorTooltip" content="已输入文章内容，无法切换编辑器。" >
+                    <i-switch size="large" :disabled="articleForm.disabledEditorSwitch" @on-change="article.editor = !article.editor; articleForm.showDrawer = false; articleForm.showDrawer = true">
+                            <span slot="open">使用</span>
+                            <span slot="close">关闭</span>
+                        </i-switch>
+                </Tooltip>
+                
+            </FormItem>
+            <FormItem label="内容">
+                <div v-show="article.editor">
+                    <markdown-editor  v-model="article.content" @change="onEditorChange()" ></markdown-editor>
+                </div>
+                <div v-show="!article.editor">
+                    <quill-editor v-if="!article.editor" v-model="article.content" :options="editorOption" @change="onEditorChange()" style="height:40vh">
+                </quill-editor>
+                </div>
+            </FormItem>
             
         </Form>
         </Drawer>  

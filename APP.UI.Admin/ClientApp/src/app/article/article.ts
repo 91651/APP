@@ -1,13 +1,27 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import markdownEditor from 'vue-simplemde/src/markdown-editor.vue';
+import 'simplemde/dist/simplemde.min.css';
+import { quillEditor } from 'vue-quill-editor';
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+
 import './article.less';
 import { ArticleModel, ArticleListModel, SearchArticleModel,
    Cascader, Result, ChannelModel } from '@/api-client/client';
 import { _Article } from '@/api-client';
 
-@Component
+@Component({
+  components: {
+    markdownEditor,
+    quillEditor
+  },
+})
+
 export default class ArticleComponent extends Vue {
   private $moment: any;
-  private articleForm: any = {showDrawer: false, title: ''};
+  private editorOption:{} = {};
+  private articleForm: any = {showDrawer: false, title: '', disabledEditorSwitch: false, disabledEditorTooltip: true};
   private articles: Result<ArticleListModel[]> = new Result<ArticleListModel[]>();
   private serach: SearchArticleModel = new SearchArticleModel();
   private article: ArticleModel = new ArticleModel();
@@ -68,6 +82,18 @@ export default class ArticleComponent extends Vue {
     });
     return item;
   }
+  //编辑器事件
+  private onEditorChange() {
+    debugger;
+    if (this.article.content) {
+      this.articleForm.disabledEditorSwitch = true;
+      this.articleForm.disabledEditorTooltip = false;
+    } else {
+      this.articleForm.disabledEditorSwitch = false;
+      this.articleForm.disabledEditorTooltip = true;
+    }
+  }
+
   private pageChange(page: number) {
     this.serach.skip = --page * this.serach.take;
     this.getArticles();
