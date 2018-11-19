@@ -32,12 +32,8 @@ export default class ArticleComponent extends Vue {
   };
   private articleFormRules: any = {
     title: [{ required: true, trigger: 'blur', message: '请输入文章标题' }],
-    _channel: [{ required: true, validator: this.validateChannel, trigger: 'on-visible-change' }]
+    _channel: [{ required: true, trigger: 'on-visible-change', type: "array", message: '请选择文章栏目' }]
   };
-  private validateChannel(rule: any, value: any, callback: any): void {
-    debugger;
-    callback();
-  }
 
   private mounted() {
     this.getArticles();

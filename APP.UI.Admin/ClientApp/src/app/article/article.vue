@@ -43,7 +43,7 @@
             <Row>
                 <Col span="20">
                 <FormItem label="栏目" prop="_channel">
-                    <Cascader :data="channels" :load-data="getChildrenChannels" change-on-select @on-change="articleCascaderChange" v-model="article._channel" placeholder="请选择文章栏目"></Cascader>
+                    <Cascader :data="channels" :load-data="getChildrenChannels" change-on-select  @on-change="articleCascaderChange" v-model="article._channel" placeholder="请选择文章栏目"></Cascader>
                 </FormItem>
                 </Col>
                 &nbsp;
