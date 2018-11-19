@@ -24,13 +24,20 @@ namespace APP.Framework.Services
             _channleRepository = channleRepository;
         }
 
-        public string AddArticle(ArticleModel model)
+        public ResultModel<string> AddArticle(ArticleModel model)
         {
-           var entity = _mapper.Map<Article>(model);
+            model.Created = DateTime.UtcNow;
+            model.Updated = DateTime.UtcNow;
+            model.State = 1;
+            var entity = _mapper.Map<Article>(model);
             entity.Id = Guid.NewGuid().ToString();
             _articleRepository.Add(entity);
             _articleRepository.SaveChanges();
-            return entity.Id;
+            return new ResultModel<string>
+            {
+                Status = true,
+                Data = entity.Id
+            };
         }
 
         public ResultModel<List<ArticleListModel>> GetArticles(SearchArticleModel model)
@@ -61,19 +68,27 @@ namespace APP.Framework.Services
                 Total = users.Total
             };
         }
-        public string AddChannel(ChannelModel model)
+        public ResultModel<string> AddChannel(ChannelModel model)
         {
             var channel = _channleRepository.GetAll().Where(c => c.Title == model.Title.Trim() && c.ParentId == model.ParentId).FirstOrDefault();
             if (channel != null)
             {
-                return channel.Id;
+                return new ResultModel<string>
+                {
+                    Status = true,
+                    Data = channel.Id
+                };
             }
             var entity = _mapper.Map<Channel>(model);
             entity.Id = Guid.NewGuid().ToString();
             entity.State = 1;
             _channleRepository.Add(entity);
             _articleRepository.SaveChanges();
-            return entity.Id;
+            return new ResultModel<string>
+            {
+                Status = true,
+                Data = entity.Id
+            };
         }
         public List<Cascader> GetChannelsToCascader(string channelId)
         {

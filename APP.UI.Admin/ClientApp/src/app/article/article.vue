@@ -31,9 +31,10 @@
         <Drawer
             :title="articleForm.title"
             v-model="articleForm.showDrawer"
+            @on-visible-change="drawerVisibleChange"
             width="720"
         >
-        <Form :model="articleForm" ref="articleForm" :rules="articleFormRules" :label-width="80">
+        <Form :model="article" ref="articleForm" :rules="articleFormRules" :label-width="80">
             <FormItem label="标题" prop="title">
                 <Input v-model="article.title" placeholder="请输入文章标题"></Input>
             </FormItem>
@@ -68,11 +69,11 @@
                 
             </FormItem>
             <FormItem label="内容">
-                <div v-show="article.editor">
-                    <mavon-editor :subfield="false" @change="mavonEditorChange" :content="article.content" ></mavon-editor>
+                <div v-if="article.editor">
+                    <mavon-editor :subfield="false" @change="mavonEditorChange" v-model="article.content" ></mavon-editor>
                 </div>
-                <div v-show="!article.editor">
-                    <quill-editor :options="quillOptions" @change="quillEditorChange($event.html)" :content="article.content" >
+                <div v-if="!article.editor">
+                    <quill-editor :options="quillOptions" @change="quillEditorChange($event.html)" v-model="article.content" >
                 </quill-editor>
                 </div>
             </FormItem>

@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using APP.DbAccess.Entities;
 using APP.Framework.Services;
 using APP.Framework.Services.Models;
 using IView.AspNetCore.DynamicLinq;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APP.UI.Admin.Controllers
@@ -10,16 +12,19 @@ namespace APP.UI.Admin.Controllers
     [ApiController]
     public class ArticleController : Controller
     {
+        private readonly SignInManager<User> _signInManager;
         private readonly IArticleService _articleService;
 
-        public ArticleController(IArticleService articleService)
+        public ArticleController(SignInManager<User> signInManager, IArticleService articleService)
         {
+            _signInManager = signInManager;
             _articleService = articleService;
         }
 
         [HttpPost, Route("AddArticle")]
-        public ActionResult<string> AddArticle(ArticleModel model)
+        public ActionResult<ResultModel<string>> AddArticle(ArticleModel model)
         {
+            var user = _signInManager.Context.User;
             return _articleService.AddArticle(model);
         }
 
@@ -29,7 +34,7 @@ namespace APP.UI.Admin.Controllers
             return _articleService.GetArticles(model);
         }
         [HttpPost, Route("AddChannel")]
-        public ActionResult<string> AddChannel(ChannelModel model)
+        public ActionResult<ResultModel<string>> AddChannel(ChannelModel model)
         {
             return _articleService.AddChannel(model);
         }

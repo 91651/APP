@@ -32,12 +32,13 @@ export default class ArticleComponent extends Vue {
   };
   private articleFormRules: any = {
     title: [{ required: true, trigger: 'blur', message: '请输入文章标题' }],
-    _channel: [{ required: true, trigger: 'on-visible-change', type: "array", message: '请选择文章栏目' }]
+    _channel: [{ required: true, trigger: 'on-visible-change', type: 'array', message: '请选择文章栏目' }]
   };
 
   private mounted() {
     this.getArticles();
   }
+  // 交互逻辑
   private getArticles() {
     this.serach.take = this.serach.take || 10;
     this.serach.createdDate = this.serach.createdDate
@@ -74,12 +75,16 @@ export default class ArticleComponent extends Vue {
     (this.article as any)._channel = selected;
   }
   private submitArticle(): void {
-    debugger;
     const form: any = this.$refs.articleForm;
     form.validate((valid: any) => {
       if (valid) {
         _Article.addArticle(this.article).then(r => {
-          debugger;
+          if(r.status){
+            this.articleForm.showDrawer = false;
+            this.$Notice.success({
+              title: '保存成功。'
+          });
+          }
         });
       }
     });
@@ -100,6 +105,22 @@ export default class ArticleComponent extends Vue {
     });
     return item;
   }
+  // UI变化控制
+  private drawerVisibleChange(visible: boolean, confirm: boolean): void {
+     if (visible || confirm) { return; }
+     this.$Notice.warning({
+      title: '窗口关闭？',
+      duration: 0,
+      render: (h) => {
+        return h('span', [
+            '内容没有保存，确定关闭窗口吗？',
+            h('div', '<Button type="primary" >Open notice</Button>'),
+            '<Button type="primary" >Open notice</Button>'
+        ]); }
+  });
+  }
+
+  // 编辑器逻辑
   private editorSwitch(isDisabled: boolean) {
     this.articleForm.disabledEditorSwitch = isDisabled;
     this.articleForm.disabledEditorTooltip = !isDisabled;
@@ -111,7 +132,7 @@ export default class ArticleComponent extends Vue {
   private quillEditorChange(value: string) {
     this.editorSwitch(!!value);
   }
-
+  // Table分页
   private pageChange(page: number) {
     this.serach.skip = --page * this.serach.take;
     this.getArticles();

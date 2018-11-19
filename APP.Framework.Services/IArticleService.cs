@@ -6,9 +6,9 @@ namespace APP.Framework.Services
 {
     public interface IArticleService
     {
-        string AddArticle(ArticleModel model);
+        ResultModel<string> AddArticle(ArticleModel model);
         ResultModel<List<ArticleListModel>> GetArticles(SearchArticleModel model);
-        string AddChannel(ChannelModel model);
+        ResultModel<string> AddChannel(ChannelModel model);
         List<Cascader> GetChannelsToCascader(string channelId);
     }
 }

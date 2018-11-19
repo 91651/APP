@@ -27,7 +27,7 @@ export class ArticleClient extends BaseClient {
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:56833";
     }
 
-    addArticle(model: ArticleModel): Promise<string> {
+    addArticle(model: ArticleModel): Promise<ResultModelOfString> {
         let url_ = this.baseUrl + "/api/Article/AddArticle";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -49,14 +49,14 @@ export class ArticleClient extends BaseClient {
         });
     }
 
-    protected processAddArticle(response: Response): Promise<string> {
+    protected processAddArticle(response: Response): Promise<ResultModelOfString> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? ResultModelOfString.fromJS(resultData200) : <any>null;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -64,7 +64,7 @@ export class ArticleClient extends BaseClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string>(<any>null);
+        return Promise.resolve<ResultModelOfString>(<any>null);
     }
 
     getArticles(model: SearchArticleModel): Promise<ResultModelOfListOfArticleListModel> {
@@ -107,7 +107,7 @@ export class ArticleClient extends BaseClient {
         return Promise.resolve<ResultModelOfListOfArticleListModel>(<any>null);
     }
 
-    addChannel(model: ChannelModel): Promise<string> {
+    addChannel(model: ChannelModel): Promise<ResultModelOfString> {
         let url_ = this.baseUrl + "/api/Article/AddChannel";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -129,14 +129,14 @@ export class ArticleClient extends BaseClient {
         });
     }
 
-    protected processAddChannel(response: Response): Promise<string> {
+    protected processAddChannel(response: Response): Promise<ResultModelOfString> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? ResultModelOfString.fromJS(resultData200) : <any>null;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -144,7 +144,7 @@ export class ArticleClient extends BaseClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<string>(<any>null);
+        return Promise.resolve<ResultModelOfString>(<any>null);
     }
 
     getChannelsToCascader(channelId: string): Promise<Cascader[]> {
@@ -294,6 +294,54 @@ export class UserClient extends BaseClient {
     }
 }
 
+export class ResultModelOfString implements IResultModelOfString {
+    data?: string;
+    total?: number;
+    status?: boolean;
+    message?: string;
+
+    constructor(data?: IResultModelOfString) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.data = data["data"];
+            this.total = data["total"];
+            this.status = data["status"];
+            this.message = data["message"];
+        }
+    }
+
+    static fromJS(data: any): ResultModelOfString {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResultModelOfString();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data;
+        data["total"] = this.total;
+        data["status"] = this.status;
+        data["message"] = this.message;
+        return data; 
+    }
+}
+
+export interface IResultModelOfString {
+    data?: string;
+    total?: number;
+    status?: boolean;
+    message?: string;
+}
+
 export class ArticleModel implements IArticleModel {
     id?: string;
     title?: string;
@@ -376,7 +424,9 @@ export interface IArticleModel {
 
 export class ResultModelOfListOfArticleListModel implements IResultModelOfListOfArticleListModel {
     data?: ArticleListModel[];
-    total: number;
+    total?: number;
+    status?: boolean;
+    message?: string;
 
     constructor(data?: IResultModelOfListOfArticleListModel) {
         if (data) {
@@ -395,6 +445,8 @@ export class ResultModelOfListOfArticleListModel implements IResultModelOfListOf
                     this.data.push(ArticleListModel.fromJS(item));
             }
             this.total = data["total"];
+            this.status = data["status"];
+            this.message = data["message"];
         }
     }
 
@@ -413,13 +465,17 @@ export class ResultModelOfListOfArticleListModel implements IResultModelOfListOf
                 data["data"].push(item.toJSON());
         }
         data["total"] = this.total;
+        data["status"] = this.status;
+        data["message"] = this.message;
         return data; 
     }
 }
 
 export interface IResultModelOfListOfArticleListModel {
     data?: ArticleListModel[];
-    total: number;
+    total?: number;
+    status?: boolean;
+    message?: string;
 }
 
 export class ArticleListModel implements IArticleListModel {
