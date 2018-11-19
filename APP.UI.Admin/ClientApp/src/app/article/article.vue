@@ -69,10 +69,10 @@
             </FormItem>
             <FormItem label="内容">
                 <div v-show="article.editor">
-                    <markdown-editor  v-model="article.content" @change="onEditorChange()" ></markdown-editor>
+                    <mavon-editor :subfield="false" @change="mavonEditorChange" style="height:40vh" ></mavon-editor>
                 </div>
                 <div v-show="!article.editor">
-                    <quill-editor v-if="!article.editor" v-model="article.content" :options="editorOption" @change="onEditorChange()" style="height:40vh">
+                    <quill-editor :options="quillOptions" @change="quillEditorChange($event.html)" style="height:40vh">
                 </quill-editor>
                 </div>
             </FormItem>
