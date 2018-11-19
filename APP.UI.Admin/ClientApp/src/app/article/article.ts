@@ -30,6 +30,14 @@ export default class ArticleComponent extends Vue {
   private quillOptions = {
     placeholder: '开始编辑...',
   };
+  private articleFormRules: any = {
+    title: [{ required: true, trigger: 'blur', message: '请输入文章标题' }],
+    _channel: [{ required: true, validator: this.validateChannel, trigger: 'on-visible-change' }]
+  };
+  private validateChannel(rule: any, value: any, callback: any): void {
+    debugger;
+    callback();
+  }
 
   private mounted() {
     this.getArticles();

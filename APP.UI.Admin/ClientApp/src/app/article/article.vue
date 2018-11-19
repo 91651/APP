@@ -33,8 +33,8 @@
             v-model="articleForm.showDrawer"
             width="720"
         >
-        <Form :model="article" :label-width="80">
-            <FormItem label="标题">
+        <Form :model="article" :rules="articleFormRules" :label-width="80">
+            <FormItem label="标题" prop="title">
                 <Input v-model="article.title" placeholder="请输入文章标题"></Input>
             </FormItem>
             <FormItem label="简介">
@@ -42,7 +42,7 @@
             </FormItem>
             <Row>
                 <Col span="20">
-                <FormItem label="栏目">
+                <FormItem label="栏目" prop="_channel">
                     <Cascader :data="channels" :load-data="getChildrenChannels" change-on-select @on-change="articleCascaderChange" v-model="article._channel" placeholder="请选择文章栏目"></Cascader>
                 </FormItem>
                 </Col>
@@ -69,14 +69,16 @@
             </FormItem>
             <FormItem label="内容">
                 <div v-show="article.editor">
-                    <mavon-editor :subfield="false" @change="mavonEditorChange" :content="article.content" style="height:40vh" ></mavon-editor>
+                    <mavon-editor :subfield="false" @change="mavonEditorChange" :content="article.content" ></mavon-editor>
                 </div>
                 <div v-show="!article.editor">
-                    <quill-editor :options="quillOptions" @change="quillEditorChange($event.html)" :content="article.content" style="height:40vh">
+                    <quill-editor :options="quillOptions" @change="quillEditorChange($event.html)" :content="article.content" >
                 </quill-editor>
                 </div>
             </FormItem>
-            
+            <FormItem>
+                <Button type="primary" class="pull-right">提交</Button>
+            </FormItem>
         </Form>
         </Drawer>  
     </Card>
