@@ -33,7 +33,7 @@
             v-model="articleForm.showDrawer"
             width="720"
         >
-        <Form :model="article" :rules="articleFormRules" :label-width="80">
+        <Form :model="articleForm" ref="articleForm" :rules="articleFormRules" :label-width="80">
             <FormItem label="标题" prop="title">
                 <Input v-model="article.title" placeholder="请输入文章标题"></Input>
             </FormItem>
@@ -77,7 +77,7 @@
                 </div>
             </FormItem>
             <FormItem>
-                <Button type="primary" class="pull-right">提交</Button>
+                <Button type="primary" class="pull-right" @click="submitArticle">提交</Button>
             </FormItem>
         </Form>
         </Drawer>  

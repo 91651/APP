@@ -73,6 +73,17 @@ export default class ArticleComponent extends Vue {
     this.article.channelId = selected && selected[selected.length - 1];
     (this.article as any)._channel = selected;
   }
+  private submitArticle(): void {
+    debugger;
+    const form: any = this.$refs.articleForm;
+    form.validate((valid: any) => {
+      if (valid) {
+        _Article.addArticle(this.article).then(r => {
+          debugger;
+        });
+      }
+    });
+  }
   private findCascaderItemByValue(values: string[]) {
     let channels = this.channels;
     let item: Cascader = new Cascader();
