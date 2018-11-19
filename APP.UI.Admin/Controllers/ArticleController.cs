@@ -12,11 +12,13 @@ namespace APP.UI.Admin.Controllers
     [ApiController]
     public class ArticleController : Controller
     {
+        private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IArticleService _articleService;
 
-        public ArticleController(SignInManager<User> signInManager, IArticleService articleService)
+        public ArticleController(UserManager<User> userManager, SignInManager<User> signInManager, IArticleService articleService)
         {
+            _userManager = userManager;
             _signInManager = signInManager;
             _articleService = articleService;
         }
@@ -24,7 +26,8 @@ namespace APP.UI.Admin.Controllers
         [HttpPost, Route("AddArticle")]
         public ActionResult<ResultModel<string>> AddArticle(ArticleModel model)
         {
-            var user = _signInManager.Context.User;
+            model.UserId = _userManager.GetUserId(_signInManager.Context.User);
+            model.OwnerId = _userManager.GetUserId(_signInManager.Context.User);
             return _articleService.AddArticle(model);
         }
 

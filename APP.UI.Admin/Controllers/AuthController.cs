@@ -41,13 +41,14 @@ namespace APP.UI.Admin.Controllers
             var signIn = await _signInManager.PasswordSignInAsync(user, pwd, false, false);
             if (signIn.Succeeded)
             {
+                var userPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                 var tokenOptions = new JwtSecurityToken(
                     issuer: "http://localhost:56833",
                     audience: "http://localhost:8010",
-                    claims: new List<Claim>(),
+                    claims: userPrincipal.Claims,
                     expires: DateTime.Now.AddDays(1),
                     signingCredentials: signinCredentials
                 );
@@ -66,6 +67,13 @@ namespace APP.UI.Admin.Controllers
             }
             //return Unauthorized();
             return result;
+        }
+
+        [HttpGet, Route("GetUser")]
+        public ActionResult GetUser()
+        {
+            var test = _userManager.GetUserId(_signInManager.Context.User);
+            return Ok();
         }
     }
 }
