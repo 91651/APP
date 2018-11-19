@@ -85,16 +85,15 @@ export default class ArticleComponent extends Vue {
     });
     return item;
   }
-  private editorSwitch(isDisabled: boolean): void {
+  private editorSwitch(isDisabled: boolean) {
     this.articleForm.disabledEditorSwitch = isDisabled;
     this.articleForm.disabledEditorTooltip = !isDisabled;
   }
-  private mavonEditorChange = (value: string): void => {
-    debugger;
+  private mavonEditorChange(value: string) {
     this.editorSwitch(!!value);
   }
 
-  private quillEditorChange(value: string): void {
+  private quillEditorChange(value: string) {
     this.editorSwitch(!!value);
   }
 

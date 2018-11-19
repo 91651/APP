@@ -69,10 +69,10 @@
             </FormItem>
             <FormItem label="内容">
                 <div v-show="article.editor">
-                    <mavon-editor :subfield="false" @change="mavonEditorChange" style="height:40vh" ></mavon-editor>
+                    <mavon-editor :subfield="false" @change="mavonEditorChange" :content="article.content" style="height:40vh" ></mavon-editor>
                 </div>
                 <div v-show="!article.editor">
-                    <quill-editor :options="quillOptions" @change="quillEditorChange($event.html)" style="height:40vh">
+                    <quill-editor :options="quillOptions" @change="quillEditorChange($event.html)" :content="article.content" style="height:40vh">
                 </quill-editor>
                 </div>
             </FormItem>
