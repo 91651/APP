@@ -2,13 +2,14 @@
 using System.Linq;
 using APP.DbAccess.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace APP.DbAccess.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private readonly AppDbContext _db;
-        private readonly DbSet<TEntity> _dbSet;
+        public AppDbContext _db { get; }
+        public DbSet<TEntity> _dbSet { get; }
 
         public Repository(AppDbContext context)
         {
@@ -16,9 +17,9 @@ namespace APP.DbAccess.Repositories
             _dbSet = _db.Set<TEntity>();
         }
 
-        public virtual void Add(TEntity obj)
+        public virtual void Add(TEntity entity)
         {
-            _dbSet.Add(obj);
+            _dbSet.Add(entity);
         }
 
         public virtual TEntity GetById(string id)
@@ -31,9 +32,9 @@ namespace APP.DbAccess.Repositories
             return _dbSet;
         }
 
-        public virtual void Update(TEntity obj)
+        public virtual void Update(TEntity entity)
         {
-            _dbSet.Update(obj);
+            _dbSet.Update(entity);
         }
 
         public virtual void Remove(string id)
@@ -45,7 +46,10 @@ namespace APP.DbAccess.Repositories
         {
             return _db.SaveChanges();
         }
-
+        public EntityEntry Entry(TEntity entity)
+        {
+            return _db.Entry(entity);
+        }
         public void Dispose()
         {
             _db.Dispose();

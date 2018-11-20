@@ -9,6 +9,7 @@ namespace APP.Framework.Services
         ResultModel<string> AddArticle(ArticleModel model);
         ResultModel DelArticle(string Id);
         ResultModel<ArticleModel> GetArticle(string Id);
+        ResultModel UpdateArticle(ArticleModel model);
         ResultModel<List<ArticleListModel>> GetArticles(SearchArticleModel model);
         ResultModel<string> AddChannel(ChannelModel model);
         List<Cascader> GetChannelsToCascader(string channelId);

@@ -51,6 +51,19 @@ namespace APP.Framework.Services
                 Status = rows > 0
             };
         }
+        public ResultModel UpdateArticle(ArticleModel model)
+        {
+            model.Updated = DateTime.Now;
+            var entity = _mapper.Map<Article>(model);
+            _articleRepository.Update(entity);
+            _articleRepository.Entry(entity).Property(nameof(entity.Created)).IsModified = false;
+            _articleRepository.Entry(entity).Property(nameof(entity.UserId)).IsModified = false;
+            var rows = _articleRepository.SaveChanges();
+            return new ResultModel
+            {
+                Status = rows > 0
+            };
+        }
 
         public ResultModel<ArticleModel> GetArticle(string Id)
         {
@@ -93,7 +106,7 @@ namespace APP.Framework.Services
                 var createdDate = model.CreatedDate?.Date;
                 ex = ex.And(t => t.Created.Date == createdDate);
             }
-            var users = _articleRepository.GetAll().Include(i => i.Channel).Include(i =>i.User).Where(ex).ToDataSourceResult(model);
+            var users = _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Where(ex).ToDataSourceResult(model);
             return new ResultModel<List<ArticleListModel>>
             {
                 Data = _mapper.Map<List<ArticleListModel>>(users.Data),

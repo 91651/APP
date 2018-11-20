@@ -37,6 +37,12 @@ namespace APP.UI.Admin.Controllers
             return _articleService.DelArticle(Id);
         }
 
+        [HttpPost, Route("UpdateArticle")]
+        public ActionResult<ResultModel> UpdateArticle(ArticleModel model)
+        {
+            return _articleService.UpdateArticle(model);
+        }
+
         [HttpPost, Route("GetArticle")]
         public ActionResult<ResultModel<ArticleModel>> GetArticle(string Id)
         {

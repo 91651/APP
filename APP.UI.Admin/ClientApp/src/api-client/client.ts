@@ -105,6 +105,46 @@ export class ArticleClient extends BaseClient {
         return Promise.resolve<ResultModel>(<any>null);
     }
 
+    updateArticle(model: ArticleModel): Promise<ResultModel> {
+        let url_ = this.baseUrl + "/api/Article/UpdateArticle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            }
+        };
+
+        return this.transformOptions(options_).then(transformedOptions_ => {
+            return this.http.fetch(url_, transformedOptions_);
+        }).then((_response: Response) => {
+            return this.processUpdateArticle(_response);
+        });
+    }
+
+    protected processUpdateArticle(response: Response): Promise<ResultModel> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ResultModel.fromJS(resultData200) : <any>null;
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<ResultModel>(<any>null);
+    }
+
     getArticle(id: string): Promise<ResultModelOfArticleModel> {
         let url_ = this.baseUrl + "/api/Article/GetArticle?";
         if (id !== undefined)

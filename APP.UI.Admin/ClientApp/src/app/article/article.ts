@@ -95,16 +95,20 @@ export default class ArticleComponent extends Vue {
     const form: any = this.$refs.articleForm;
     form.validate((valid: any) => {
       if (valid) {
-        _Article.addArticle(this.article).then(r => {
-          if (r.status) {
-            this.articleForm.showDrawer = false;
-            this.article = new ArticleModel();
-            this.getArticles();
-            this.$Notice.success({
-              title: '保存成功。'
-            });
-          }
-        });
+        if (this.article.id) {
+          _Article.updateArticle(this.article);
+        } else {
+          _Article.addArticle(this.article).then(r => {
+            if (r.status) {
+              this.articleForm.showDrawer = false;
+              this.article = new ArticleModel();
+              this.getArticles();
+              this.$Notice.success({
+                title: '保存成功。'
+              });
+            }
+          });
+        }
       }
     });
   }
