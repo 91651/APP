@@ -10,7 +10,7 @@ import {
   ArticleModel, ArticleListModel, SearchArticleModel,
   Cascader, Result, ChannelModel
 } from '@/api-client/client';
-import { _Article } from '@/api-client';
+import { _Article, _File } from '@/api-client';
 import { StateTransformer } from 'vuex-class/lib/bindings';
 
 @Component({
@@ -138,6 +138,12 @@ export default class ArticleComponent extends Vue {
   }
   private mavonEditorChange(value: string) {
     this.editorSwitch(!!value);
+  }
+  private mavonImgAdd(pos: any, $file: any) {
+    debugger;
+    let formdata = new FormData();
+    formdata.append('image', $file);
+    _File.uploadImg(formdata).then(() => { debugger });
   }
 
   private quillEditorChange(value: string) {
