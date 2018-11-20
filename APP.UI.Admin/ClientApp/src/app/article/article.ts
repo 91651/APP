@@ -11,6 +11,7 @@ import {
   Cascader, Result, ChannelModel
 } from '@/api-client/client';
 import { _Article } from '@/api-client';
+import { StateTransformer } from 'vuex-class/lib/bindings';
 
 @Component({
   components: {
@@ -32,7 +33,7 @@ export default class ArticleComponent extends Vue {
   };
   private articleFormRules: any = {
     title: [{ required: true, trigger: 'blur', message: '请输入文章标题' }],
-    _channel: [{ required: true, trigger: 'on-visible-change', type: 'array', message: '请选择文章栏目' }]
+    channelId: [{ required: true, trigger: 'on-visible-change', type: 'array', message: '请选择文章栏目' }]
   };
 
   private mounted() {
@@ -45,11 +46,28 @@ export default class ArticleComponent extends Vue {
       && new Date(this.$moment(this.serach.createdDate).format('YYYY-MM-DD'));
     _Article.getArticles(this.serach).then(r => this.articles = r);
   }
-  private editArticle(article: ArticleModel) {
+  private editArticle(id: string) {
     this.articleForm.showDrawer = true;
-    this.articleForm.title = article || '创建文章';
     this.getChannels();
+    if (!id) {
+      if (this.article.id) { this.article = new ArticleModel(); }
+      this.articleForm.title = '创建文章';
+      return;
+    }
+    this.articleForm.title = '修改文章';
+    _Article.getArticle(id).then(r => this.article = r.data as ArticleModel);
   }
+  private delArticle(id: string) {
+    _Article.delArticle(id).then(r => {
+      if (r.status) {
+        this.getArticles();
+        this.$Notice.success({
+          title: '删除成功。'
+        });
+      }
+    });
+  }
+
   private getChannels() {
     _Article.getChannelsToCascader('').then(r => this.channels = r);
   }
@@ -59,31 +77,32 @@ export default class ArticleComponent extends Vue {
       .then(r => { item.children = r; item.loading = false; callback(); });
   }
   private addChannel() {
-    if (this.channel) {
-      this.channel.parentId = this.article.channelId;
+    if (this.channel && this.article.channelId) {
+      this.channel.parentId = this.article.channelId.slice(-1)[0];
       _Article.addChannel(this.channel).then(r => {
-        let channels = (this.article as any)._channel;
+        let channels = this.article.channelId || new Array<string>();
         let currItem = this.findCascaderItemByValue(channels);
         this.getChildrenChannels(currItem, () => {
-          channels.push(r);
+          if (r.status && r.data) {
+            channels.push(r.data);
+          }
         });
       });
     }
   }
-  private articleCascaderChange(selected: any) {
-    this.article.channelId = selected && selected[selected.length - 1];
-    (this.article as any)._channel = selected;
-  }
+
   private submitArticle(): void {
     const form: any = this.$refs.articleForm;
     form.validate((valid: any) => {
       if (valid) {
         _Article.addArticle(this.article).then(r => {
-          if(r.status){
+          if (r.status) {
             this.articleForm.showDrawer = false;
+            this.article = new ArticleModel();
+            this.getArticles();
             this.$Notice.success({
               title: '保存成功。'
-          });
+            });
           }
         });
       }
@@ -106,19 +125,7 @@ export default class ArticleComponent extends Vue {
     return item;
   }
   // UI变化控制
-  private drawerVisibleChange(visible: boolean, confirm: boolean): void {
-     if (visible || confirm) { return; }
-     this.$Notice.warning({
-      title: '窗口关闭？',
-      duration: 0,
-      render: (h) => {
-        return h('span', [
-            '内容没有保存，确定关闭窗口吗？',
-            h('div', '<Button type="primary" >Open notice</Button>'),
-            '<Button type="primary" >Open notice</Button>'
-        ]); }
-  });
-  }
+  // todo
 
   // 编辑器逻辑
   private editorSwitch(isDisabled: boolean) {

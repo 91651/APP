@@ -25,13 +25,47 @@
                                 $moment(params.row.created).add(1, 'day') < new Date()  && $moment(params.row.created).format('LL') ||  $moment(params.row.created).startOf('hour').fromNow()
                             )
                         }
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '10px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.editArticle(params.row.id)
+                                        }
+                                    }
+                                }, '编辑'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.delArticle(params.row.id)
+                                        }
+                                    }
+                                }, '删除')
+                            ]);
+                        }
                     }
                 ]" :data="articles.data"></Table>
                 <Row class="padding-10 text-right"><Page :total="articles.total" show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange" /></Row>
         <Drawer
             :title="articleForm.title"
             v-model="articleForm.showDrawer"
-            @on-visible-change="drawerVisibleChange"
             width="720"
         >
         <Form :model="article" ref="articleForm" :rules="articleFormRules" :label-width="80">
@@ -43,8 +77,8 @@
             </FormItem>
             <Row>
                 <Col span="20">
-                <FormItem label="栏目" prop="_channel">
-                    <Cascader :data="channels" :load-data="getChildrenChannels" change-on-select  @on-change="articleCascaderChange" v-model="article._channel" placeholder="请选择文章栏目"></Cascader>
+                <FormItem label="栏目" prop="channelId">
+                    <Cascader :data="channels" :load-data="getChildrenChannels" change-on-select  v-model="article.channelId" placeholder="请选择文章栏目"></Cascader>
                 </FormItem>
                 </Col>
                 &nbsp;

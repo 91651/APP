@@ -1,15 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace APP.DbAccess.Repositories
 {
     public interface IRepository<TEntity> where TEntity : class
     {
         void Add(TEntity obj);
-        TEntity GetById(Guid id);
+        TEntity GetById(string id);
         IQueryable<TEntity> GetAll();
         void Update(TEntity obj);
-        void Remove(Guid id);
+        void Remove(string id);
         int SaveChanges();
 
     }

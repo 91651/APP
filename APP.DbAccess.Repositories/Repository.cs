@@ -21,7 +21,7 @@ namespace APP.DbAccess.Repositories
             _dbSet.Add(obj);
         }
 
-        public virtual TEntity GetById(Guid id)
+        public virtual TEntity GetById(string id)
         {
             return _dbSet.Find(id);
         }
@@ -36,7 +36,7 @@ namespace APP.DbAccess.Repositories
             _dbSet.Update(obj);
         }
 
-        public virtual void Remove(Guid id)
+        public virtual void Remove(string id)
         {
             _dbSet.Remove(_dbSet.Find(id));
         }

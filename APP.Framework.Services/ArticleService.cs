@@ -8,6 +8,7 @@ using APP.DbAccess.Repositories;
 using APP.Framework.Services.Models;
 using AutoMapper;
 using IView.AspNetCore.DynamicLinq;
+using Microsoft.EntityFrameworkCore;
 
 namespace APP.Framework.Services
 {
@@ -37,6 +38,37 @@ namespace APP.Framework.Services
             {
                 Status = true,
                 Data = entity.Id
+            };
+        }
+
+        public ResultModel DelArticle(string Id)
+        {
+            var entity = _articleRepository.GetById(Id);
+            entity.State = 0;
+            var rows = _articleRepository.SaveChanges();
+            return new ResultModel
+            {
+                Status = rows > 0
+            };
+        }
+
+        public ResultModel<ArticleModel> GetArticle(string Id)
+        {
+            var entity = _articleRepository.GetAll().AsNoTracking().FirstOrDefault(a => a.Id == Id);
+            var channels = new List<string>();
+            var cid = entity.ChannelId;
+            while (!string.IsNullOrWhiteSpace(cid))
+            {
+                channels.Add(cid);
+                cid = _channleRepository.GetById(cid)?.ParentId;
+            }
+            var model = _mapper.Map<ArticleModel>(entity);
+            channels.Reverse();
+            model.ChannelId = channels.ToArray();
+            return new ResultModel<ArticleModel>
+            {
+                Status = entity != null,
+                Data = model
             };
         }
 
@@ -101,7 +133,7 @@ namespace APP.Framework.Services
                     Label = c.Title,
                     Value = c.Id
                 };
-                if(channels.Any(a => a.ParentId == c.Id))
+                if (channels.Any(a => a.ParentId == c.Id))
                 {
                     model.Children = new List<Cascader>();
                     model.Loading = false;

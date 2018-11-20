@@ -10,7 +10,10 @@ namespace APP.Framework.Services.AutoMapper
     {
         public Mappings()
         {
-            CreateMap<Article, ArticleModel>().ReverseMap();
+            CreateMap<Article, ArticleModel>()
+                .ForMember(m => m.ChannelId, opt => opt.Ignore())
+                .ReverseMap()
+                .ForMember(m => m.ChannelId, opt => opt.MapFrom(s => s.ChannelId.Last()));
             CreateMap<Article, ArticleListModel>();
             CreateMap<User, UserModel>();
         }
