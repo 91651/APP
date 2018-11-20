@@ -106,7 +106,7 @@
                  
             </Row>
             <FormItem label="Markdown">
-                <Tooltip theme="light" :disabled="articleForm.disabledEditorTooltip" content="已输入文章内容，无法切换编辑器。" >
+                <Tooltip theme="light" :disabled="articleForm.disabledEditorTooltip" content="已输入文章内容，无法切换编辑器。" placement="right" >
                     <i-switch size="large" :disabled="articleForm.disabledEditorSwitch" @on-change="article.editor = article.editor ? 0 : 1; articleForm.showDrawer = false; articleForm.showDrawer = true">
                             <span slot="open">使用</span>
                             <span slot="close">关闭</span>
