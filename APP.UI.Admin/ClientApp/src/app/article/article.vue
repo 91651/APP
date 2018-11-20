@@ -11,18 +11,30 @@
       <Table :columns="[
                     {
                         title: '序号',
-                        key: 'id'
+                        key: 'id',
+                        width: 300,
                     },
                     {
                         title: '标题',
                         key: 'title'
                     },
                     {
+                        title: '栏目',
+                        key: 'channelName',
+                        width: 150
+                    },
+                    {
+                        title: '用户',
+                        key: 'userName',
+                        width: 150
+                        
+                    },
+                    {
                         title: '创建时间',
                         key: 'created',
                         render: (h,params)=>{
                             return h('div',
-                                $moment(params.row.created).add(1, 'day') < new Date()  && $moment(params.row.created).format('LL') ||  $moment(params.row.created).startOf('hour').fromNow()
+                                $moment(params.row.created).add(1, 'day') < new Date()  && $moment(params.row.created).format('LL') ||  $moment(params.row.created).startOf('minute').fromNow()
                             )
                         }
                     },
@@ -95,7 +107,7 @@
             </Row>
             <FormItem label="Markdown">
                 <Tooltip theme="light" :disabled="articleForm.disabledEditorTooltip" content="已输入文章内容，无法切换编辑器。" >
-                    <i-switch size="large" :disabled="articleForm.disabledEditorSwitch" @on-change="article.editor = !article.editor; articleForm.showDrawer = false; articleForm.showDrawer = true">
+                    <i-switch size="large" :disabled="articleForm.disabledEditorSwitch" @on-change="article.editor = article.editor ? 0 : 1; articleForm.showDrawer = false; articleForm.showDrawer = true">
                             <span slot="open">使用</span>
                             <span slot="close">关闭</span>
                         </i-switch>
@@ -103,7 +115,7 @@
                 
             </FormItem>
             <FormItem label="内容">
-                <div v-if="article.editor">
+                <div v-if="article.editor === 1">
                     <mavon-editor :subfield="false" @change="mavonEditorChange" v-model="article.content" ></mavon-editor>
                 </div>
                 <div v-if="!article.editor">

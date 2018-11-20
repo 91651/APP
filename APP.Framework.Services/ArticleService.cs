@@ -27,8 +27,8 @@ namespace APP.Framework.Services
 
         public ResultModel<string> AddArticle(ArticleModel model)
         {
-            model.Created = DateTime.UtcNow;
-            model.Updated = DateTime.UtcNow;
+            model.Created = DateTime.Now;
+            model.Updated = DateTime.Now;
             model.State = 1;
             var entity = _mapper.Map<Article>(model);
             entity.Id = Guid.NewGuid().ToString();
@@ -93,7 +93,7 @@ namespace APP.Framework.Services
                 var createdDate = model.CreatedDate?.Date;
                 ex = ex.And(t => t.Created.Date == createdDate);
             }
-            var users = _articleRepository.GetAll().Where(ex).ToDataSourceResult(model);
+            var users = _articleRepository.GetAll().Include(i => i.Channel).Include(i =>i.User).Where(ex).ToDataSourceResult(model);
             return new ResultModel<List<ArticleListModel>>
             {
                 Data = _mapper.Map<List<ArticleListModel>>(users.Data),

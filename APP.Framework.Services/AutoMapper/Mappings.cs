@@ -14,7 +14,9 @@ namespace APP.Framework.Services.AutoMapper
                 .ForMember(m => m.ChannelId, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(m => m.ChannelId, opt => opt.MapFrom(s => s.ChannelId.Last()));
-            CreateMap<Article, ArticleListModel>();
+            CreateMap<Article, ArticleListModel>()
+                .ForMember(m => m.ChannelName, opt => opt.MapFrom(s => s.Channel.Title))
+                .ForMember(m => m.UserName, opt => opt.MapFrom(s => s.User.UserName));
             CreateMap<User, UserModel>();
         }
 
