@@ -403,12 +403,17 @@ export class FileClient extends BaseClient {
         this.baseUrl = baseUrl ? baseUrl : "http://localhost:56833";
     }
 
-    uploadImg(): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/File";
+    uploadImg(file: FileParameter): Promise<ResultModelOfFileModel> {
+        let url_ = this.baseUrl + "/api/File/UploadImg";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = new FormData();
+        if (file !== null && file !== undefined)
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
         let options_ = <RequestInit>{
-            method: "UNDEFINED",
+            body: content_,
+            method: "POST",
             headers: {
                 "Accept": "application/json"
             }
@@ -421,20 +426,22 @@ export class FileClient extends BaseClient {
         });
     }
 
-    protected processUploadImg(response: Response): Promise<FileResponse> {
+    protected processUploadImg(response: Response): Promise<ResultModelOfFileModel> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ResultModelOfFileModel.fromJS(resultData200) : <any>null;
+            return result200;
+            });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<FileResponse>(<any>null);
+        return Promise.resolve<ResultModelOfFileModel>(<any>null);
     }
 }
 
@@ -1142,6 +1149,83 @@ export interface IAuthModel {
     status?: string;
 }
 
+export class ResultModelOfFileModel extends ResultModel implements IResultModelOfFileModel {
+    data?: FileModel;
+    total?: number;
+
+    constructor(data?: IResultModelOfFileModel) {
+        super(data);
+    }
+
+    init(data?: any) {
+        super.init(data);
+        if (data) {
+            this.data = data["data"] ? FileModel.fromJS(data["data"]) : <any>undefined;
+            this.total = data["total"];
+        }
+    }
+
+    static fromJS(data: any): ResultModelOfFileModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ResultModelOfFileModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["data"] = this.data ? this.data.toJSON() : <any>undefined;
+        data["total"] = this.total;
+        super.toJSON(data);
+        return data; 
+    }
+}
+
+export interface IResultModelOfFileModel extends IResultModel {
+    data?: FileModel;
+    total?: number;
+}
+
+export class FileModel implements IFileModel {
+    name?: string;
+    path?: string;
+
+    constructor(data?: IFileModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.path = data["path"];
+        }
+    }
+
+    static fromJS(data: any): FileModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new FileModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["path"] = this.path;
+        return data; 
+    }
+}
+
+export interface IFileModel {
+    name?: string;
+    path?: string;
+}
+
 export class UserModel implements IUserModel {
     id?: string;
     userName?: string;
@@ -1180,6 +1264,11 @@ export class UserModel implements IUserModel {
 export interface IUserModel {
     id?: string;
     userName?: string;
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export interface FileResponse {

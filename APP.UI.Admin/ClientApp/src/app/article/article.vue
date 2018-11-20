@@ -116,7 +116,7 @@
             </FormItem>
             <FormItem label="内容">
                 <div v-if="article.editor === 1">
-                    <mavon-editor :subfield="false" @change="mavonEditorChange" @imgAdd="mavonImgAdd" v-model="article.content" ></mavon-editor>
+                    <mavon-editor ref=mavon :subfield="false" @change="mavonEditorChange" @imgAdd="mavonImgAdd" v-model="article.content" ></mavon-editor>
                 </div>
                 <div v-if="!article.editor">
                     <quill-editor :options="quillOptions" @change="quillEditorChange($event.html)" v-model="article.content" >

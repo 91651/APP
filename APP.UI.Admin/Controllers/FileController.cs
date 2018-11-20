@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.IO;
+using System.Xml.Linq;
+using APP.Framework.Services.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APP.UI.Admin.Controllers
@@ -7,15 +12,44 @@ namespace APP.UI.Admin.Controllers
     [ApiController]
     public class FileController : Controller
     {
-        [HttpPost, Route("UploadImg")]
-        [FromHeader()]
-        public IActionResult UploadImg(IFormFile file)
+        private IHostingEnvironment _hostingEnvironment;
+
+        public FileController(IHostingEnvironment hostingEnvironment)
         {
-            if (Request.Form.Files.Count > 0)
+            _hostingEnvironment = hostingEnvironment;
+        }
+
+        [HttpPost, Route("UploadImg")]
+        public ActionResult<ResultModel<FileModel>> UploadImg(IFormFile file)
+        {
+            if (file != null)
             {
-                return Ok();
+                var path = _hostingEnvironment.WebRootPath;
+                var uploadPath = @"\static\img\";
+                var fullPath = path + uploadPath;
+                var filename = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}{Path.GetExtension(file.FileName)}";
+                if (!Directory.Exists(fullPath))
+                {
+                    Directory.CreateDirectory(fullPath);
+                }
+                using (FileStream fs = System.IO.File.Create(fullPath + filename))
+                {
+                    // 复制文件
+                    file.CopyTo(fs);
+                    // 清空缓冲区数据
+                    fs.Flush();
+                }
+                return new ResultModel<FileModel>
+                {
+                    Status = true,
+                    Data = new FileModel { Name = filename, Path = uploadPath }
+                };
             }
-            return View();
+            return new ResultModel<FileModel>
+            {
+                Status = false,
+                Message = "图片上传失败"
+            };
         }
     }
 }

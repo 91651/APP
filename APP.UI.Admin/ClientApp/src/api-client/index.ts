@@ -1,5 +1,4 @@
-﻿import { FileClient } from '@/api-client/file';
-import { ArticleClient, AuthClient, UserClient } from '@/api-client/client';
+﻿import { ArticleClient, AuthClient, FileClient, UserClient } from '@/api-client/client';
 
 function loadConfig() {
     const xmlHttp = new XMLHttpRequest();
@@ -16,9 +15,9 @@ function loadConfig() {
 const appConfig = loadConfig();
 // const apiUrl = process.env.npm_package_devConfig_apiUrl;
 
-const apiUrl = appConfig.apiUrl;
+export const _apiUrl = appConfig.apiUrl;
 
-export const _Auth = new AuthClient(apiUrl);
-export const _Article = new ArticleClient(apiUrl);
-export const _File = new FileClient(apiUrl);
-export const _User = new UserClient(apiUrl);
+export const _Auth = new AuthClient(_apiUrl);
+export const _Article = new ArticleClient(_apiUrl);
+export const _File = new FileClient(_apiUrl);
+export const _User = new UserClient(_apiUrl);
