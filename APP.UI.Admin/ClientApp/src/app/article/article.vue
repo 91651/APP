@@ -8,7 +8,7 @@
         <Button class="search-btn" type="primary" @click="getArticles" ><Icon type="search"/>&nbsp;&nbsp;搜索</Button> &nbsp;
         <Button class="search-btn" type="primary" @click="editArticle()" ><Icon type="search"/>&nbsp;&nbsp;创建</Button>
     </Row>
-      <Table :columns="[
+      <Table highlight-row :columns="[
                     {
                         title: '序号',
                         key: 'id',
