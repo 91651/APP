@@ -25,7 +25,7 @@ namespace APP.UI.Admin.Controllers
             if (file != null)
             {
                 var path = _hostingEnvironment.WebRootPath;
-                var uploadPath = @"\static\img\";
+                var uploadPath = "/static/img/"; //避免路径敏感，使用"/"
                 var fullPath = path + uploadPath;
                 var filename = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}{Path.GetExtension(file.FileName)}";
                 if (!Directory.Exists(fullPath))
