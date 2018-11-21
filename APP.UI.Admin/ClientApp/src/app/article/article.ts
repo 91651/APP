@@ -140,12 +140,15 @@ export default class ArticleComponent extends Vue {
     this.editorSwitch(!!value);
   }
   private mavonImgAdd(pos: any, $file: any) {
-    _File.uploadImg({fileName: $file.name, data: $file }).then((r) => {
+    _File.uploadImg({ fileName: $file.name, data: $file }).then((r) => {
       if (r.status && r.data) {
         let img = _apiUrl + r.data.path + r.data.name;
-        (this.$refs.mavon as any).$img2Url(pos, img);
+        (this.$refs.mavon as any).$imgUpdateByUrl(pos, img);
       }
-     });
+    });
+  }
+  private mavonImgDel(pos: any) {
+    // 远程图片删除逻辑
   }
 
   private quillEditorChange(value: string) {
