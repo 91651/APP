@@ -5,6 +5,7 @@ using APP.Framework.Services.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace APP.UI.Admin.Controllers
 {
@@ -13,10 +14,12 @@ namespace APP.UI.Admin.Controllers
     public class FileController : Controller
     {
         private IHostingEnvironment _hostingEnvironment;
+        public IConfiguration Configuration { get; }
 
-        public FileController(IHostingEnvironment hostingEnvironment)
+        public FileController(IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _hostingEnvironment = hostingEnvironment;
+            Configuration = configuration;
         }
 
         [HttpPost, Route("UploadImg")]
@@ -25,7 +28,7 @@ namespace APP.UI.Admin.Controllers
             if (file != null)
             {
                 var path = _hostingEnvironment.WebRootPath;
-                var uploadPath = "/static/img/"; //避免路径敏感，使用"/"
+                var uploadPath = Configuration["AppSettings:ImgUploadPath"]; //避免路径敏感，使用"/"
                 var fullPath = path + uploadPath;
                 var filename = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}{Path.GetExtension(file.FileName)}";
                 if (!Directory.Exists(fullPath))
