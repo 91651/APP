@@ -31,7 +31,6 @@ namespace APP.UI.Admin
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(option => option.UseSqlite(Configuration["ConnectionStrings:SqliteConnection"]));
@@ -75,7 +74,6 @@ namespace APP.UI.Admin
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -114,7 +112,7 @@ namespace APP.UI.Admin
                     document.Info.Title = "APP";
                 };
             });
-            app.UseSwaggerUi3();
+            app.UseSwaggerUi3(settings => settings.DocumentPath= "{documentName}/swagger.json");
             //app.UseSpa(spa =>
             //{
             //    spa.Options.SourcePath = "ClientApp";
