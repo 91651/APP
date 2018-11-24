@@ -64,6 +64,15 @@ namespace APP.UI.Admin
                 //默认不允许匿名访问
                 options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build()));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSwaggerDocument(document =>
+            {
+                document.DocumentProcessors.Add(new SecurityDefinitionAppender("Bearer", new SwaggerSecurityScheme
+                {
+                    Type = SwaggerSecuritySchemeType.ApiKey,
+                    Name = "Authorization",
+                    In = SwaggerSecurityApiKeyLocation.Header,
+                }));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,22 +107,14 @@ namespace APP.UI.Admin
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
-
-            app.UseSwaggerUi3WithApiExplorer(s =>
+            app.UseSwagger(settings =>
             {
-                s.GeneratorSettings.Title = "APP";
-                s.GeneratorSettings.OperationProcessors.Add(new OperationSecurityScopeProcessor("Bearer"));
-                s.PostProcess = document =>
+                settings.PostProcess = (document, request) =>
                 {
-                    document.Security.Add((new SwaggerSecurityRequirement { { "Bearer", new string[] { } }, }));
+                    document.Info.Title = "APP";
                 };
-                s.GeneratorSettings.DocumentProcessors.Add(new SecurityDefinitionAppender("Bearer", new SwaggerSecurityScheme
-                {
-                    Type = SwaggerSecuritySchemeType.ApiKey,
-                    Name = "Authorization",
-                    In = SwaggerSecurityApiKeyLocation.Header,
-                }));
             });
+            app.UseSwaggerUi3();
             //app.UseSpa(spa =>
             //{
             //    spa.Options.SourcePath = "ClientApp";
