@@ -84,8 +84,8 @@
             <FormItem label="标题" prop="title">
                 <Input v-model="article.title" placeholder="请输入文章标题"></Input>
             </FormItem>
-            <FormItem label="简介">
-                <Input v-model="article.subTitle" placeholder="请输入文章简介"></Input>
+            <FormItem label="副标题">
+                <Input v-model="article.subTitle" placeholder="请输入补充标题"></Input>
             </FormItem>
             <Row>
                 <Col span="20">
@@ -105,6 +105,12 @@
                 </Poptip>
                  
             </Row>
+            <FormItem label="来源">
+                <Input v-model="article.author" placeholder="原创文章"></Input>
+            </FormItem>
+            <FormItem label="简介">
+                <Input type="textarea" v-model="article.summary" placeholder="内容简介"></Input>
+            </FormItem>
             <FormItem label="Markdown">
                 <Tooltip theme="light" :disabled="articleForm.disabledEditorTooltip" content="已输入文章内容，无法切换编辑器。" placement="right" >
                     <i-switch size="large" :disabled="articleForm.disabledEditorSwitch" @on-change="article.editor = article.editor ? 0 : 1; articleForm.showDrawer = false; articleForm.showDrawer = true">
@@ -116,7 +122,7 @@
             </FormItem>
             <FormItem label="内容">
                 <div v-if="article.editor === 1">
-                    <mavon-editor ref=mavon :subfield="false" @change="mavonEditorChange" @imgAdd="mavonImgAdd" @imgDel="mavonImgDel" v-model="article.content" ></mavon-editor>
+                    <mavon-editor ref=mavon :subfield="false" @change="mavonEditorChange" @imgAdd="mavonImgAdd" @imgDel="mavonImgDel" v-model="article.mdContent" ></mavon-editor>
                 </div>
                 <div v-if="!article.editor">
                     <quill-editor :options="quillOptions" @change="quillEditorChange($event.html)" v-model="article.content" >

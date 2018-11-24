@@ -32,6 +32,8 @@ namespace APP.DbAccess.Entities
         public int? Editor { get; set; }
         [MaxLength]
         public string Content { get; set; }
+        [MaxLength]
+        public string MdContent { get; set; }
         [DefaultValue(0)]
         public int Viewed { get; set; }
         public DateTime Created { get; set; }

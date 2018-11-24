@@ -14,6 +14,7 @@ namespace APP.Framework.Services.Models
         public string Author { get; set; }
         public int Editor { get; set; }
         public string Content { get; set; }
+        public string MdContent { get; set; }
         public int Viewed { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }

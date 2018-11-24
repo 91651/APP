@@ -578,12 +578,15 @@ export class ArticleModel implements IArticleModel {
     id?: string;
     title?: string;
     subTitle?: string;
+    summary?: string;
     userId?: string;
     ownerId?: string;
     channelId?: string[];
     author?: string;
     editor: number;
     content?: string;
+    mdContent?: string;
+    viewed: number;
     created: Date;
     updated: Date;
     state?: number;
@@ -602,6 +605,7 @@ export class ArticleModel implements IArticleModel {
             this.id = data["id"];
             this.title = data["title"];
             this.subTitle = data["subTitle"];
+            this.summary = data["summary"];
             this.userId = data["userId"];
             this.ownerId = data["ownerId"];
             if (data["channelId"] && data["channelId"].constructor === Array) {
@@ -612,6 +616,8 @@ export class ArticleModel implements IArticleModel {
             this.author = data["author"];
             this.editor = data["editor"];
             this.content = data["content"];
+            this.mdContent = data["mdContent"];
+            this.viewed = data["viewed"];
             this.created = data["created"] ? new Date(data["created"].toString()) : <any>undefined;
             this.updated = data["updated"] ? new Date(data["updated"].toString()) : <any>undefined;
             this.state = data["state"];
@@ -630,6 +636,7 @@ export class ArticleModel implements IArticleModel {
         data["id"] = this.id;
         data["title"] = this.title;
         data["subTitle"] = this.subTitle;
+        data["summary"] = this.summary;
         data["userId"] = this.userId;
         data["ownerId"] = this.ownerId;
         if (this.channelId && this.channelId.constructor === Array) {
@@ -640,6 +647,8 @@ export class ArticleModel implements IArticleModel {
         data["author"] = this.author;
         data["editor"] = this.editor;
         data["content"] = this.content;
+        data["mdContent"] = this.mdContent;
+        data["viewed"] = this.viewed;
         data["created"] = this.created ? this.created.toISOString() : <any>undefined;
         data["updated"] = this.updated ? this.updated.toISOString() : <any>undefined;
         data["state"] = this.state;
@@ -651,12 +660,15 @@ export interface IArticleModel {
     id?: string;
     title?: string;
     subTitle?: string;
+    summary?: string;
     userId?: string;
     ownerId?: string;
     channelId?: string[];
     author?: string;
     editor: number;
     content?: string;
+    mdContent?: string;
+    viewed: number;
     created: Date;
     updated: Date;
     state?: number;
@@ -749,6 +761,10 @@ export class ArticleListModel implements IArticleListModel {
     title?: string;
     userName?: string;
     channelName?: string;
+    subTitle?: string;
+    summary?: string;
+    viewed: number;
+    author?: string;
     created: Date;
     updated: Date;
     state: number;
@@ -768,6 +784,10 @@ export class ArticleListModel implements IArticleListModel {
             this.title = data["title"];
             this.userName = data["userName"];
             this.channelName = data["channelName"];
+            this.subTitle = data["subTitle"];
+            this.summary = data["summary"];
+            this.viewed = data["viewed"];
+            this.author = data["author"];
             this.created = data["created"] ? new Date(data["created"].toString()) : <any>undefined;
             this.updated = data["updated"] ? new Date(data["updated"].toString()) : <any>undefined;
             this.state = data["state"];
@@ -787,6 +807,10 @@ export class ArticleListModel implements IArticleListModel {
         data["title"] = this.title;
         data["userName"] = this.userName;
         data["channelName"] = this.channelName;
+        data["subTitle"] = this.subTitle;
+        data["summary"] = this.summary;
+        data["viewed"] = this.viewed;
+        data["author"] = this.author;
         data["created"] = this.created ? this.created.toISOString() : <any>undefined;
         data["updated"] = this.updated ? this.updated.toISOString() : <any>undefined;
         data["state"] = this.state;
@@ -799,6 +823,10 @@ export interface IArticleListModel {
     title?: string;
     userName?: string;
     channelName?: string;
+    subTitle?: string;
+    summary?: string;
+    viewed: number;
+    author?: string;
     created: Date;
     updated: Date;
     state: number;

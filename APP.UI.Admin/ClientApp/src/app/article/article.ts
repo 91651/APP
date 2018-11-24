@@ -136,7 +136,8 @@ export default class ArticleComponent extends Vue {
     this.articleForm.disabledEditorSwitch = isDisabled;
     this.articleForm.disabledEditorTooltip = !isDisabled;
   }
-  private mavonEditorChange(value: string) {
+  private mavonEditorChange(value: string, html: string) {
+    this.article.content = html;
     this.editorSwitch(!!value);
   }
   private mavonImgAdd(pos: any, $file: any) {
