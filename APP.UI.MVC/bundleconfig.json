@@ -20,22 +20,5 @@
       "renameLocals": true
     },
     "sourceMap": false
-  },
-  {
-    "outputFileName": "wwwroot/admin/css/app.min.css",
-    "inputFiles": [
-      
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/admin/js/app.min.js",
-    "inputFiles": [
-      
-    ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    },
-    "sourceMap": false
   }
 ]

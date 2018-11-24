@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,9 +14,10 @@ namespace APP.DbAccess.Entities
         [MaxLength(255)]
         public string Title { get; set; }
 
-        [MaxLength(500)]
+        [MaxLength(200)]
         public string SubTitle { get; set; }
-
+        [MaxLength(500)]
+        public string Summary { get; set; }
         [MaxLength(32)]
         public string UserId { get; set; }
 
@@ -30,6 +32,8 @@ namespace APP.DbAccess.Entities
         public int? Editor { get; set; }
         [MaxLength]
         public string Content { get; set; }
+        [DefaultValue(0)]
+        public int Viewed { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int State { get; set; }

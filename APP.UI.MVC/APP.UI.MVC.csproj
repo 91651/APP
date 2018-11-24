@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="Pjax.AspNetCore.Mvc" Version="1.0.2" />
   </ItemGroup>
   

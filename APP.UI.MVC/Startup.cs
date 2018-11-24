@@ -10,6 +10,9 @@ using APP.DbAccess.Infrastructure;
 using APP.DbAccess.Repositories;
 using APP.Framework.Identity;
 using Microsoft.AspNetCore.Mvc;
+using APP.Framework.Services;
+using BC.Microsoft.DependencyInjection.Plus;
+using AutoMapper;
 
 namespace APP.UI.MVC
 {
@@ -26,7 +29,9 @@ namespace APP.UI.MVC
         {
             services.AddDbContext<AppDbContext>(option => option.UseSqlite(Configuration["ConnectionStrings:SqliteConnection"]));
             services.AddIdentity<User, Role>().AppAddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-            services.AddRepository();
+            services.AddScopedScan(typeof(Repository<>));
+            services.AddScopedScan(typeof(Service));
+            services.AddAutoMapper();
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; })
             .AddXmlSerializerFormatters()
             .AddRazorOptions(a => { a.AreaViewLocationFormats.Add("~/{2}/Views/{1}/{0}.cshtml"); a.AreaViewLocationFormats.Add("~/{2}/Views/Shared/{0}.cshtml"); })
