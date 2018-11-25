@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Xml.Linq;
 using APP.Framework.Services.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,13 +28,13 @@ namespace APP.UI.Admin.Controllers
             {
                 var path = _hostingEnvironment.WebRootPath;
                 var uploadPath = Configuration["AppSettings:ImgUploadPath"]; //避免路径敏感，使用"/"
-                var fullPath = path + uploadPath;
+                var fullPath = Path.GetFullPath(path + uploadPath);
                 var filename = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}{Path.GetExtension(file.FileName)}";
                 if (!Directory.Exists(fullPath))
                 {
                     Directory.CreateDirectory(fullPath);
                 }
-                using (FileStream fs = System.IO.File.Create(fullPath + filename))
+                using (FileStream fs = System.IO.File.Create(Path.Combine(fullPath, filename)))
                 {
                     // 复制文件
                     file.CopyTo(fs);
@@ -52,6 +51,29 @@ namespace APP.UI.Admin.Controllers
             {
                 Status = false,
                 Message = "图片上传失败"
+            };
+        }
+
+        /// <summary>
+        /// 此方法将文件移动到删除目录
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        [HttpGet, Route("DelImg")]
+        public ActionResult<ResultModel> DelImg(string filename)
+        {
+            var path = _hostingEnvironment.WebRootPath;
+            var uploadPath = Configuration["AppSettings:ImgUploadPath"];
+            var fullPath = Path.GetFullPath(path + uploadPath);
+            var delPaht = Path.Combine(fullPath, "del");
+            if (!Directory.Exists(delPaht))
+            {
+                Directory.CreateDirectory(delPaht);
+            }
+            System.IO.File.Copy(Path.Combine(fullPath, filename), Path.Combine(delPaht, filename));
+            return new ResultModel
+            {
+                Status = true
             };
         }
     }
