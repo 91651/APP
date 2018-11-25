@@ -16,5 +16,11 @@
     <ProjectReference Include="..\APP.Framework\APP.Framework.Identity\APP.Framework.Identity.csproj" />
     <ProjectReference Include="..\APP.Framework\APP.Framework.Security\APP.Framework.Security.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Update="Views\Article\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
 
 </Project>

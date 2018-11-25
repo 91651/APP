@@ -1,0 +1,23 @@
+﻿<link href="~/css/info.css" rel="stylesheet">
+<div class="infosbox">
+    <div class="newsview">
+        <h3 class="news_title">@ViewBag.Article.Title</h3>
+        <div class="bloginfo">
+            <ul>
+                <li class="author">作者：<a href="/">@ViewBag.Article.Author</a></li>
+                <li class="lmname"><a href="/">@ViewBag.Article.ChannelName</a></li>
+                <li class="timer">时间：@ViewBag.Article.Updated</li>
+                <li class="view">@ViewBag.Article.Viewed 人已阅读</li>
+            </ul>
+        </div>
+        <div class="news_about"><strong>简介</strong>@ViewBag.Article.Summary</div>
+        <div class="news_con">
+            @ViewBag.Article.Content
+        </div>
+    </div>
+
+    <div class="nextinfo">
+        <p>上一篇：<a href="/Article/@ViewBag.PrevArticle?.Id">@(ViewBag.PrevArticle?.Title ?? "已经是第一篇") </a></p>
+        <p>下一篇：<a href="/Article/@ViewBag.NextArticle?.Id">@(ViewBag.NextArticle?.Title ?? "已经是最后一篇") </a></p>
+    </div>
+</div>

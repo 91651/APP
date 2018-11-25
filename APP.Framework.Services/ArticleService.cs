@@ -67,7 +67,7 @@ namespace APP.Framework.Services
 
         public ResultModel<ArticleModel> GetArticle(string Id)
         {
-            var entity = _articleRepository.GetAll().AsNoTracking().FirstOrDefault(a => a.Id == Id);
+            var entity = _articleRepository.GetAll().Include(i => i.Channel).AsNoTracking().FirstOrDefault(a => a.Id == Id);
             var channels = new List<string>();
             var cid = entity.ChannelId;
             while (!string.IsNullOrWhiteSpace(cid))
@@ -84,7 +84,28 @@ namespace APP.Framework.Services
                 Data = model
             };
         }
-
+        public ResultModel<ArticleModel> GetPrevArticle(string Id, string channelId)
+        {
+            var article = _articleRepository.GetById(Id);
+            var entity = _articleRepository.GetAll().Where(a => (string.IsNullOrEmpty(channelId) || a.ChannelId == channelId) && a.Updated < article.Updated).OrderByDescending(o => o.Updated).FirstOrDefault();
+            var model = _mapper.Map<ArticleModel>(entity);
+            return new ResultModel<ArticleModel>
+            {
+                Status = entity != null,
+                Data = model
+            };
+        }
+        public ResultModel<ArticleModel> GetNextArticle(string Id, string channelId)
+        {
+            var article = _articleRepository.GetById(Id);
+            var entity = _articleRepository.GetAll().Where(a => (string.IsNullOrEmpty(channelId) || a.ChannelId == channelId) && a.Updated > article.Updated).OrderBy(o => o.Updated).FirstOrDefault();
+            var model = _mapper.Map<ArticleModel>(entity);
+            return new ResultModel<ArticleModel>
+            {
+                Status = entity != null,
+                Data = model
+            };
+        }
         public ResultModel<List<ArticleListModel>> GetArticles(SearchArticleModel model)
         {
             model.Sort = new List<Sort> { new Sort { Field = "Created", Desc = true } };
