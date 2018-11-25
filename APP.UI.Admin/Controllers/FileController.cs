@@ -71,6 +71,7 @@ namespace APP.UI.Admin.Controllers
                 Directory.CreateDirectory(delPaht);
             }
             System.IO.File.Copy(Path.Combine(fullPath, filename), Path.Combine(delPaht, filename));
+            System.IO.File.Delete(Path.Combine(fullPath, filename));
             return new ResultModel
             {
                 Status = true

@@ -144,12 +144,14 @@ export default class ArticleComponent extends Vue {
     _File.uploadImg({ fileName: $file.name, data: $file }).then((r) => {
       if (r.status && r.data) {
         let img = _apiUrl + r.data.path + r.data.name;
-        (this.$refs.mavon as any).$imgUpdateByUrl(pos, img);
+        let mavon = (this.$refs.mavon as any);
+        mavon.$imgUpdateByUrl(pos, img);
+        $file.remoteName = r.data.name;
       }
     });
   }
   private mavonImgDel(pos: any) {
-    // 远程图片删除逻辑
+    _File.delImg(pos[0].remoteName);
   }
 
   private quillEditorChange(value: string) {

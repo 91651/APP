@@ -12,7 +12,7 @@ function loadConfig() {
     }
     return config;
 }
-const appConfig = loadConfig();
+export const appConfig = loadConfig();
 // const apiUrl = process.env.npm_package_devConfig_apiUrl;
 
 export const _apiUrl = appConfig.apiUrl;
