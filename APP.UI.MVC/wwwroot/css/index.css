@@ -21,9 +21,9 @@
 .toppic li span { position: absolute; top: 20px; left: 20px; padding: 6px 10px; background: rgba(54, 144, 207,.8); font-size: 12px; display: block; color: #FFF; border-radius: 3px; }
 .toppic li:hover i { opacity: 1; }
 .toppic li:last-child { margin-top: 16px }
-.r_box { width: 30%; float: right }
+.r_box { width: 29%; float: right }
 .r_box h2 { color: #333; font-size: 14px; line-height: 30px; padding-left: 20px; background: #f8f8f8;    border-bottom: 1px solid #ddd;  }
-.r_box div { background: #fff; margin-bottom: 20px; overflow: hidden ;border: 1px solid #ddd;}
+.r_box div { background: #fff; margin: 10px 0; overflow: hidden ;border: 1px solid #ddd;}
 .r_box div ul { padding: 10px; overflow: hidden }
 .about_me img { width: 100%; border-radius: 10% }
 .about_me p { line-height: 24px; font-size: 14px }
@@ -79,11 +79,11 @@
 .blogs .bloginfo li { float: left; font-size: 12px; padding: 0 0 0 20px; margin: 0 15px 0 0; color: #748594; line-height: 1.5; display: inline-block; }
 .blogs .bloginfo li a { color: #748594; }
 .blogs .bloginfo li a:hover { color: #000 }
-.blogs .bloginfo .author { background: url(../images/auicon.jpg) no-repeat 0 0 }
-.blogs .bloginfo .lmname { background: url(../images/auicon.jpg) no-repeat top -23px left; }
-.blogs .bloginfo .timer { background: url(../images/auicon.jpg) no-repeat top -44px left; }
-.blogs .bloginfo .view { background: url(../images/auicon.jpg) no-repeat top -64px left; }
-.blogs .bloginfo .like { background: url(../images/auicon.jpg) no-repeat top -85px left; }
+.blogs .bloginfo .author { background: url(/image/auicon.jpg) no-repeat 0 0 }
+.blogs .bloginfo .lmname { background: url(/image/auicon.jpg) no-repeat top -23px left; }
+.blogs .bloginfo .timer { background: url(/image/auicon.jpg) no-repeat top -44px left; }
+.blogs .bloginfo .view { background: url(/image/auicon.jpg) no-repeat top -64px left; }
+.blogs .bloginfo .like { background: url(/image/auicon.jpg) no-repeat top -85px left; }
 /*bplist*/
 .bplist { width: 100%; overflow: hidden; display: block; margin-bottom: 20px }
 .bplist li { float: left; width: 32.8%; height: 174px; overflow: hidden; }

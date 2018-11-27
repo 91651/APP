@@ -17,28 +17,36 @@
     <link href="~/css/m.css" rel="stylesheet">
 </head>
 <body>
-    <header class="header-navigation" id="header">
-        <nav>
-            <div class="logo"><a asp-controller="Home">个人博客</a></div>
-            <h2 id="mnavh"><span class="navicon"></span></h2>
-            <ul id="starlist">
-                <li><a asp-controller="Home">网站首页</a></li>
-                <li><a asp-controller="Timeline">时间轴</a></li>
-            </ul>
-            <div class="searchbox">
-                <div id="search_bar" class="search_bar">
-                    <form id="searchform" action="[!--news.url--]e/search/index.php" method="post" name="searchform">
-                        <input class="input" placeholder="想搜点什么呢.." type="text" name="keyboard" id="keyboard">
-                        <input type="hidden" name="show" value="title" />
-                        <input type="hidden" name="tempid" value="1" />
-                        <input type="hidden" name="tbname" value="news">
-                        <input type="hidden" name="Submit" value="搜索" />
-                        <p class="search_ico"> <span></span></p>
-                    </form>
-                </div>
+    <header id="header">
+        <div class="navbar">
+            <div class="foryou">
+                <p class="luck">缘分让我遇到你的第@((DateTime.Now - DateTime.Parse("2016-8-19")).Days + 1) 天！</p>
             </div>
-        </nav>
+        </div>
+        <div class="header-navigation">
+            <nav>
+                <div class="logo"><a asp-controller="Home">个人博客</a></div>
+                <h2 id="mnavh"><span class="navicon"></span></h2>
+                <ul id="starlist">
+                    <li><a asp-controller="Home">网站首页</a></li>
+                    <li><a asp-controller="Timeline">时间轴</a></li>
+                </ul>
+                <div class="searchbox">
+                    <div id="search_bar" class="search_bar">
+                        <form id="searchform" action="[!--news.url--]e/search/index.php" method="post" name="searchform">
+                            <input class="input" placeholder="想搜点什么呢.." type="text" name="keyboard" id="keyboard">
+                            <input type="hidden" name="show" value="title" />
+                            <input type="hidden" name="tempid" value="1" />
+                            <input type="hidden" name="tbname" value="news">
+                            <input type="hidden" name="Submit" value="搜索" />
+                            <p class="search_ico"> <span></span></p>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </div>
     </header>
+
     <article>
         <main id="pjax-container">
             @RenderBody()
@@ -67,6 +75,10 @@
         <p>Copyright ©2018</p>
     </footer>
     <a href="#" class="cd-top">Top</a>
+    <script lang="love">
+console.info("%c%s", "color: red; background: yellow; font-size: 12px;",
+    "缘分让我遇到你的第@((DateTime.Now - DateTime.Parse("2016-8-19")).Days + 1) 天！"
+            )</script>
     <environment names="Development">
         <script src="~/js/lib.min.js" asp-append-version="true"></script>
     </environment>
