@@ -10,7 +10,7 @@ import {
   ArticleModel, ArticleListModel, SearchArticleModel,
   Cascader, Result, ChannelModel
 } from '@/api-client/client';
-import { _apiUrl, _Article, _File } from '@/api-client';
+import { _Article, _File } from '@/api-client';
 import { StateTransformer } from 'vuex-class/lib/bindings';
 
 @Component({
@@ -143,7 +143,7 @@ export default class ArticleComponent extends Vue {
   private mavonImgAdd(pos: any, $file: any) {
     _File.uploadImg({ fileName: $file.name, data: $file }).then((r) => {
       if (r.status && r.data) {
-        let img = _apiUrl + r.data.path + r.data.name;
+        let img = '' + r.data.path + r.data.name;
         let mavon = (this.$refs.mavon as any);
         mavon.$imgUpdateByUrl(pos, img);
         $file.remoteName = r.data.name;

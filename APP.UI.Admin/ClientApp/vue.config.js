@@ -17,8 +17,15 @@ module.exports = {
     port: 8010,
     //https: false,
     //hotOnly: false,
-    //proxy: null, // string | Object
-    //before: app => {}
+    proxy: {
+      "static": {
+        target: "http://localhost:56833",
+        pathRewrite: {
+          "./static": "/asaff"
+        }
+      }
+      //before: app => {}
+    }
   },
   configureWebpack: {
     plugins: [
