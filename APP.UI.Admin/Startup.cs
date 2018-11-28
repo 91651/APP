@@ -4,6 +4,7 @@ using APP.DbAccess.Infrastructure;
 using APP.DbAccess.Repositories;
 using APP.Framework.Identity;
 using APP.Framework.Services;
+using AspNetCore.VueCli;
 using AutoMapper;
 using BC.Microsoft.DependencyInjection.Plus;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -112,16 +113,17 @@ namespace APP.UI.Admin
                     document.Info.Title = "APP";
                 };
             });
-            app.UseSwaggerUi3(settings => settings.DocumentPath= "{documentName}/swagger.json");
-            //app.UseSpa(spa =>
-            //{
-            //    spa.Options.SourcePath = "ClientApp";
-            //    if (env.IsDevelopment())
-            //    {
-            //        //spa.UseProxyToSpaDevelopmentServer("http://localhost:8010");
-            //        spa.UseVueDevelopmentServer(npmScript: "serve"); // 目前没有针对Vue的CliServer https://github.com/aspnet/JavaScriptServices/issues/1712
-            //    }
-            //});
+            app.UseSwaggerUi3(settings => settings.DocumentPath = "{documentName}/swagger.json");
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+                if (env.IsDevelopment())
+                {
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:8010");
+                    spa.UseVueDevelopmentServer(npmScript: "serve"); // 目前没有针对Vue的CliServer https://github.com/aspnet/JavaScriptServices/issues/1712
+                }
+            });
         }
     }
 }
