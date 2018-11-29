@@ -1,7 +1,6 @@
+var appConfig = require('./src/app-config.json');
 var path = require('path');
-
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-
 
 module.exports = {
   baseUrl: "/",
@@ -18,11 +17,8 @@ module.exports = {
     //https: false,
     //hotOnly: false,
     proxy: {
-      "static": {
-        target: "http://localhost:56833",
-        pathRewrite: {
-          "./static": "/asaff"
-        }
+      "^/static/": {
+        target: appConfig.apiUrl
       }
       //before: app => {}
     }

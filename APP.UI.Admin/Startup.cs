@@ -120,8 +120,9 @@ namespace APP.UI.Admin
                 spa.Options.SourcePath = "ClientApp";
                 if (env.IsDevelopment())
                 {
-                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:8010");
-                    spa.UseVueDevelopmentServer(npmScript: "serve"); // 目前没有针对Vue的CliServer https://github.com/aspnet/JavaScriptServices/issues/1712
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8010");
+                    //自动编译启动Vue
+                    //spa.UseVueDevelopmentServer(npmScript: "serve"); // 目前没有针对Vue的CliServer https://github.com/aspnet/JavaScriptServices/issues/1712
                 }
             });
         }

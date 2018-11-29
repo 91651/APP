@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using APP.Framework.Services;
 using BC.Microsoft.DependencyInjection.Plus;
 using AutoMapper;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace APP.UI.MVC
 {
@@ -62,14 +63,14 @@ namespace APP.UI.MVC
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            //重定向文件路径
+            app.UseRewriter(new RewriteOptions().AddRewrite("^static/(.*)", $"{Configuration["AppSettings:UploadPath"]}/$1", true));
             app.UseStaticFiles();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "areaRoute",
                     template: "{area:exists}/{controller=Home}/{action=Index}");
-                routes.MapRoute(
-                    name: "default",
+                routes.MapRoute(name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
