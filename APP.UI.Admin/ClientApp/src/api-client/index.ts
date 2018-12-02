@@ -2,7 +2,7 @@
 
 function loadConfig() {
     const xmlHttp = new XMLHttpRequest();
-    xmlHttp.open('GET', '/app-config.json', false);
+    xmlHttp.open('GET', process.env.BASE_URL + '/app-config.json', false);
     xmlHttp.send(null);
 
     let config: any = null;
