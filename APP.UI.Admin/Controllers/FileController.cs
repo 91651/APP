@@ -44,7 +44,7 @@ namespace APP.UI.Admin.Controllers
                 return new ResultModel<FileModel>
                 {
                     Status = true,
-                    Data = new FileModel { Name = filename, Path = uploadPath }
+                    Data = new FileModel { Name = filename, Path = "/" + uploadPath }
                 };
             }
             return new ResultModel<FileModel>

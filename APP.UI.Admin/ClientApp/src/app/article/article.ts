@@ -96,7 +96,16 @@ export default class ArticleComponent extends Vue {
     form.validate((valid: any) => {
       if (valid) {
         if (this.article.id) {
-          _Article.updateArticle(this.article);
+          _Article.updateArticle(this.article).then(r => {
+            if (r.status) {
+              this.articleForm.showDrawer = false;
+              this.article = new ArticleModel();
+              this.getArticles();
+              this.$Notice.success({
+                title: '保存成功。'
+              });
+            }
+          });
         } else {
           _Article.addArticle(this.article).then(r => {
             if (r.status) {
