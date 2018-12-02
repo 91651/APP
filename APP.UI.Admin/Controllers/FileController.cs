@@ -28,7 +28,7 @@ namespace APP.UI.Admin.Controllers
             {
                 var path = _hostingEnvironment.WebRootPath;
                 var uploadPath = Configuration["AppSettings:ImgUploadPath"]; //避免路径敏感，使用"/"
-                var fullPath = Path.GetFullPath(path + uploadPath);
+                var fullPath = Path.GetFullPath(Path.Combine(path, uploadPath));
                 var filename = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}{Path.GetExtension(file.FileName)}";
                 if (!Directory.Exists(fullPath))
                 {
@@ -64,7 +64,7 @@ namespace APP.UI.Admin.Controllers
         {
             var path = _hostingEnvironment.WebRootPath;
             var uploadPath = Configuration["AppSettings:ImgUploadPath"];
-            var fullPath = Path.GetFullPath(path + uploadPath);
+            var fullPath = Path.GetFullPath(Path.Combine(path, uploadPath));
             var delPaht = Path.Combine(fullPath, "del");
             if (!Directory.Exists(delPaht))
             {

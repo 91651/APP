@@ -14,6 +14,9 @@ using APP.Framework.Services;
 using BC.Microsoft.DependencyInjection.Plus;
 using AutoMapper;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.Extensions.FileProviders;
+using System;
+using System.IO;
 
 namespace APP.UI.MVC
 {
@@ -63,9 +66,17 @@ namespace APP.UI.MVC
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            
+            var path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), Configuration["AppSettings:UploadPath"]));
             //重定向文件路径
-            app.UseRewriter(new RewriteOptions().AddRewrite("^static/(.*)", $"{Configuration["AppSettings:UploadPath"]}/$1", true));
+            //app.UseRewriter(new RewriteOptions() /*{ StaticFileProvider = Environment.ContentRootFileProvider }*/.AddRewrite("^static/(.*)", $"{Configuration["AppSettings:UploadPath"]}/$1", true));
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                RequestPath = "/static",
+                FileProvider = new PhysicalFileProvider(path)
+            }
+                );
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "areaRoute",
