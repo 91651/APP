@@ -7,6 +7,7 @@ Vue.use(Router);
 
 const router: Router = new Router({
   mode: 'history',
+  base: process.env.BASE_URL,
   routes: [
     {
       path: '/signin',
@@ -47,10 +48,10 @@ router.beforeEach((to: any, from: any, next: any) => {
   if (isAuth) {
     next();
   } else {
-    if (to.path === '/signIn') { // 这就是跳出死循环的关键
+    if (to.name === 'signin') { // 这就是跳出死循环的关键
       next();
     } else {
-      next('/signIn');
+      next('signin');
     }
   }
 })

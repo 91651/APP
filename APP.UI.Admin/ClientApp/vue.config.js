@@ -3,7 +3,7 @@ var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  baseUrl: "/",
+  baseUrl: '',
   chainWebpack: config => {
     config.plugins.delete('fork-ts-checker'); // Vue Cli 3.0后，ts分离到独立文件会报错。 https://github.com/vuejs/vue-cli/issues/1104
     config.module
@@ -17,7 +17,7 @@ module.exports = {
     //https: false,
     //hotOnly: false,
     proxy: {
-      "^/static/": {
+      '^/static/': {
         target: appConfig.apiUrl
       }
       //before: app => {}

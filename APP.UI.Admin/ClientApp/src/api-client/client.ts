@@ -326,7 +326,7 @@ export class AuthClient extends BaseClient {
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
-            method: "GET",
+            method: "POST",
             headers: {
                 "Accept": "application/json"
             }
@@ -355,40 +355,6 @@ export class AuthClient extends BaseClient {
             });
         }
         return Promise.resolve<AuthModel>(<any>null);
-    }
-
-    getUser(): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/api/Auth/GetUser";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "application/json"
-            }
-        };
-
-        return this.transformOptions(options_).then(transformedOptions_ => {
-            return this.http.fetch(url_, transformedOptions_);
-        }).then((_response: Response) => {
-            return this.processGetUser(_response);
-        });
-    }
-
-    protected processGetUser(response: Response): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return response.blob().then(blob => { return { fileName: fileName, data: blob, status: status, headers: _headers }; });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<FileResponse>(<any>null);
     }
 }
 
@@ -620,6 +586,7 @@ export class ArticleModel implements IArticleModel {
     userId?: string;
     ownerId?: string;
     channelId?: string[];
+    channelName?: string;
     author?: string;
     editor: number;
     content?: string;
@@ -651,6 +618,7 @@ export class ArticleModel implements IArticleModel {
                 for (let item of data["channelId"])
                     this.channelId.push(item);
             }
+            this.channelName = data["channelName"];
             this.author = data["author"];
             this.editor = data["editor"];
             this.content = data["content"];
@@ -682,6 +650,7 @@ export class ArticleModel implements IArticleModel {
             for (let item of this.channelId)
                 data["channelId"].push(item);
         }
+        data["channelName"] = this.channelName;
         data["author"] = this.author;
         data["editor"] = this.editor;
         data["content"] = this.content;
@@ -702,6 +671,7 @@ export interface IArticleModel {
     userId?: string;
     ownerId?: string;
     channelId?: string[];
+    channelName?: string;
     author?: string;
     editor: number;
     content?: string;
@@ -1335,13 +1305,6 @@ export interface IUserModel {
 export interface FileParameter {
     data: any;
     fileName: string;
-}
-
-export interface FileResponse {
-    data: Blob;
-    status: number;
-    fileName?: string;
-    headers?: { [name: string]: any };
 }
 
 export class SwaggerException extends Error {

@@ -28,7 +28,7 @@ namespace APP.UI.Admin.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpGet, AllowAnonymous]
+        [HttpPost, AllowAnonymous]
         public async Task<ActionResult<AuthModel>> SignIn(string name, string pwd)
         {
             var result = new AuthModel();
@@ -67,13 +67,6 @@ namespace APP.UI.Admin.Controllers
             }
             //return Unauthorized();
             return result;
-        }
-
-        [HttpGet, Route("GetUser")]
-        public ActionResult GetUser()
-        {
-            var test = _userManager.GetUserId(_signInManager.Context.User);
-            return Ok();
         }
     }
 }
