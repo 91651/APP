@@ -67,14 +67,13 @@ namespace APP.UI.MVC
             app.UseHttpsRedirection();
             app.UseAuthentication();
             
-            var path = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), Configuration["AppSettings:UploadPath"]));
             //重定向文件路径
             //app.UseRewriter(new RewriteOptions() /*{ StaticFileProvider = Environment.ContentRootFileProvider }*/.AddRewrite("^static/(.*)", $"{Configuration["AppSettings:UploadPath"]}/$1", true));
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions()
             {
                 RequestPath = "/static",
-                FileProvider = new PhysicalFileProvider(path)
+                FileProvider = new PhysicalFileProvider(Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), Configuration["AppSettings:UploadPath"])))
             }
                 );
             app.UseMvc(routes =>
