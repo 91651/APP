@@ -16,25 +16,25 @@
     }
   },
   "dependencies": {
-    "iview": "^3.1.4",
+    "iview": "^3.1.5",
     "mavon-editor": "^2.6.17",
     "vue": "^2.5.17",
     "vue-moment": "^4.0.0",
-    "vue-property-decorator": "^7.0.0",
+    "vue-property-decorator": "^7.2.0",
     "vue-quill-editor": "^3.0.6",
-    "vue-router": "^3.0.1",
+    "vue-router": "^3.0.2",
     "vuex": "^3.0.1",
     "vuex-class": "^0.3.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.1.0",
-    "@vue/cli-plugin-typescript": "^3.1.0",
-    "@vue/cli-service": "^3.1.0",
+    "@vue/cli-plugin-babel": "^3.2.0",
+    "@vue/cli-plugin-typescript": "^3.2.0",
+    "@vue/cli-service": "^3.2.0",
     "copy-webpack-plugin": "^4.6.0",
-    "less": "^3.8.0",
+    "less": "^3.9.0",
     "less-loader": "^4.1.0",
-    "nswag": "^11.20.1",
-    "typescript": "^3.0.1",
+    "nswag": "^12.0.4",
+    "typescript": "^3.2.1",
     "vue-template-compiler": "^2.5.17"
   }
 }
