@@ -77,16 +77,23 @@ export default class ArticleComponent extends Vue {
       .then(r => { item.children = r; item.loading = false; callback(); });
   }
   private addChannel() {
-    if (this.channel && this.article.channelId) {
+    if (this.channel) {
+      this.article.channelId = this.article.channelId || new Array<string>();
+      let channels = this.article.channelId;
       this.channel.parentId = this.article.channelId.slice(-1)[0];
       _Article.addChannel(this.channel).then(r => {
-        let channels = this.article.channelId || new Array<string>();
-        let currItem = this.findCascaderItemByValue(channels);
-        this.getChildrenChannels(currItem, () => {
-          if (r.status && r.data) {
-            channels.push(r.data);
+        if (r.status && r.data) {
+          let channel = r.data;
+          if (!channels.length) {
+            this.getChannels();
+            channels.push(channel);
+          } else {
+            const currItem = this.findCascaderItemByValue(channels);
+            this.getChildrenChannels(currItem, () => {
+              channels.push(channel);
+             });
           }
-        });
+        }
       });
     }
   }
