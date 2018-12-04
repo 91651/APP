@@ -36,5 +36,10 @@
     "nswag": "^12.0.4",
     "typescript": "^3.2.1",
     "vue-template-compiler": "^2.5.17"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
