@@ -135,11 +135,7 @@ export default class ArticleComponent extends Vue {
       if (values.indexOf(f) === 0) {
         item = channels.filter(m => m.value === f)[0]
       } else {
-        if (values.indexOf(f) === values.length - 1) {
-          item = item.children && item.children.filter(m => m.value === f)[0] || new Cascader();
-        } else {
-          item = item.children && item.children.filter(m => m.value === f)[0] || new Cascader();
-        }
+        item = item.children && item.children.filter(m => m.value === f)[0] || new Cascader();
       }
     });
     return item;
@@ -161,7 +157,9 @@ export default class ArticleComponent extends Vue {
       if (r.status && r.data) {
         let img = '' + r.data.path + r.data.name;
         let mavon = (this.$refs.mavon as any);
+        //mavon.$refs.toolbar_left.img_file[pos][1] = img;
         mavon.$imgUpdateByUrl(pos, img);
+        mavon.$img2Url(pos, img);
         $file.remoteName = r.data.name;
       }
     });
