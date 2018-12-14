@@ -144,6 +144,15 @@ export default class ArticleComponent extends Vue {
   // todo
 
   // 编辑器逻辑
+  private editorSwitchChange(): void {
+    this.article.editor = this.article.editor ? 0 : 1;
+    // 重新渲染UI，否则编辑器无法切换
+    this.$forceUpdate();
+    // 解决MarkDown编辑器Bug
+    this.$nextTick(() => {
+      (this.$refs.mavon as any).$refs.toolbar_left.img_file = [];
+    });
+  }
   private editorSwitch(isDisabled: boolean) {
     this.articleForm.disabledEditorSwitch = isDisabled;
     this.articleForm.disabledEditorTooltip = !isDisabled;
@@ -157,8 +166,6 @@ export default class ArticleComponent extends Vue {
       if (r.status && r.data) {
         let img = '' + r.data.path + r.data.name;
         let mavon = (this.$refs.mavon as any);
-        //mavon.$refs.toolbar_left.img_file[pos][1] = img;
-        mavon.$imgUpdateByUrl(pos, img);
         mavon.$img2Url(pos, img);
         $file.remoteName = r.data.name;
       }
