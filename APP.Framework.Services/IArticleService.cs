@@ -7,10 +7,8 @@ namespace APP.Framework.Services
     public interface IArticleService
     {
         ResultModel<string> AddArticle(ArticleModel model);
-        ResultModel DelArticle(string Id);
-        ResultModel<ArticleModel> GetArticle(string Id);
-        ResultModel<ArticleModel> GetPrevArticle(string channelId, string Id);
-        ResultModel<ArticleModel> GetNextArticle(string channelId, string Id);
+        ResultModel DelArticle(string id);
+        ResultModel<ArticleModel> GetArticle(string id);
         ResultModel UpdateArticle(ArticleModel model);
         ResultModel<List<ArticleListModel>> GetArticles(SearchArticleModel model);
         ResultModel<string> AddChannel(ChannelModel model);

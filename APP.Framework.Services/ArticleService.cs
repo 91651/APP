@@ -41,9 +41,9 @@ namespace APP.Framework.Services
             };
         }
 
-        public ResultModel DelArticle(string Id)
+        public ResultModel DelArticle(string id)
         {
-            var entity = _articleRepository.GetById(Id);
+            var entity = _articleRepository.GetById(id);
             entity.State = 0;
             var rows = _articleRepository.SaveChanges();
             return new ResultModel
@@ -65,9 +65,9 @@ namespace APP.Framework.Services
             };
         }
 
-        public ResultModel<ArticleModel> GetArticle(string Id)
+        public ResultModel<ArticleModel> GetArticle(string id)
         {
-            var entity = _articleRepository.GetAll().Include(i => i.Channel).AsNoTracking().FirstOrDefault(a => a.Id == Id);
+            var entity = _articleRepository.GetAll().Include(i => i.Channel).AsNoTracking().FirstOrDefault(a => a.Id == id);
             var channels = new List<string>();
             var cid = entity.ChannelId;
             while (!string.IsNullOrWhiteSpace(cid))
@@ -78,28 +78,6 @@ namespace APP.Framework.Services
             var model = _mapper.Map<ArticleModel>(entity);
             channels.Reverse();
             model.ChannelId = channels.ToArray();
-            return new ResultModel<ArticleModel>
-            {
-                Status = entity != null,
-                Data = model
-            };
-        }
-        public ResultModel<ArticleModel> GetPrevArticle(string Id, string channelId)
-        {
-            var article = _articleRepository.GetById(Id);
-            var entity = _articleRepository.GetAll().Where(a => (string.IsNullOrEmpty(channelId) || a.ChannelId == channelId) && a.Updated < article.Updated).OrderByDescending(o => o.Updated).FirstOrDefault();
-            var model = _mapper.Map<ArticleModel>(entity);
-            return new ResultModel<ArticleModel>
-            {
-                Status = entity != null,
-                Data = model
-            };
-        }
-        public ResultModel<ArticleModel> GetNextArticle(string Id, string channelId)
-        {
-            var article = _articleRepository.GetById(Id);
-            var entity = _articleRepository.GetAll().Where(a => (string.IsNullOrEmpty(channelId) || a.ChannelId == channelId) && a.Updated > article.Updated).OrderBy(o => o.Updated).FirstOrDefault();
-            var model = _mapper.Map<ArticleModel>(entity);
             return new ResultModel<ArticleModel>
             {
                 Status = entity != null,

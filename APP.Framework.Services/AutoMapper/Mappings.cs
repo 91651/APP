@@ -20,6 +20,7 @@ namespace APP.Framework.Services.AutoMapper
                 .ForMember(m => m.ChannelName, opt => opt.MapFrom(s => s.Channel.Title))
                 .ForMember(m => m.UserName, opt => opt.MapFrom(s => s.User.UserName));
             CreateMap<User, UserModel>();
+            CreateMap<Channel, ChannelModel>();
         }
 
         //以下代码在本项目中暂未用到

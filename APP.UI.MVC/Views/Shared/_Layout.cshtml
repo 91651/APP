@@ -51,25 +51,7 @@
         <main id="pjax-container">
             @RenderBody()
         </main>
-        <aside class="r_box">
-            <div class="about_me">
-                <h2>博主简介</h2>
-                <ul>
-                    <i><img src="~/image/me.jpg"></i>
-                    <p><b>博主</b>，一个简单普通的代码工作者，目前供职于BC。 本站由本人独自开发，功能以及体验正逐步完善。 同时希望能得到更多的建议。</p>
-                </ul>
-            </div>
-            <div class="fenlei">
-                <h2>文章分类</h2>
-                <ul>
-                    <li><a href="/">学无止境（33）</a></li>
-                    <li><a href="/">日记（19）</a></li>
-                    <li><a href="/">慢生活（520）</a></li>
-                    <li><a href="/">美文欣赏（40）</a></li>
-                </ul>
-            </div>
-
-        </aside>
+        @await Html.PartialAsync("RightSide")
     </article>
     <footer>
         <p>Copyright ©2018</p>

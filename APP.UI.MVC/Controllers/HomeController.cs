@@ -12,10 +12,12 @@ namespace APP.UI.MVC.Controllers
     public class HomeController : Controller
     {
         private readonly IArticleService _articleService;
+        private readonly IBlogService _blogService;
 
-        public HomeController(IArticleService articleService)
+        public HomeController(IArticleService articleService, IBlogService blogService)
         {
             _articleService = articleService;
+            _blogService = blogService;
         }
 
         [Pjax]
@@ -25,6 +27,11 @@ namespace APP.UI.MVC.Controllers
             search.Take = 20;
             var articles = _articleService.GetArticles(search).Data;
             ViewBag.Articles = articles;
+            return View();
+        }
+        public ActionResult RightSide()
+        {
+            ViewBag.Channels = _blogService.GetChannels();
             return View();
         }
     }

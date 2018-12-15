@@ -8,7 +8,7 @@
         <div class="bloginfo">
             <ul>
                 <li class="author">作者：<a href="/">@ViewBag.Article.Author</a></li>
-                <li class="lmname"><a href="/">@ViewBag.Article.ChannelName</a></li>
+                <li class="lmname"><a href="/channel/@ViewBag.Article.ChannelId[ViewBag.Article.ChannelId.Length - 1]">@ViewBag.Article.ChannelName</a></li>
                 <li class="timer">时间：@ViewBag.Article.Updated</li>
                 <li class="view">@ViewBag.Article.Viewed 人已阅读</li>
             </ul>
