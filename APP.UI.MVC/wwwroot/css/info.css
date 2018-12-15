@@ -9,8 +9,6 @@
 .infosbox .bloginfo li{ float:left; margin-right:20px}
 .news_about { color: #888888; border: 1px solid #F3F3F3; padding: 10px; margin: 20px auto 15px auto; line-height: 23px; background: none repeat 0 0 #F6F6F6; }
 .news_about strong { color: #38485A; font-weight: 400 !important; font-size: 13px; padding-right: 8px; }
-.news_content { line-height: 24px; font-size: 14px; }
-.news_content p { overflow: hidden; padding-bottom: 4px; padding-top: 6px; word-wrap: break-word; }
 .tags a { background: #F4650E; padding: 3px 8px; margin: 0 5px 0 0; color: #fff; display:block ; float:left}
 .tags { width:100%; overflow:hidden; clear:both}
 .infosbox img { max-width: 650px; height: auto; width:100% }

@@ -1,4 +1,6 @@
 ﻿<link href="~/css/info.css" rel="stylesheet">
+@*为Markdown加载样式*@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet" />
 <div class="infosbox">
     <div class="newsview">
         <h3 class="news_title">@ViewBag.Article.Title</h3>
@@ -11,7 +13,7 @@
             </ul>
         </div>
         <div class="news_about"><strong>简介</strong>@ViewBag.Article.Summary</div>
-        <div class="news_con">
+        <div class="@(ViewBag.Article.Editor == 1 ? "markdown-body" : "" )">
             @Html.Raw(@ViewBag.Article.Content)
         </div>
     </div>

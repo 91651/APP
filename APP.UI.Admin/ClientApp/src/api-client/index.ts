@@ -6,7 +6,7 @@ export class AppConfig {
 
 function loadConfig() {
     const xmlHttp = new XMLHttpRequest();
-    xmlHttp.open('GET', process.env.BASE_URL + '/app-config.json', true);
+    xmlHttp.open('GET', process.env.BASE_URL + '/app-config.json', false);
     xmlHttp.send(null);
     if (xmlHttp && xmlHttp.status === 200) {
         const response = xmlHttp.responseText;
@@ -14,6 +14,7 @@ function loadConfig() {
     }
 }
 export let appConfig = new AppConfig();
+loadConfig();
 
 export const _Auth = new AuthClient(appConfig.apiUrl);
 export const _Article = new ArticleClient(appConfig.apiUrl);
