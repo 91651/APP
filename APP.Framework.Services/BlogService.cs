@@ -59,5 +59,12 @@ namespace APP.Framework.Services
             var list = _mapper.Map<List<ChannelModel>>(channels);
             return list;
         }
+        public int UpdateArticleViewed(string id)
+        {
+            var article = _articleRepository.GetById(id);
+            article.Viewed++;
+            _articleRepository.SaveChanges();
+            return article.Viewed;
+        }
     }
 }

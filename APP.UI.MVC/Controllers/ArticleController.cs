@@ -28,6 +28,7 @@ namespace APP.UI.MVC.Controllers
             var channelId = article.ChannelId.Last();
             ViewBag.PrevArticle = _blogService.GetPrevArticle(id, channelId);
             ViewBag.NextArticle = _blogService.GetNextArticle(id, channelId);
+            _blogService.UpdateArticleViewed(id);
             return View();
         }
 
