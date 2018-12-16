@@ -33,8 +33,13 @@
                         title: '创建时间',
                         key: 'created',
                         render: (h,params)=>{
-                            return h('div',
-                                $moment(params.row.created).add(1, 'day') < new Date()  && $moment(params.row.created).format('LL') ||  $moment(params.row.created).startOf('minute').fromNow()
+                            created = new Date(params.row.created);
+                            return h('Time',{
+                                props: {
+                                        time: params.row.created,
+                                        type: created.setDate(created.getDate() + 1) < new Date() ? 'datetime': 'relative'
+                                    }
+                                }
                             )
                         }
                     },

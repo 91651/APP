@@ -10,6 +10,5 @@ declare module '*.vue' {
     export default iView;
 }*/
 declare module '*.jpg'
-declare module 'vue-moment'
 declare module 'mavon-editor'
 declare module 'vue-quill-editor'

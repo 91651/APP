@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using NJsonSchema.Annotations;
 
 namespace APP.UI.Admin.Controllers
 {
@@ -22,6 +23,7 @@ namespace APP.UI.Admin.Controllers
         }
 
         [HttpPost, Route("UploadImg")]
+        [return: NotNull]
         public ActionResult<ResultModel<FileModel>> UploadImg(IFormFile file)
         {
             if (file != null)
@@ -60,6 +62,7 @@ namespace APP.UI.Admin.Controllers
         /// <param name="filename"></param>
         /// <returns></returns>
         [HttpGet, Route("DelImg")]
+        [return: NotNull]
         public ActionResult<ResultModel> DelImg(string filename)
         {
             var path = _hostingEnvironment.WebRootPath;

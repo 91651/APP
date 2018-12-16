@@ -1,18 +1,15 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { mavonEditor } from 'mavon-editor';
-import 'mavon-editor/dist/css/index.css'
+import 'mavon-editor/dist/css/index.css';
 import { quillEditor } from 'vue-quill-editor';
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
-
 import './article.less';
 import {
   ArticleModel, ArticleListModel, SearchArticleModel,
   Cascader, Result, ChannelModel
 } from '@/api-client/client';
 import { _Article, _File } from '@/api-client';
-import { StateTransformer } from 'vuex-class/lib/bindings';
-
 @Component({
   components: {
     mavonEditor,
@@ -21,9 +18,8 @@ import { StateTransformer } from 'vuex-class/lib/bindings';
 })
 
 export default class ArticleComponent extends Vue {
-  private $moment: any;
   private articleForm: any = { showDrawer: false, title: '', disabledEditorSwitch: false, disabledEditorTooltip: true };
-  private articles: Result<ArticleListModel[]> = new Result<ArticleListModel[]>();
+  private articles?: Result<ArticleListModel[]> = new Result<ArticleListModel[]>();
   private serach: SearchArticleModel = new SearchArticleModel();
   private article: ArticleModel = new ArticleModel();
   private channel: ChannelModel = new ChannelModel();
@@ -42,8 +38,11 @@ export default class ArticleComponent extends Vue {
   // 交互逻辑
   private getArticles() {
     this.serach.take = this.serach.take || 10;
-    this.serach.createdDate = this.serach.createdDate
-      && new Date(this.$moment(this.serach.createdDate).format('YYYY-MM-DD'));
+    debugger;
+    if (!!this.serach.createdDate) {
+      let date = new Date(this.serach.createdDate);
+      this.serach.createdDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    }
     _Article.getArticles(this.serach).then(r => this.articles = r);
   }
   private editArticle(id: string) {

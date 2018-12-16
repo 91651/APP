@@ -17,6 +17,7 @@
     "no-consecutive-blank-lines": false,
     "trailing-comma": false,
     "prefer-const":false, //检测let到const
-    "arrow-parens": false //检测箭头函数参数括号
+    "arrow-parens": false, //检测箭头函数参数括号
+    "no-angle-bracket-type-assertion": false //类型断言必须使用 as
   }
 }

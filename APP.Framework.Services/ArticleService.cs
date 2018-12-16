@@ -100,9 +100,9 @@ namespace APP.Framework.Services
             {
                 ex = ex.And(t => t.User.UserName.Contains(model.UserName));
             }
-            if (model.CreatedDate != null)
+            if (!string.IsNullOrWhiteSpace(model.CreatedDate))
             {
-                var createdDate = model.CreatedDate?.Date;
+                DateTime.TryParse(model.CreatedDate, out var createdDate);
                 ex = ex.And(t => t.Created.Date == createdDate);
             }
             var users = _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Where(ex).ToDataSourceResult(model);

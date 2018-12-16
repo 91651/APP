@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using NJsonSchema.Annotations;
 
 namespace APP.UI.Admin.Controllers
 {
@@ -29,6 +30,7 @@ namespace APP.UI.Admin.Controllers
         }
 
         [HttpPost, AllowAnonymous]
+        [return: NotNull]
         public async Task<ActionResult<AuthModel>> SignIn(string name, string pwd)
         {
             var result = new AuthModel();
