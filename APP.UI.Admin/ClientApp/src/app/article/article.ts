@@ -1,4 +1,4 @@
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { mavonEditor } from 'mavon-editor';
 import 'mavon-editor/dist/css/index.css';
 import { quillEditor } from 'vue-quill-editor';
@@ -7,7 +7,7 @@ import 'quill/dist/quill.snow.css';
 import './article.less';
 import {
   ArticleModel, ArticleListModel, SearchArticleModel,
-  Cascader, Result, ChannelModel
+  Cascader, ChannelModel
 } from '@/api-client/client';
 import { _Article, _File } from '@/api-client';
 @Component({
