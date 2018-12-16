@@ -8,10 +8,10 @@ namespace APP.DbAccess.Entities
     public class Channel
     {
         [Key]
-        [MaxLength(32)]
+        [MaxLength(40)]
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        [MaxLength(32)]
+        [MaxLength(40)]
         public string ParentId { get; set; }
 
         [MaxLength(255)]

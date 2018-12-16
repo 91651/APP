@@ -16,10 +16,10 @@ namespace APP.DbAccess.Entities
         where TKey : IEquatable<TKey>
     {
         [Key]
-        [MaxLength(32)]
+        [MaxLength(40)]
         public TKey Id { get; set; }
 
-        [MaxLength(32)]
+        [MaxLength(40)]
         public override TKey UserId { get; set; }
 
         [MaxLength(255)]

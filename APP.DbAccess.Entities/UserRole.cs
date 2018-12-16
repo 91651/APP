@@ -16,16 +16,16 @@ namespace APP.DbAccess.Entities
         where TKey : IEquatable<TKey>
     {
         [Key]
-        [MaxLength(32)]
+        [MaxLength(40)]
         public TKey Id { get; set; }
 
-        [MaxLength(32)]
+        [MaxLength(40)]
         public override TKey UserId { get; set; }
 
         [ForeignKey("UserId")]
         public User<TKey> User { get; set; }
 
-        [MaxLength(32)]
+        [MaxLength(40)]
         public override TKey RoleId { get; set; }
 
         [ForeignKey("RoleId")]

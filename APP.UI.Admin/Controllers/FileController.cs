@@ -1,5 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using APP.Framework.Services;
 using APP.Framework.Services.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,13 +16,15 @@ namespace APP.UI.Admin.Controllers
     [ApiController]
     public class FileController : Controller
     {
-        private IHostingEnvironment _hostingEnvironment;
-        public IConfiguration Configuration { get; }
+        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IConfiguration _configuration;
+        private readonly IFileServicer _fileServicer;
 
-        public FileController(IHostingEnvironment hostingEnvironment, IConfiguration configuration)
+        public FileController(IHostingEnvironment hostingEnvironment, IConfiguration configuration, IFileServicer fileServicer)
         {
             _hostingEnvironment = hostingEnvironment;
-            Configuration = configuration;
+            _configuration = configuration;
+            _fileServicer = fileServicer;
         }
 
         [HttpPost, Route("UploadImg")]
@@ -28,25 +33,42 @@ namespace APP.UI.Admin.Controllers
         {
             if (file != null)
             {
-                var path = _hostingEnvironment.WebRootPath;
-                var uploadPath = Configuration["AppSettings:ImgUploadPath"]; //避免路径敏感，使用"/"
-                var fullPath = Path.GetFullPath(Path.Combine(path, uploadPath));
-                var filename = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}{Path.GetExtension(file.FileName)}";
-                if (!Directory.Exists(fullPath))
+                var model = new FileModel();
+                using (var ms = new MemoryStream())
                 {
-                    Directory.CreateDirectory(fullPath);
+                    file.CopyTo(ms);
+                    var md5 = default(string);
+                    using (var _md5 = MD5.Create())
+                    {
+                        md5 = string.Join("", _md5.ComputeHash(ms.ToArray()).Select(x => x.ToString("X2")));
+                    }
+                    var existFile = _fileServicer.GetFileByMd5(md5);
+                    if (existFile != null)
+                    {
+                        existFile.OwnerId = string.Empty;
+                        model = existFile;
+                    }
+                    else
+                    {
+                        var path = _hostingEnvironment.WebRootPath;
+                        var uploadPath = _configuration["AppSettings:ImgUploadPath"]; //避免路径敏感，使用"/"
+                        var fullPath = Path.GetFullPath(Path.Combine(path, uploadPath));
+                        var filename = $"{DateTime.Now.ToString("yyyyMMddHHmmss")}{Path.GetExtension(file.FileName)}";
+                        if (!Directory.Exists(fullPath))
+                        {
+                            Directory.CreateDirectory(fullPath);
+                        }
+                        System.IO.File.WriteAllBytes(Path.Combine(fullPath, filename), ms.GetBuffer());
+                        model.Name = filename;
+                        model.Path = $"/{uploadPath}";
+                        model.Md5 = md5;
+                    }
                 }
-                using (FileStream fs = System.IO.File.Create(Path.Combine(fullPath, filename)))
-                {
-                    // 复制文件
-                    file.CopyTo(fs);
-                    // 清空缓冲区数据
-                    fs.Flush();
-                }
+                model.Id = _fileServicer.AddFile(model);
                 return new ResultModel<FileModel>
                 {
                     Status = true,
-                    Data = new FileModel { Name = filename, Path = "/" + uploadPath }
+                    Data = model
                 };
             }
             return new ResultModel<FileModel>
@@ -66,7 +88,7 @@ namespace APP.UI.Admin.Controllers
         public ActionResult<ResultModel> DelImg(string filename)
         {
             var path = _hostingEnvironment.WebRootPath;
-            var uploadPath = Configuration["AppSettings:ImgUploadPath"];
+            var uploadPath = _configuration["AppSettings:ImgUploadPath"];
             var fullPath = Path.GetFullPath(Path.Combine(path, uploadPath));
             var delPaht = Path.Combine(fullPath, "del");
             if (!Directory.Exists(delPaht))

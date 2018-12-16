@@ -13,9 +13,11 @@ namespace APP.DbAccess.Infrastructure
         { }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Channel> Channels { get; set; }
+        public DbSet<File> Files { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.RemovePluralizingTableNameConvention();
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Channel>().ToTable("Channel"); ;
             modelBuilder.Entity<Article>().ToTable("Article"); ;
@@ -53,7 +55,6 @@ namespace APP.DbAccess.Infrastructure
             foreach (IMutableEntityType entity in modelBuilder.Model.GetEntityTypes())
             {
                 entity.Relational().TableName = entity.DisplayName();
-
                 //if (entity.ClrType == null)
                 //    continue;
                 //entity.Relational().TableName = entity.ClrType.Name;

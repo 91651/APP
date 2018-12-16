@@ -21,6 +21,7 @@ namespace APP.Framework.Services.AutoMapper
                 .ForMember(m => m.UserName, opt => opt.MapFrom(s => s.User.UserName));
             CreateMap<User, UserModel>();
             CreateMap<Channel, ChannelModel>();
+            CreateMap<File, FileModel>();
         }
 
         //以下代码在本项目中暂未用到

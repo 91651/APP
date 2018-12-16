@@ -8,7 +8,7 @@ namespace APP.DbAccess.Entities
     public class Article
     {
         [Key]
-        [MaxLength(32)]
+        [MaxLength(40)]
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [MaxLength(255)]
@@ -18,13 +18,13 @@ namespace APP.DbAccess.Entities
         public string SubTitle { get; set; }
         [MaxLength(500)]
         public string Summary { get; set; }
-        [MaxLength(32)]
+        [MaxLength(40)]
         public string UserId { get; set; }
 
-        [MaxLength(32)]
+        [MaxLength(40)]
         public string OwnerId { get; set; }
 
-        [MaxLength(32)]
+        [MaxLength(40)]
         public string ChannelId { get; set; }
 
         [MaxLength(60)]
