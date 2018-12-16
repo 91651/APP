@@ -19,7 +19,7 @@ import { _Article, _File } from '@/api-client';
 
 export default class ArticleComponent extends Vue {
   private articleForm: any = { showDrawer: false, title: '', disabledEditorSwitch: false, disabledEditorTooltip: true };
-  private articles?: Result<ArticleListModel[]> = new Result<ArticleListModel[]>();
+  private articles?: ArticleListModel[] = new Array<ArticleListModel>();
   private serach: SearchArticleModel = new SearchArticleModel();
   private article: ArticleModel = new ArticleModel();
   private channel: ChannelModel = new ChannelModel();
@@ -38,12 +38,11 @@ export default class ArticleComponent extends Vue {
   // 交互逻辑
   private getArticles() {
     this.serach.take = this.serach.take || 10;
-    debugger;
     if (!!this.serach.createdDate) {
       let date = new Date(this.serach.createdDate);
       this.serach.createdDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     }
-    _Article.getArticles(this.serach).then(r => this.articles = r);
+    _Article.getArticles(this.serach).then(r => this.articles = r.data);
   }
   private editArticle(id: string) {
     this.articleForm.showDrawer = true;

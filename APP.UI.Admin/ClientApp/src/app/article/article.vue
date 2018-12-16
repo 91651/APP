@@ -78,7 +78,7 @@
                             ]);
                         }
                     }
-                ]" :data="articles.data"></Table>
+                ]" :data="articles"></Table>
                 <Row class="padding-10 text-right"><Page :total="articles.total" show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange" /></Row>
         <Drawer
             :title="articleForm.title"
