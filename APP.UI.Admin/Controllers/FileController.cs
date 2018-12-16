@@ -85,21 +85,35 @@ namespace APP.UI.Admin.Controllers
         /// <returns></returns>
         [HttpGet, Route("DelImg")]
         [return: NotNull]
-        public ActionResult<ResultModel> DelImg(string filename)
+        public ActionResult<ResultModel> DelImg(string id, string ownerId)
         {
-            var path = _hostingEnvironment.WebRootPath;
-            var uploadPath = _configuration["AppSettings:ImgUploadPath"];
-            var fullPath = Path.GetFullPath(Path.Combine(path, uploadPath));
-            var delPaht = Path.Combine(fullPath, "del");
-            if (!Directory.Exists(delPaht))
+            var existFile = _fileServicer.GetFile(id);
+            if(existFile != null)
             {
-                Directory.CreateDirectory(delPaht);
+                var isMultipleOwner = _fileServicer.IsMultipleOwner(id, ownerId);
+                if (!isMultipleOwner && _fileServicer.DelFile(existFile.Id).Status == true)
+                {
+                    var filename = existFile.Name;
+                    var path = _hostingEnvironment.WebRootPath;
+                    var uploadPath = _configuration["AppSettings:ImgUploadPath"];
+                    var fullPath = Path.GetFullPath(Path.Combine(path, uploadPath));
+                    var delPaht = Path.Combine(fullPath, "del");
+                    if (!Directory.Exists(delPaht))
+                    {
+                        Directory.CreateDirectory(delPaht);
+                    }
+                    System.IO.File.Copy(Path.Combine(fullPath, filename), Path.Combine(delPaht, filename));
+                    System.IO.File.Delete(Path.Combine(fullPath, filename));
+                }
+                return new ResultModel
+                {
+                    Status = true
+                };
             }
-            System.IO.File.Copy(Path.Combine(fullPath, filename), Path.Combine(delPaht, filename));
-            System.IO.File.Delete(Path.Combine(fullPath, filename));
             return new ResultModel
             {
-                Status = true
+                Status = false,
+                Message = "图片删除失败"
             };
         }
     }

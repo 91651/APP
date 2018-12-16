@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -45,5 +46,7 @@ namespace APP.DbAccess.Entities
 
         [ForeignKey("ChannelId")]
         public Channel Channel { get; set; }
+        [ForeignKey("OwnerId")]
+        public virtual ICollection<File> Files { get; } = new List<File>();
     }
 }

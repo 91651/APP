@@ -36,10 +36,19 @@ namespace APP.Framework.Services
                 Status = rows > 0
             };
         }
+        public FileModel GetFile(string id)
+        {
+            var entity = _fileRepository.GetById(id);
+            return _mapper.Map<FileModel>(entity);
+        }
         public FileModel GetFileByMd5(string md5)
         {
             var entity = _fileRepository.GetAll().FirstOrDefault(f => f.Md5 == md5);
             return _mapper.Map<FileModel>(entity);
+        }
+        public bool IsMultipleOwner(string id, string ownerId)
+        {
+            return _fileRepository.GetAll().Where(f => f.Id == id && f.OwnerId != ownerId).Any();
         }
     }
 }

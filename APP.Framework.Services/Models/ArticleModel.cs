@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace APP.Framework.Services.Models
 {
@@ -20,5 +21,6 @@ namespace APP.Framework.Services.Models
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int? State { get; set; }
+        public string[] Files { get; set; }
     }
 }

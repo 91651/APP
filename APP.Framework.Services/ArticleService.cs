@@ -17,12 +17,14 @@ namespace APP.Framework.Services
         private readonly IMapper _mapper;
         private readonly IArticleRepository _articleRepository;
         private readonly IChannelRepository _channleRepository;
+        private readonly IFileRepository _fileRepository;
 
-        public ArticleService(IMapper mapper, IArticleRepository articleRepository, IChannelRepository channleRepository)
+        public ArticleService(IMapper mapper, IArticleRepository articleRepository, IChannelRepository channleRepository, IFileRepository fileRepository)
         {
             _mapper = mapper;
             _articleRepository = articleRepository;
             _channleRepository = channleRepository;
+            _fileRepository = fileRepository;
         }
 
         public ResultModel<string> AddArticle(ArticleModel model)
@@ -33,6 +35,9 @@ namespace APP.Framework.Services
             var entity = _mapper.Map<Article>(model);
             entity.Id = Guid.NewGuid().ToString();
             _articleRepository.Add(entity);
+            //包含的文件处理
+            _fileRepository.GetAll().Where(f => model.Files.Contains(f.Id)).ForEachAsync(f => f.OwnerId = entity.Id);
+
             _articleRepository.SaveChanges();
             return new ResultModel<string>
             {
@@ -58,6 +63,9 @@ namespace APP.Framework.Services
             _articleRepository.Update(entity);
             _articleRepository.Entry(entity).Property(nameof(entity.Created)).IsModified = false;
             _articleRepository.Entry(entity).Property(nameof(entity.UserId)).IsModified = false;
+            //包含的文件处理
+            _fileRepository.GetAll().Where(f => model.Files.Contains(f.Id)).ForEachAsync(f => f.OwnerId = entity.Id);
+
             var rows = _articleRepository.SaveChanges();
             return new ResultModel
             {
@@ -105,7 +113,7 @@ namespace APP.Framework.Services
                 DateTime.TryParse(model.CreatedDate, out var createdDate);
                 ex = ex.And(t => t.Created.Date == createdDate);
             }
-            var users = _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Where(ex).ToDataSourceResult(model);
+            var users = _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Include(i => i.Files).Where(ex).ToDataSourceResult(model);
             return new ResultModel<List<ArticleListModel>>
             {
                 Data = _mapper.Map<List<ArticleListModel>>(users.Data),

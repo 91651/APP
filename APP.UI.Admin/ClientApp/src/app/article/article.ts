@@ -165,12 +165,20 @@ export default class ArticleComponent extends Vue {
         let img = '' + r.data.path + r.data.name;
         let mavon = (this.$refs.mavon as any);
         mavon.$img2Url(pos, img);
-        $file.remoteName = r.data.name;
+        $file.remoteId = r.data.id;
+        if (!this.article.files) {
+          this.article.files = new Array<string>();
+        }
+        this.article.files.push(<string> r.data.id);
       }
     });
   }
   private mavonImgDel(pos: any) {
-    _File.delImg(pos[0].remoteName);
+    if (this.article.files) {
+      let index = this.article.files.indexOf(pos[0].remoteId);
+      this.article.files.splice(index, 1);
+    }
+    _File.delImg(pos[0].remoteId, this.article.id);
   }
 
   private quillEditorChange(value: string) {

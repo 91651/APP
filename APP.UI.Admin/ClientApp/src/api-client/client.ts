@@ -410,10 +410,12 @@ export class FileClient extends BaseClient {
         return Promise.resolve<ResultModelOfFileModel>(<any>null);
     }
 
-    delImg(filename: string | null | undefined): Promise<ResultModel> {
+    delImg(id: string | null | undefined, ownerId: string | null | undefined): Promise<ResultModel> {
         let url_ = this.baseUrl + "/api/File/DelImg?";
-        if (filename !== undefined)
-            url_ += "filename=" + encodeURIComponent("" + filename) + "&"; 
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        if (ownerId !== undefined)
+            url_ += "ownerId=" + encodeURIComponent("" + ownerId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -595,6 +597,7 @@ export class ArticleModel implements IArticleModel {
     created!: Date;
     updated!: Date;
     state?: number | undefined;
+    files?: string[] | undefined;
 
     constructor(data?: IArticleModel) {
         if (data) {
@@ -627,6 +630,11 @@ export class ArticleModel implements IArticleModel {
             this.created = data["created"] ? new Date(data["created"].toString()) : <any>undefined;
             this.updated = data["updated"] ? new Date(data["updated"].toString()) : <any>undefined;
             this.state = data["state"];
+            if (data["files"] && data["files"].constructor === Array) {
+                this.files = [];
+                for (let item of data["files"])
+                    this.files.push(item);
+            }
         }
     }
 
@@ -659,6 +667,11 @@ export class ArticleModel implements IArticleModel {
         data["created"] = this.created ? this.created.toISOString() : <any>undefined;
         data["updated"] = this.updated ? this.updated.toISOString() : <any>undefined;
         data["state"] = this.state;
+        if (this.files && this.files.constructor === Array) {
+            data["files"] = [];
+            for (let item of this.files)
+                data["files"].push(item);
+        }
         return data; 
     }
 }
@@ -680,6 +693,7 @@ export interface IArticleModel {
     created: Date;
     updated: Date;
     state?: number | undefined;
+    files?: string[] | undefined;
 }
 
 export class ResultModelOfArticleModel extends ResultModel implements IResultModelOfArticleModel {
@@ -1227,8 +1241,11 @@ export interface IResultModelOfFileModel extends IResultModel {
 }
 
 export class FileModel implements IFileModel {
+    id?: string | undefined;
+    ownerId?: string | undefined;
     name?: string | undefined;
     path?: string | undefined;
+    md5?: string | undefined;
 
     constructor(data?: IFileModel) {
         if (data) {
@@ -1241,8 +1258,11 @@ export class FileModel implements IFileModel {
 
     init(data?: any) {
         if (data) {
+            this.id = data["id"];
+            this.ownerId = data["ownerId"];
             this.name = data["name"];
             this.path = data["path"];
+            this.md5 = data["md5"];
         }
     }
 
@@ -1255,15 +1275,21 @@ export class FileModel implements IFileModel {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["ownerId"] = this.ownerId;
         data["name"] = this.name;
         data["path"] = this.path;
+        data["md5"] = this.md5;
         return data; 
     }
 }
 
 export interface IFileModel {
+    id?: string | undefined;
+    ownerId?: string | undefined;
     name?: string | undefined;
     path?: string | undefined;
+    md5?: string | undefined;
 }
 
 export class UserModel implements IUserModel {
