@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Linq.Expressions;
-using APP.DbAccess.Entities;
 using APP.DbAccess.Repositories;
 using APP.Framework.Services.Models;
 using AutoMapper;
-using IView.AspNetCore.DynamicLinq;
 using Microsoft.EntityFrameworkCore;
 
 namespace APP.Framework.Services

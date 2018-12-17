@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APP.DbAccess.Repositories\APP.DbAccess.Repositories.csproj" />
-    <ProjectReference Include="..\APP.Framework\IView.AspNetCore.DynamicLinq\IView.AspNetCore.DynamicLinq.csproj" />
+    <ProjectReference Include="..\APP.Framework\IView.AspNetCore.DynamicLinq\APP.AspNetCore.DynamicLinq.csproj" />
   </ItemGroup>
 
 </Project>

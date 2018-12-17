@@ -1,22 +1,20 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using System.IO;
 using APP.DbAccess.Entities;
 using APP.DbAccess.Infrastructure;
 using APP.DbAccess.Repositories;
 using APP.Framework.Identity;
-using Microsoft.AspNetCore.Mvc;
 using APP.Framework.Services;
-using BC.Microsoft.DependencyInjection.Plus;
 using AutoMapper;
-using Microsoft.AspNetCore.Rewrite;
+using BC.Microsoft.DependencyInjection.Plus;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using System;
-using System.IO;
+using Microsoft.Extensions.Logging;
 
 namespace APP.UI.MVC
 {
@@ -39,7 +37,7 @@ namespace APP.UI.MVC
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; })
             .AddXmlSerializerFormatters()
             .AddRazorOptions(a => { a.AreaViewLocationFormats.Add("~/{2}/Views/{1}/{0}.cshtml"); a.AreaViewLocationFormats.Add("~/{2}/Views/Shared/{0}.cshtml"); })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -50,9 +48,6 @@ namespace APP.UI.MVC
                 db.Database.EnsureCreated();
                 db.InitUser();
             }
-
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {
@@ -65,8 +60,7 @@ namespace APP.UI.MVC
             }
 
             app.UseHttpsRedirection();
-            app.UseAuthentication();
-            
+
             //重定向文件路径
             //app.UseRewriter(new RewriteOptions() /*{ StaticFileProvider = Environment.ContentRootFileProvider }*/.AddRewrite("^static/(.*)", $"{Configuration["AppSettings:UploadPath"]}/$1", true));
             app.UseStaticFiles();

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace IView.AspNetCore.DynamicLinq
+namespace APP.AspNetCore.DynamicLinq
 {
     public class Query
     {

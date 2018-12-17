@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 
-namespace IView.AspNetCore.DynamicLinq
+namespace APP.AspNetCore.DynamicLinq
 {
     public static class LinqExpression
     {

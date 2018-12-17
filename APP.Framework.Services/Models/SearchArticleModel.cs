@@ -1,9 +1,8 @@
-﻿using System;
-using IView.AspNetCore.DynamicLinq;
+﻿using APP.AspNetCore.DynamicLinq;
 
 namespace APP.Framework.Services.Models
 {
-    public class SearchArticleModel: Query
+    public class SearchArticleModel : Query
     {
         public string Id { get; set; }
         public string Title { get; set; }

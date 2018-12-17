@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.UI.MVC", "APP.UI.MVC\AP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.Framework.Services", "APP.Framework.Services\APP.Framework.Services.csproj", "{2709145B-A347-40D5-9B66-207B7574C98F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IView.AspNetCore.DynamicLinq", "APP.Framework\IView.AspNetCore.DynamicLinq\IView.AspNetCore.DynamicLinq.csproj", "{135F1073-216A-4F57-9C81-5EFB7DDE5E05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.AspNetCore.DynamicLinq", "APP.Framework\IView.AspNetCore.DynamicLinq\APP.AspNetCore.DynamicLinq.csproj", "{135F1073-216A-4F57-9C81-5EFB7DDE5E05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

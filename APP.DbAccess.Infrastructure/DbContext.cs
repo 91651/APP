@@ -19,8 +19,6 @@ namespace APP.DbAccess.Infrastructure
         {
             modelBuilder.RemovePluralizingTableNameConvention();
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Channel>().ToTable("Channel"); ;
-            modelBuilder.Entity<Article>().ToTable("Article"); ;
         }
 
     }

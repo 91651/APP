@@ -4,7 +4,6 @@ using APP.DbAccess.Infrastructure;
 using APP.DbAccess.Repositories;
 using APP.Framework.Identity;
 using APP.Framework.Services;
-using AspNetCore.VueCli;
 using AutoMapper;
 using BC.Microsoft.DependencyInjection.Plus;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -63,7 +62,7 @@ namespace APP.UI.Admin
             {
                 //默认不允许匿名访问
                 options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build()));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerDocument(document =>
             {
                 document.DocumentProcessors.Add(new SecurityDefinitionAppender("Bearer", new SwaggerSecurityScheme

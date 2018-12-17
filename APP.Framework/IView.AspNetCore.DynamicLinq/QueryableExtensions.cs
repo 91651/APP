@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
 
-namespace IView.AspNetCore.DynamicLinq
+namespace APP.AspNetCore.DynamicLinq
 {
     public static class QueryableExtensions
     {
@@ -17,17 +15,17 @@ namespace IView.AspNetCore.DynamicLinq
                 var args = filters?.Select(filter => filter.Value);
                 queryable = queryable.Where(filterStr, args);
             }
-            if(sorts != null && sorts.Any())
+            if (sorts != null && sorts.Any())
             {
                 var sortStr = string.Join(",", sorts?.Select(sort => $"{sort.Field} " + (sort.Desc ? "descending " : " ")));
                 queryable = queryable.OrderBy(sortStr);
             }
             result.Total = queryable.Count();
-            if(skip > 0)
+            if (skip > 0)
             {
                 queryable = queryable.Skip(skip);
             }
-            if(take > 0)
+            if (take > 0)
             {
                 queryable = queryable.Take(take);
             }
