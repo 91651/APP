@@ -86,6 +86,16 @@ namespace APP.UI.Admin
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                //开发环境可以使用Swagger
+                app.UseSwagger(settings =>
+                {
+                    settings.PostProcess = (document, request) =>
+                    {
+                        document.Info.Title = "APP";
+                    };
+                });
+                app.UseSwaggerUi3(settings => settings.DocumentPath = "{documentName}/swagger.json");
             }
             else
             {
@@ -105,14 +115,6 @@ namespace APP.UI.Admin
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
-            app.UseSwagger(settings =>
-            {
-                settings.PostProcess = (document, request) =>
-                {
-                    document.Info.Title = "APP";
-                };
-            });
-            app.UseSwaggerUi3(settings => settings.DocumentPath = "{documentName}/swagger.json");
 
             app.UseSpa(spa =>
             {

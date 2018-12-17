@@ -16,15 +16,15 @@ namespace APP.DbAccess.Infrastructure
                 {
                     var user = new User
                     {
-                        Id = "456d2b07-2ae6-430d-a0a1-4fec833387a1",
+                        Id = Guid.NewGuid().ToString(),
                         AccessFailedCount = 0,
-                        ConcurrencyStamp = "9c8134b9-eed3-4c8b-90f8-372fb9b062fa",
+                        ConcurrencyStamp = Guid.NewGuid().ToString(),
                         Discriminator = "User",
-                        Email = "admin@ceshi.app",
+                        Email = "mail@521.org.cn",
                         EmailConfirmed = false,
                         LockoutEnabled = true,
                         NormalizedUserName = "ADMIN",
-                        NormalizedEmail = "ADMIN@CESHI.APP",
+                        NormalizedEmail = "MAIL@521.ORG.CN",
                         PasswordHash = "AQAAAAEAACcQAAAAEFRrMZEV8ngJ2MVoC7/+O3zqpOua+PLqLww/3jHMvMYA1Zkqu4D3Lh07L6wGghaTgQ==", //Qwer1234!
                         SecurityStamp = "e17d18ae-ee90-4612-bc96-d2a5d05b4a05",
                         TwoFactorEnabled = false,

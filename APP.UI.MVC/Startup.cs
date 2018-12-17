@@ -46,7 +46,6 @@ namespace APP.UI.MVC
             {
                 var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
                 db.Database.EnsureCreated();
-                db.InitUser();
             }
 
             if (env.IsDevelopment())
