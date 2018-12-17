@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using APP.Framework.Services;
-using APP.Framework.Services.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace APP.UI.Admin.Controllers
@@ -14,12 +12,6 @@ namespace APP.UI.Admin.Controllers
         public UserController(IUserService userService)
         {
             _userService = userService;
-        }
-
-        [HttpGet]
-        public ActionResult<List<UserModel>> Get()
-        {
-            return _userService.GetUsers();
         }
     }
 }

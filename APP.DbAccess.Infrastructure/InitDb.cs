@@ -25,8 +25,8 @@ namespace APP.DbAccess.Infrastructure
                         LockoutEnabled = true,
                         NormalizedUserName = "ADMIN",
                         NormalizedEmail = "MAIL@521.ORG.CN",
-                        PasswordHash = "AQAAAAEAACcQAAAAEFRrMZEV8ngJ2MVoC7/+O3zqpOua+PLqLww/3jHMvMYA1Zkqu4D3Lh07L6wGghaTgQ==", //Qwer1234!
-                        SecurityStamp = "e17d18ae-ee90-4612-bc96-d2a5d05b4a05",
+                        PasswordHash = "AQAAAAEAACcQAAAAEAnWnclF0/4mxVdi5gDAs0oASFMDFlb+RyPIjsBtb/ZbyrgVwRwZxXJ0CM8+6r8iHg==", //admin
+                        SecurityStamp = "577ZGQ626XNGP53HYRDHXC4OVYNPQW5Q",
                         TwoFactorEnabled = false,
                         UserName = "admin"
                     };
