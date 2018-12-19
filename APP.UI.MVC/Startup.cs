@@ -2,13 +2,11 @@
 using APP.DbAccess.Entities;
 using APP.DbAccess.Infrastructure;
 using APP.DbAccess.Repositories;
-using APP.Framework.Identity;
 using APP.Framework.Services;
 using AutoMapper;
 using BC.Microsoft.DependencyInjection.Plus;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +28,7 @@ namespace APP.UI.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(option => option.UseSqlite(Configuration["ConnectionStrings:SqliteConnection"]));
-            services.AddIdentity<User, Role>().AppAddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<User, Role>().AddEntityFrameworkStores<AppDbContext>();
             services.AddScopedScan(typeof(Repository<>));
             services.AddScopedScan(typeof(Service));
             services.AddAutoMapper();

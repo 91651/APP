@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using APP.Framework.Util;
 using Microsoft.AspNetCore.Identity;
 
 namespace APP.DbAccess.Entities
@@ -9,7 +10,7 @@ namespace APP.DbAccess.Entities
     {
         public UserRole()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid().ToString(10);
         }
     }
     public class UserRole<TKey> : IdentityUserRole<TKey>

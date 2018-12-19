@@ -1,4 +1,4 @@
-﻿using APP.AspNetCore.DynamicLinq;
+﻿using APP.Framework.DynamicLinq;
 
 namespace APP.Framework.Services.Models
 {

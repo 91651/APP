@@ -2,7 +2,6 @@ using System.Text;
 using APP.DbAccess.Entities;
 using APP.DbAccess.Infrastructure;
 using APP.DbAccess.Repositories;
-using APP.Framework.Identity;
 using APP.Framework.Services;
 using AutoMapper;
 using BC.Microsoft.DependencyInjection.Plus;
@@ -35,7 +34,7 @@ namespace APP.UI.Admin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(option => option.UseSqlite(Configuration["ConnectionStrings:SqliteConnection"]));
-            services.AddIdentity<User, Role>().AppAddEntityFrameworkStores<AppDbContext>();
+            services.AddIdentity<User, Role>().AddEntityFrameworkStores<AppDbContext>();
             services.Configure<IdentityOptions>(options =>
             {
                 //≈‰÷√”√ªß√‹¬Î≤ﬂ¬‘

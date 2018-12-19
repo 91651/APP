@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APP.Framework.Services\APP.Framework.Services.csproj" />
-    <ProjectReference Include="..\APP.Framework\APP.Framework.Identity\APP.Framework.Identity.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

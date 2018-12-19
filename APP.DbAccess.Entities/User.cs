@@ -1,8 +1,7 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using APP.Framework.Util;
 using Microsoft.AspNetCore.Identity;
 
 namespace APP.DbAccess.Entities
@@ -11,7 +10,7 @@ namespace APP.DbAccess.Entities
     {
         public User()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid().ToString(10);
         }
     }
     public class User<TKey> : IdentityUser<TKey>
@@ -40,7 +39,7 @@ namespace APP.DbAccess.Entities
         public override string SecurityStamp { get; set; }
 
         [MaxLength(255)]
-        public override string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
+        public override string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString(10);
 
         [MaxLength(255)]
         public override string PhoneNumber { get; set; }

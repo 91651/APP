@@ -5,9 +5,11 @@ using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using APP.DbAccess.Entities;
 using APP.DbAccess.Repositories;
+using APP.Framework.DynamicLinq;
+using APP.Framework.IView;
 using APP.Framework.Services.Models;
+using APP.Framework.Util;
 using AutoMapper;
-using APP.AspNetCore.DynamicLinq;
 using Microsoft.EntityFrameworkCore;
 
 namespace APP.Framework.Services
@@ -33,7 +35,7 @@ namespace APP.Framework.Services
             model.Updated = DateTime.Now;
             model.State = 1;
             var entity = _mapper.Map<Article>(model);
-            entity.Id = Guid.NewGuid().ToString();
+            entity.Id = Guid.NewGuid().ToString(10);
             _articleRepository.Add(entity);
             //包含的文件处理
             _fileRepository.GetAll().Where(f => model.Files.Contains(f.Id)).ForEachAsync(f => f.OwnerId = entity.Id);
@@ -132,7 +134,7 @@ namespace APP.Framework.Services
                 };
             }
             var entity = _mapper.Map<Channel>(model);
-            entity.Id = Guid.NewGuid().ToString();
+            entity.Id = Guid.NewGuid().ToString(10);
             entity.State = 1;
             _channleRepository.Add(entity);
             _articleRepository.SaveChanges();

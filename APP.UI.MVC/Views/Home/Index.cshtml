@@ -8,16 +8,16 @@
     @foreach (var article in ViewBag.Articles)
     {
         <div class="blogs" data-scroll-reveal="enter bottom over 1s">
-            <h3 class="blogtitle"><a href="/article/@article.Id" target="_blank">@article.Title</a></h3>
+            <h3 class="blogtitle"><a href="/p/@article.Id" target="_blank">@article.Title</a></h3>
             <span class="blogpic">
                 @if (@article.File != null)
-                {<a href="/article/@article.Id" title=""><img src="@(article.File.Path + article.File.Name)"></a>}
+                {<a href="/p/@article.Id" title=""><img src="@(article.File.Path + article.File.Name)"></a>}
             </span>
             <p class="blogtext">@article.Summary</p>
             <div class="bloginfo" @(article.File != null ? "style=margin-top:80px" : "")>
                 <ul>
                     <li class="author"><a>@article.Author</a></li>
-                    <li class="lmname"><a href="/channel/@article.ChannelId">@article.ChannelName</a></li>
+                    <li class="lmname"><a href="/c/@article.ChannelId">@article.ChannelName</a></li>
                     <li class="timer">@article.Updated</li>
                     <li class="view"><span>@article.Viewed</span>已阅读</li>
                 </ul>

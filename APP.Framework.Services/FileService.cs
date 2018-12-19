@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using APP.DbAccess.Entities;
 using APP.DbAccess.Repositories;
 using APP.Framework.Services.Models;
+using APP.Framework.Util;
 using AutoMapper;
 
 namespace APP.Framework.Services
@@ -22,7 +22,7 @@ namespace APP.Framework.Services
         public string AddFile(FileModel model)
         {
             var entity = _mapper.Map<File>(model);
-            entity.Id = Guid.NewGuid().ToString();
+            entity.Id = Guid.NewGuid().ToString(10);
             _fileRepository.Add(entity);
             _fileRepository.SaveChanges();
             return entity.Id;

@@ -13,7 +13,7 @@
         <ul>
             @foreach (var channel in _blogService.GetChannels())
             {
-                <li><a href="/">@channel.Title</a></li>
+                <li><a href="/c/@channel.Id">@channel.Title</a></li>
             }
         </ul>
     </div>

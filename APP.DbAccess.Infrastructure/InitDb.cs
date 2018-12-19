@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using APP.DbAccess.Entities;
+using APP.Framework.Util;
 
 namespace APP.DbAccess.Infrastructure
 {
@@ -16,9 +17,9 @@ namespace APP.DbAccess.Infrastructure
                 {
                     var user = new User
                     {
-                        Id = Guid.NewGuid().ToString(),
+                        Id = Guid.NewGuid().ToString(10),
                         AccessFailedCount = 0,
-                        ConcurrencyStamp = Guid.NewGuid().ToString(),
+                        ConcurrencyStamp = Guid.NewGuid().ToString(10),
                         Discriminator = "User",
                         Email = "mail@521.org.cn",
                         EmailConfirmed = false,

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using APP.Framework.Services;
 using APP.Framework.Services.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +17,7 @@ namespace APP.UI.MVC.Controllers
             _blogService = blogService;
         }
 
-        [Pjax, HttpGet("/article/{id}")]
+        [Pjax, HttpGet("/article/{id}"), HttpGet("/a/{id}"), HttpGet("/p/{id}")]
         public IActionResult Index(string id)
         {
             var article = _blogService.GetArticle(id);
@@ -32,7 +29,7 @@ namespace APP.UI.MVC.Controllers
             return View();
         }
 
-        [Pjax, HttpGet("/channel/{id}")]
+        [Pjax, HttpGet("/channel/{id}"), HttpGet("/c/{id}")]
         public IActionResult Channel(string id)
         {
             var search = new SearchArticleModel();

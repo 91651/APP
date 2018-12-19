@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using APP.AspNetCore.DynamicLinq;
+using APP.Framework.IView;
 using APP.Framework.Services.Models;
 
 namespace APP.Framework.Services

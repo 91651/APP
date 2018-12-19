@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using APP.Framework.Util;
 
 namespace APP.DbAccess.Entities
 {
@@ -9,7 +8,7 @@ namespace APP.DbAccess.Entities
     {
         [Key]
         [MaxLength(40)]
-        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Id { get; set; } = Guid.NewGuid().ToString(10);
 
         [MaxLength(40)]
         public string OwnerId { get; set; }
