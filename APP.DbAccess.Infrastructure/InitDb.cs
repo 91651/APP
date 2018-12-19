@@ -19,7 +19,7 @@ namespace APP.DbAccess.Infrastructure
                     {
                         Id = Guid.NewGuid().ToString(10),
                         AccessFailedCount = 0,
-                        ConcurrencyStamp = Guid.NewGuid().ToString(10),
+                        ConcurrencyStamp = Guid.NewGuid().ToString("N"),
                         Discriminator = "User",
                         Email = "mail@521.org.cn",
                         EmailConfirmed = false,
