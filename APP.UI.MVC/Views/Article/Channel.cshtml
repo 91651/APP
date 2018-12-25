@@ -1,4 +1,7 @@
-﻿@foreach (var article in ViewBag.Articles)
+﻿@{
+    ViewData["Title"] = $"遇见时光 | {ViewBag.Channel.Title}";
+}
+@foreach (var article in ViewBag.Articles)
 {
     <div class="blogs" data-scroll-reveal="enter bottom over 1s" data-scroll-reveal-id="1" style="-webkit-transform: translatey(0);transform: translatey(0);opacity: 1;-webkit-transition: -webkit-transform 1s ease-in-out 0s,  opacity 1s ease-in-out 0s;transition: transform 1s ease-in-out 0s, opacity 1s ease-in-out 0s;-webkit-perspective: 1000;-webkit-backface-visibility: hidden;" data-scroll-reveal-initialized="true">
         <h3 class="blogtitle"><a href="/p/@article.Id" target="_blank">@article.Title</a></h3>

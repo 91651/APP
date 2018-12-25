@@ -17,7 +17,7 @@ namespace APP.UI.MVC.Controllers
             _blogService = blogService;
         }
 
-        [Pjax, HttpGet("/article/{id}"), HttpGet("/a/{id}"), HttpGet("/p/{id}")]
+        [Pjax, HttpGet(@"/article/{id:regex(^\w{{10}}$)}"), HttpGet(@"/a/{id:regex(^\w{{10}}$)}"), HttpGet(@"/p/{id:regex(^\w{{10}}$)}")]
         public IActionResult Index(string id)
         {
             var article = _blogService.GetArticle(id);
@@ -29,10 +29,15 @@ namespace APP.UI.MVC.Controllers
             return View();
         }
 
-        [Pjax, HttpGet("/channel/{id}"), HttpGet("/c/{id}")]
+        [Pjax, HttpGet(@"/channel/{id:regex(^\w{{10}}$)}"), HttpGet(@"/c/{id:regex(^\w{{10}}$)}")]
         public IActionResult Channel(string id)
         {
             var search = new SearchArticleModel();
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                search.ChannelId = id;
+                ViewBag.Channel = _blogService.GetChannel(id);
+            }
             search.Take = 20;
             var articles = _articleService.GetArticles(search).Data;
             ViewBag.Articles = articles;

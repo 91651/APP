@@ -49,6 +49,11 @@ namespace APP.Framework.Services
             var model = _mapper.Map<ArticleModel>(entity);
             return model;
         }
+        public ChannelModel GetChannel(string id)
+        {
+            var entity = _channleRepository.GetById(id);
+            return _mapper.Map<ChannelModel>(entity);
+        }
         public List<ChannelModel> GetChannels(string pid = null)
         {
             var channels = _channleRepository.GetAll().Where(c => c.State == 1 && c.ParentId == pid).ToList();

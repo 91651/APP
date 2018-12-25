@@ -115,6 +115,10 @@ namespace APP.Framework.Services
                 DateTime.TryParse(model.CreatedDate, out var createdDate);
                 ex = ex.And(t => t.Created.Date == createdDate);
             }
+            if (!string.IsNullOrWhiteSpace(model.ChannelId))
+            {
+                ex = ex.And(t => t.ChannelId == model.ChannelId);
+            }
             var users = _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Include(i => i.Files).Where(ex).ToDataSourceResult(model);
             return new ResultModel<List<ArticleListModel>>
             {
