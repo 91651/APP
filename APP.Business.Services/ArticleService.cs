@@ -7,12 +7,12 @@ using APP.DbAccess.Entities;
 using APP.DbAccess.Repositories;
 using APP.Framework.DynamicLinq;
 using APP.Framework.IView;
-using APP.Framework.Services.Models;
+using APP.Business.Services.Models;
 using APP.Framework.Util;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace APP.Framework.Services
+namespace APP.Business.Services
 {
     public class ArticleService : IArticleService
     {

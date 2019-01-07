@@ -1,7 +1,7 @@
 ﻿using APP.DbAccess.Repositories;
 using AutoMapper;
 
-namespace APP.Framework.Services
+namespace APP.Business.Services
 {
     public class Service : IService
     {

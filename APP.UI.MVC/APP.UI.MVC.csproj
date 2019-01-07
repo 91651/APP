@@ -10,9 +10,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
     <PackageReference Include="Pjax.AspNetCore.Mvc" Version="1.0.2" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\APP.Framework.Services\APP.Framework.Services.csproj" />
+    <ProjectReference Include="..\APP.Business.Services\APP.Business.Services.csproj" />
   </ItemGroup>
 
 </Project>

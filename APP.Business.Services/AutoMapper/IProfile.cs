@@ -1,4 +1,4 @@
-﻿namespace APP.Framework.Services.AutoMapper
+﻿namespace APP.Business.Services.AutoMapper
 {
     internal interface IProfile
     {

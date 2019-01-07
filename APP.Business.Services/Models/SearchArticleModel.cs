@@ -1,6 +1,6 @@
 ﻿using APP.Framework.DynamicLinq;
 
-namespace APP.Framework.Services.Models
+namespace APP.Business.Services.Models
 {
     public class SearchArticleModel : Query
     {

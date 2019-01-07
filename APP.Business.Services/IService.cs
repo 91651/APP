@@ -1,4 +1,4 @@
-﻿namespace APP.Framework.Services
+﻿namespace APP.Business.Services
 {
     public interface IService
     {

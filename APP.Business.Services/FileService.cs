@@ -2,11 +2,11 @@
 using System.Linq;
 using APP.DbAccess.Entities;
 using APP.DbAccess.Repositories;
-using APP.Framework.Services.Models;
+using APP.Business.Services.Models;
 using APP.Framework.Util;
 using AutoMapper;
 
-namespace APP.Framework.Services
+namespace APP.Business.Services
 {
     public class FileService : IFileServicer
     {

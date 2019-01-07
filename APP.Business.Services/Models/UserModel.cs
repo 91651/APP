@@ -1,4 +1,4 @@
-﻿namespace APP.Framework.Services.Models
+﻿namespace APP.Business.Services.Models
 {
     public class UserModel
     {

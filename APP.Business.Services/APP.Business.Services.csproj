@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APP.DbAccess.Repositories\APP.DbAccess.Repositories.csproj" />
-    <ProjectReference Include="..\APP.Framework.Util\APP.Framework.Util.csproj" />
+    <ProjectReference Include="..\APP.Framework\APP.Framework.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Reflection;
 using APP.DbAccess.Entities;
-using APP.Framework.Services.Models;
+using APP.Business.Services.Models;
 using AutoMapper;
 
-namespace APP.Framework.Services.AutoMapper
+namespace APP.Business.Services.AutoMapper
 {
     public class Mappings : Profile, IProfile
     {

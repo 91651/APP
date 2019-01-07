@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.UI.Admin", "APP.UI.Admi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.UI.MVC", "APP.UI.MVC\APP.UI.MVC.csproj", "{5C3BE367-2614-4FCC-9D88-B3E378FD8BB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.Framework.Services", "APP.Framework.Services\APP.Framework.Services.csproj", "{2709145B-A347-40D5-9B66-207B7574C98F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.Business.Services", "APP.Business.Services\APP.Business.Services.csproj", "{2709145B-A347-40D5-9B66-207B7574C98F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APP.Framework.Util", "APP.Framework.Util\APP.Framework.Util.csproj", "{1196423C-EF3D-4128-9791-1A57BC21F1FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.Framework", "APP.Framework\APP.Framework.csproj", "{1196423C-EF3D-4128-9791-1A57BC21F1FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

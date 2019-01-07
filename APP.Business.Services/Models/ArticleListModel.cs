@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace APP.Framework.Services.Models
+namespace APP.Business.Services.Models
 {
     public class ArticleListModel
     {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using APP.Framework.IView;
-using APP.Framework.Services.Models;
+using APP.Business.Services.Models;
 
-namespace APP.Framework.Services
+namespace APP.Business.Services
 {
     public interface IArticleService
     {

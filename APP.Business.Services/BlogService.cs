@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using APP.DbAccess.Repositories;
-using APP.Framework.Services.Models;
+using APP.Business.Services.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace APP.Framework.Services
+namespace APP.Business.Services
 {
     public class BlogService : IBlogService
     {
