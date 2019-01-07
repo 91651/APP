@@ -6,18 +6,18 @@
         let promise = Promise.resolve(options);
         reversedInterceptors.forEach(({ request, requestError }: any) => {
             if (request || requestError) {
-                promise = promise.then(args => request(args.input, args.init), requestError);
+                promise = promise.then(opt => request(opt.input, opt.init), requestError);
             }
         });
-        let responseP = promise.then(args => fetch(args.input, args.init));
+        let responsePromise = promise.then(opt => fetch(opt.input, opt.init));
         reversedInterceptors.forEach(({ response, responseError }: any) => {
             if (response || responseError) {
-                responseP = responseP.then((_response: Response) => {
-                    return response(_response);
+                responsePromise = responsePromise.then((resp: Response) => {
+                    return response(resp);
                 });
             }
         });
-        return responseP;
+        return responsePromise;
     }
 }
 
