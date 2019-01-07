@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from '@/store';
+import { fetchInterceptor } from './api-client/fetch-interceptor';
 import Main from './app/main/main.vue';
 
 Vue.use(Router);
@@ -54,6 +55,23 @@ router.beforeEach((to: any, from: any, next: any) => {
       next('signin');
     }
   }
-})
+});
+
+fetchInterceptor.interceptors.push({
+  request: (input: string, init: RequestInit) => {
+    const token = store.getters.getToken;
+    let headers = new Headers(init.headers);
+    headers.append('Authorization', 'Bearer ' + token);
+    init.headers = headers;
+    return { input, init };
+  }
+}, {
+    response: (response: Response) => {
+      if (response.status === 401) {
+        router.replace('signin');
+      }
+      return response;
+    }
+  });
 
 export default router;

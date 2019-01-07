@@ -1,4 +1,4 @@
-﻿import { ArticleClient, AuthClient, FileClient, UserClient } from '@/api-client/client';
+﻿import { ArticleClient, AuthClient, FileClient } from '@/api-client/client';
 
 export class AppConfig {
     public apiUrl?: string;
@@ -19,4 +19,3 @@ loadConfig();
 export const _Auth = new AuthClient(appConfig.apiUrl);
 export const _Article = new ArticleClient(appConfig.apiUrl);
 export const _File = new FileClient(appConfig.apiUrl);
-export const _User = new UserClient(appConfig.apiUrl);

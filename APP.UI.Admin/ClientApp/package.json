@@ -6,13 +6,12 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "generate-client": "nswag swagger2tsclient /ClientBaseClass:BaseClient /ExtensionCode:%npm_package_devConfig_genClient_extCode% /UseTransformOptionsMethod:true /input:%npm_package_devConfig_genClient_input% /output:%npm_package_devConfig_genClient_output%"
+    "generate-client": "nswag swagger2tsclient /input:%npm_package_devConfig_genClient_input% /output:%npm_package_devConfig_genClient_output%"
   },
   "devConfig": {
     "genClient": {
       "input": "http://localhost:56833/swagger/v1/swagger.json",
-      "output": "src/api-client/client.ts",
-      "extCode": "src/api-client/base.ts"
+      "output": "src/api-client/client.ts"
     }
   },
   "dependencies": {
