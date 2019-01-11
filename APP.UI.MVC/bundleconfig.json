@@ -5,7 +5,12 @@
       "node_modules/tether/dist/css/tether.min.css",
       "node_modules/bootstrap/dist/css/bootstrap.min.css",
       "node_modules/font-awesome/css/font-awesome.min.css"
-    ]
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true,
+      "adjustRelativePaths": false
+    }
   },
   {
     "outputFileName": "wwwroot/js/lib.min.js",
@@ -14,11 +19,7 @@
       "node_modules/jquery-pjax/jquery.pjax.js",
       "node_modules/tether/dist/js/tether.min.js",
       "node_modules/bootstrap/dist/js/bootstrap.min.js"
-    ],
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    },
-    "sourceMap": false
+    ]
   }
+
 ]

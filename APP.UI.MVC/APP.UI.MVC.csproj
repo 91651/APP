@@ -16,4 +16,8 @@
     <ProjectReference Include="..\APP.Business.Services\APP.Business.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\fonts\" />
+  </ItemGroup>
+
 </Project>
