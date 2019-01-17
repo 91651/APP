@@ -14,7 +14,7 @@
             <ul>
                 <li class="author"><a>@article.Author</a></li>
                 <li class="lmname"><a href="/c/@article.ChannelId">@article.ChannelName</a></li>
-                <li class="timer">@article.Updated</li>
+                <li class="timer">@($"{article.Updated:yyyy年M月d日 HH:mm}")</li>
                 <li class="view"><span>@article.Viewed</span>已阅读</li>
             </ul>
         </div>
