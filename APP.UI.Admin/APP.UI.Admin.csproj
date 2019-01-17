@@ -9,6 +9,11 @@
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AspNetCore.VueCli" Version="1.0.0" />
     <PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.1" />
