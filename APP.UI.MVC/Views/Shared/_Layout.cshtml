@@ -20,7 +20,7 @@
     <header id="header">
         <div class="navbar">
             <div class="foryou">
-                <p class="luck">缘分让我遇到你的第@((DateTime.Now - DateTime.Parse("2016-8-19")).Days + 1) 天！</p>
+                <p class="luck">@(Jiuban.Fate.Lucky)</p>
             </div>
         </div>
         <div class="header-navigation">
@@ -59,7 +59,7 @@
     <a href="#" class="cd-top">Top</a>
     <script lang="love">
         console.info("%c%s", "color: #9399; font-size: 12px;",
-    "缘分让我遇到你的第@((DateTime.Now - DateTime.Parse("2016-8-19")).Days + 1) 天！"
+    "@(Jiuban.Fate.Lucky)"
             )</script>
     <environment names="Development">
         <script src="~/js/lib.min.js" asp-append-version="true"></script>
