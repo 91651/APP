@@ -78,6 +78,7 @@ namespace APP.UI.Admin
                     Name = "Authorization",
                     In = SwaggerSecurityApiKeyLocation.Header,
                 }));
+                document.OperationProcessors.Add(new OperationSecurityScopeProcessor("Bearer"));
             });
         }
 
