@@ -2,11 +2,11 @@
         <Layout class="main">
             <Header>
                 <Menu mode="horizontal" theme="dark" active-name="1">
-                    <div class="layout-logo"></div>
+                    <div class="layout-logo">遇见</div>
                 </Menu>
             </Header>
             <Layout>
-                <Sider hide-trigger :style="{background: '#fff'}">
+                <Sider breakpoint="md" collapsible :collapsed-width="78" :style="{background: '#fff'}">
                     <Menu active-name="1-2" theme="light" width="auto" :open-names="['1']">
                         <Submenu name="1">
                             <template slot="title">

@@ -4,13 +4,14 @@ import 'whatwg-fetch';
 import Vue from 'vue';
 import router from './router';
 import store from './store/index';
-import 'iview/dist/styles/iview.css';
+import Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
 import './global.less';
-import iView from 'iview';
 
+Vue.config.productionTip = false;
 import App from './app/app.vue';
 
-Vue.use(iView);
+Vue.use(Antd);
 
 new Vue({
   router,

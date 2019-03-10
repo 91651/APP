@@ -1,29 +1,34 @@
-.signin{
-  width: 100%;
-  height: 100%;
-  background-image: url('../../assets/images/bg1.jpg');
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  &-con{
-      position: absolute;
-      right: 10%;
-      top: 50%;
-      transform: translateY(-60%);
-      width: 300px;
-      &-header{
-          font-size: 16px;
-          font-weight: 300;
-          text-align: center;
-          padding: 30px 0;
-      }
-      .form-con{
-          padding: 10px 0 0;
-      }
-      .login-tip{
-          font-size: 10px;
-          text-align: center;
-          color: #c3c3c3;
-      }
-  }
-}
+.user-layout-container{display:flex;flex-direction:column;height:100vh;overflow:auto;background:#f0f2f5;}
+.user-layout-content{flex:1 1;padding:32px 0}
+@media 
+(min-width:768px){.user-layout-container{background-image:url("https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg");
+    background-repeat:no-repeat;
+    background-position:center 110px;background-size:100%;}
+    .user-layout-content{padding:32px 0 
+24px}}
+
+.user-login-main
+    {
+        width:388px;
+        margin:0 auto;
+        .ant-tabs {
+            .ant-tabs-bar{margin-bottom:24px;text-align:center;border-bottom:0}
+        }
+        .prefixIcon{color:rgba(0,0,0,.25);font-size:14px;}
+    }
+    @media screen and (max-width:576px){.user-login-main{width:95%}}
+
+    .user-layout-top{text-align:center;
+        .user-layout-header{
+            height: 44px;
+            line-height: 44px;
+            .user-layout-title{position:relative;top:2px;color:rgba(0,0,0,.85);font-weight:600;font-size:33px;font-family:Avenir,Helvetica Neue,Arial,Helvetica,sans-serif}
+        }
+        .user-layout-desc{margin-top:12px;margin-bottom:40px;color:rgba(0,0,0,.45);font-size:14px}         }
+
+    .user-login-main 
+.user-login-icon:hover{color:#1890ff}
+.user-login-main .user-login-other 
+.user-login-register{float:right}
+
+.ant-layout-footer{text-align: center;font-size:14px;color:rgba(0,0,0,.45);}
