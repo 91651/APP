@@ -1,7 +1,7 @@
 <template>
 <div class="user-layout-container">
 <div class="user-layout-content">
-    <div class="user-layout-top"><div class="user-layout-header"><span class="user-layout-title">Ant Design</span></div><div class="user-layout-desc">Ant Design 是西湖区最具影响力的 Web 设计规范</div></div>
+    <div class="user-layout-top"><div class="user-layout-header"><span class="user-layout-title"><a-icon type="smile" /> 遇见时光 </span></div><div class="user-layout-desc">总是热衷于代码的折腾，追求简洁与优雅！</div></div>
 <div class="user-login-main">
 <a-form :layout="'horizontal'">
 <a-tabs defaultActiveKey="1">
@@ -14,6 +14,20 @@
       </a-form-item>
     </a-tab-pane>
   </a-tabs>
+  <a-form-item>
+      <a-checkbox
+        v-decorator="[
+          'remember',
+          {
+            valuePropName: 'checked',
+            initialValue: true,
+          }]">
+        自动登录
+      </a-checkbox>
+      <a-button type="primary" block html-type="submit" class="login-form-button">
+        登录
+      </a-button>
+    </a-form-item>
 </a-form>
 </div>
 

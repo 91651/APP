@@ -6,7 +6,7 @@ import router from './router';
 import store from './store/index';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
-import './global.less';
+import './css/ant-design-pro.less';
 
 Vue.config.productionTip = false;
 import App from './app/app.vue';
