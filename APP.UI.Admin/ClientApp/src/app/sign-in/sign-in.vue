@@ -32,7 +32,7 @@
                   <a-icon slot="prefix" type="lock" class="prefixIcon"/>
                 </a-input>
               </a-form-item>
-              <a-alert message="Error" type="error" showIcon/>
+              <a-alert :message="message" type="error" v-show="message" showIcon/>
             </a-tab-pane>
           </a-tabs>
           <a-form-item>

@@ -4,6 +4,7 @@ import { _Auth } from '@/api-client';
 @Component
 export default class SignInComponent extends Vue {
   private signInForm: any;
+  private message?: string = '';
 
   private beforeCreate() {
     this.signInForm = this.$form.createForm(this);
@@ -14,7 +15,7 @@ export default class SignInComponent extends Vue {
     this.signInForm.validateFields((err: Error, values: any) => {
       if (!err) {
         _Auth.signIn(values.userName, values.password).then((d) => {
-          debugger;
+          this.message = d.status;
         });
       }
     });
