@@ -66,6 +66,7 @@ namespace APP.UI.Admin
             services.AddScopedScan(typeof(Repository<>));
             services.AddScopedScan(typeof(Service));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //添加Swagger服务 *暂时不要升级新版本，由于.Net Core 2.2 bug，新版本会有415错误
             services.AddSwaggerDocument();
         }
 
