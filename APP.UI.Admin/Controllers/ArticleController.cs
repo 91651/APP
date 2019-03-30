@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.Annotations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace APP.UI.Admin.Controllers
 {
-    [Route("api/[controller]"), Authorize]
+    [Route("api/[controller]"), Authorize(AuthenticationSchemes = "Cookies, Bearer")]
     [ApiController]
     public class ArticleController : Controller
     {

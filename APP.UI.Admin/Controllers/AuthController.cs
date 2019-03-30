@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using NJsonSchema.Annotations;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace APP.UI.Admin.Controllers
 {
@@ -44,16 +46,18 @@ namespace APP.UI.Admin.Controllers
             if (signIn.Succeeded)
             {
                 var userPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
+                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("521.org.cn"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
                 var tokenOptions = new JwtSecurityToken(
-                    issuer: "http://localhost:56833",
-                    audience: "http://localhost:8010",
                     claims: userPrincipal.Claims,
                     expires: DateTime.Now.AddDays(1),
                     signingCredentials: signinCredentials
                 );
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal);
+
+
                 result.UserName = user.UserName;
                 result.Status = "³É¹¦";
                 result.TokenType = JwtBearerDefaults.AuthenticationScheme;
