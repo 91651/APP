@@ -6,10 +6,11 @@ using APP.Business.Services.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.Annotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace APP.UI.Admin.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), Authorize]
     [ApiController]
     public class ArticleController : Controller
     {

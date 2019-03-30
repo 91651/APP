@@ -6,19 +6,16 @@ using APP.Business.Services;
 using AutoMapper;
 using BC.Microsoft.DependencyInjection.Plus;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using NSwag;
 using NSwag.AspNetCore;
-using NSwag.SwaggerGeneration.Processors.Security;
+using System.Threading.Tasks;
 
 namespace APP.UI.Admin
 {
@@ -41,6 +38,15 @@ namespace APP.UI.Admin
                 options.Password = new PasswordOptions
                 {
                     RequiredLength = 6
+                };
+            });
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
                 };
             });
             //Ìí¼ÓAutoMapper·şÎñ
