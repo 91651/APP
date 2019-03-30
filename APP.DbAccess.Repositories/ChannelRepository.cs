@@ -5,12 +5,9 @@ namespace APP.DbAccess.Repositories
 {
     public class ChannelRepository : Repository<Channel>, IChannelRepository
     {
-        private readonly AppDbContext _db;
-
         public ChannelRepository(AppDbContext dbContext)
             : base(dbContext)
         {
-            _db = dbContext;
         }
     }
 }

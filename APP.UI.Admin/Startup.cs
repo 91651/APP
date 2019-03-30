@@ -65,21 +65,8 @@ namespace APP.UI.Admin
             //注入项目类
             services.AddScopedScan(typeof(Repository<>));
             services.AddScopedScan(typeof(Service));
-            services.AddMvc(options =>
-            {
-                //默认不允许匿名访问
-                options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build()));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSwaggerDocument(document =>
-            {
-                document.DocumentProcessors.Add(new SecurityDefinitionAppender("Bearer", new SwaggerSecurityScheme
-                {
-                    Type = SwaggerSecuritySchemeType.ApiKey,
-                    Name = "Authorization",
-                    In = SwaggerSecurityApiKeyLocation.Header,
-                }));
-                document.OperationProcessors.Add(new OperationSecurityScopeProcessor("Bearer"));
-            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSwaggerDocument();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
