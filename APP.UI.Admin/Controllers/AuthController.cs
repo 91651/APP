@@ -31,7 +31,7 @@ namespace APP.UI.Admin.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpPost, AllowAnonymous]
+        [HttpPost, Route("SignIn"), AllowAnonymous]
         [return: NotNull]
         public async Task<ActionResult<AuthModel>> SignIn(string name, string pwd)
         {
@@ -39,7 +39,36 @@ namespace APP.UI.Admin.Controllers
             var user = await _userManager.FindByNameAsync(name);
             if (user == null)
             {
-                result.Status = "用户不存在！";
+                result.Message = "用户不存在。";
+                return result;
+            }
+            var signIn = await _signInManager.PasswordSignInAsync(user, pwd, false, false);
+            if (signIn.Succeeded)
+            {
+                var userPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal);
+
+                result.Status = 1;
+            }
+            else if (signIn.IsLockedOut)
+            {
+                result.Message = "用户已经被锁定，目前无法登录。";
+            }
+            else
+            {
+                result.Message = "账号或密码无效。";
+            }
+            return result;
+        }
+        [HttpPost, Route("Token"), AllowAnonymous]
+        [return: NotNull]
+        public async Task<ActionResult<AuthModel>> Token(string name, string pwd)
+        {
+            var result = new AuthModel();
+            var user = await _userManager.FindByNameAsync(name);
+            if (user == null)
+            {
+                result.Message = "用户不存在。";
                 return result;
             }
             var signIn = await _signInManager.PasswordSignInAsync(user, pwd, false, false);
@@ -55,21 +84,18 @@ namespace APP.UI.Admin.Controllers
                     signingCredentials: signinCredentials
                 );
 
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal);
-
-
                 result.UserName = user.UserName;
-                result.Status = "成功";
-                result.TokenType = JwtBearerDefaults.AuthenticationScheme;
+                result.Status = 1;
+                result.Type = JwtBearerDefaults.AuthenticationScheme;
                 result.Token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
             }
             else if (signIn.IsLockedOut)
             {
-                result.Status = "用户已经被锁定，目前无法登录！";
+                result.Message = "用户已经被锁定，目前无法登录。";
             }
             else
             {
-                result.Status = "账号或密码无效！";
+                result.Message = "账号或密码无效。";
             }
             //return Unauthorized();
             return result;

@@ -15,7 +15,11 @@ export default class SignInComponent extends Vue {
     this.signInForm.validateFields((err: Error, values: any) => {
       if (!err) {
         _Auth.signIn(values.userName, values.password).then((d) => {
-          this.message = d.status;
+          if (d.status) {
+            this.$router.replace('/');
+          } else {
+            this.message = d.message;
+          }
         });
       }
     });
