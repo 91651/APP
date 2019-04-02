@@ -45,11 +45,11 @@ const router: Router = new Router({
 });
 
 router.beforeEach((to: any, from: any, next: any) => {
-  const isAuth = store.getters.getToken;
+  const isAuth = store.getters.getUserStatus;
   if (isAuth) {
     next();
   } else {
-    if (to.name === 'signin') { // 这就是跳出死循环的关键
+    if (to.name === 'signin') {
       next();
     } else {
       next('signin');
@@ -59,10 +59,7 @@ router.beforeEach((to: any, from: any, next: any) => {
 
 fetchInterceptor.interceptors.push({
   request: (input: string, init: RequestInit) => {
-    const token = store.getters.getToken;
-    let headers = new Headers(init.headers);
-    headers.append('Authorization', 'Bearer ' + token);
-    init.headers = headers;
+    // 请求注入相关逻辑
     return { input, init };
   }
 }, {
