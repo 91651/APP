@@ -3,7 +3,7 @@ var path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production' ? 'admin' : '',
+  publicPath: process.env.NODE_ENV === 'production' ? 'admin' : '/',
   productionSourceMap: false,
   chainWebpack: config => {
     config.plugins.delete('fork-ts-checker'); // Vue Cli 3.0后，ts分离到独立文件会报错。 https://github.com/vuejs/vue-cli/issues/1104
