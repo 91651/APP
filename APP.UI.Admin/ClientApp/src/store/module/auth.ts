@@ -4,7 +4,7 @@ export const auth = {
   state: {
     name: '',
     token: '',
-    status: 0
+    status: 1
   },
   mutations: {
     SET_SIGNIN: (state: any, data: any) => {
