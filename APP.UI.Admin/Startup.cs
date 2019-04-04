@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using NSwag.AspNetCore;
+using AspNetCore.VueCli;
 
 namespace APP.UI.Admin
 {
@@ -118,9 +119,9 @@ namespace APP.UI.Admin
                 spa.Options.SourcePath = "ClientApp";
                 if (env.IsDevelopment())
                 {
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8010");
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:8010");
                     //自动编译启动Vue
-                    //spa.UseVueDevelopmentServer(npmScript: "serve"); // 目前没有针对Vue的CliServer https://github.com/aspnet/JavaScriptServices/issues/1712
+                    spa.UseVueDevelopmentServer(npmScript: "serve"); // 目前没有针对Vue的CliServer https://github.com/aspnet/JavaScriptServices/issues/1712
                 }
             });
         }

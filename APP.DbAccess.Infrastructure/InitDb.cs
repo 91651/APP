@@ -36,5 +36,20 @@ namespace APP.DbAccess.Infrastructure
                 }
             }
         }
+        public static void InitMenu(this AppDbContext db)
+        {
+            if (db.Database != null)
+            {
+                if (!db.Menus.Any())
+                {
+                    var menu = new Menu
+                    {
+                        Id = Guid.NewGuid().ToString(10)
+                    };
+                    db.Menus.Add(menu);
+                    db.SaveChanges();
+                }
+            }
+        }
     }
 }

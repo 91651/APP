@@ -1,5 +1,5 @@
 <template>
-  <a-layout id="components-layout-demo-top-side-2">
+  <a-layout id="components-layout-demo-top-side-2" :style="{ height: '100vh'}">
     <a-layout-header class="header">
       <div class="logo"/>
       <a-menu
