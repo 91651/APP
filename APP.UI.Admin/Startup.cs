@@ -77,7 +77,7 @@ namespace APP.UI.Admin
             {
                 var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
                 db.Database.EnsureCreated();
-                db.InitUser();
+                db.Init();
             }
 
             if (env.IsDevelopment())

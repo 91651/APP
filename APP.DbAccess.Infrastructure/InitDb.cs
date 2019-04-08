@@ -7,7 +7,12 @@ namespace APP.DbAccess.Infrastructure
 {
     public static class InitDb
     {
-        public static void InitUser(this AppDbContext db)
+        public static void Init(this AppDbContext db)
+        {
+            InitUser(db);
+            InitMenu(db);
+        }
+            public static void InitUser(this AppDbContext db)
         {
             //var db = (AppDbContext)service.GetService(typeof(AppDbContext));
 
@@ -17,7 +22,7 @@ namespace APP.DbAccess.Infrastructure
                 {
                     var user = new User
                     {
-                        Id = Guid.NewGuid().ToString(10),
+                        Id = Guid.NewGuid().ToString(),
                         AccessFailedCount = 0,
                         ConcurrencyStamp = Guid.NewGuid().ToString("N"),
                         Discriminator = "User",
@@ -44,7 +49,13 @@ namespace APP.DbAccess.Infrastructure
                 {
                     var menu = new Menu
                     {
-                        Id = Guid.NewGuid().ToString(10)
+                        Id = Guid.NewGuid().ToString(),
+                        Name = "home",
+                        Title = "首页",
+                        Path = "/",
+                        Order = 1,
+                        State = 1
+
                     };
                     db.Menus.Add(menu);
                     db.SaveChanges();

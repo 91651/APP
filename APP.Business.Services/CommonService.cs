@@ -19,6 +19,9 @@ namespace APP.Business.Services
 
         public List<MenuModel> GetMenus()
         {
+            var result = new List<MenuModel>();
+            var menus = _menuRepository.GetAll().Where(m => m.State == 1);
+
             throw new System.NotImplementedException();
         }
     }
