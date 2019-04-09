@@ -8,6 +8,6 @@ namespace APP.Business.Services.Models
         public string Name { get; set; }
         public string ParentId { get; set; }
         public string Path { get; set; }
-        public List<MenuModel> Children { get; set; }
+        public List<MenuModel> Children { get; set; } = new List<MenuModel>();
     }
 }

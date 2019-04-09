@@ -23,7 +23,7 @@ namespace APP.Business.Services
             foreach (var menu in menus)
             {
                 var model = menus.FirstOrDefault(f => f.Id == menu.ParentId);
-                model.Children.Add(menu);
+                model?.Children.Add(menu);
             }
             return menus.Where(m => string.IsNullOrWhiteSpace(m.ParentId)).ToList();
         }
