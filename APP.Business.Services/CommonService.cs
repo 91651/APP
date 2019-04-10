@@ -20,12 +20,8 @@ namespace APP.Business.Services
         public List<MenuModel> GetMenus()
         {
             var menus = _mapper.Map<List<MenuModel>>(_menuRepository.GetAll().Where(m => m.State == 1));
-            foreach (var menu in menus)
-            {
-                var model = menus.FirstOrDefault(f => f.Id == menu.ParentId);
-                model?.Children.Add(menu);
-            }
-            return menus.Where(m => string.IsNullOrWhiteSpace(m.ParentId)).ToList();
+            menus.ForEach(m => m.Children = menus.Where(c => c.ParentId == m.Id).ToList());
+            return menus.Where(m => string.IsNullOrWhiteSpace(m.ParentId));
         }
     }
 }
