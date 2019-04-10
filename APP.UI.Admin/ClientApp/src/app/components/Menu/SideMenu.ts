@@ -5,4 +5,8 @@ import SideMenuItem from './side-menu-item.vue';
 
 export default class SideMenuComponent extends Vue {
 
+    @Prop()
+    private menus?: any[];
+
+
 }

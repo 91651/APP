@@ -21,7 +21,7 @@ namespace APP.Business.Services
         {
             var menus = _mapper.Map<List<MenuModel>>(_menuRepository.GetAll().Where(m => m.State == 1));
             menus.ForEach(m => m.Children = menus.Where(c => c.ParentId == m.Id).ToList());
-            return menus.Where(m => string.IsNullOrWhiteSpace(m.ParentId));
+            return menus.Where(m => string.IsNullOrWhiteSpace(m.ParentId)).ToList();
         }
     }
 }

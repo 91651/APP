@@ -7,6 +7,7 @@
       mode="inline"
       theme="dark"
       :inlineCollapsed="true"
+      :menu="menus"
     >
       <a-menu-item key="1">
         <a-icon type="pie-chart"/>
