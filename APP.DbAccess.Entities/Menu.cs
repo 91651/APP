@@ -19,6 +19,8 @@ namespace APP.DbAccess.Entities
         [MaxLength(255)]
         public string Title { get; set; }
         [MaxLength(255)]
+        public string Icon { get; set; }
+        [MaxLength(500)]
         public string Path { get; set; }
         public int Order { get; set; }
         public int State { get; set; }

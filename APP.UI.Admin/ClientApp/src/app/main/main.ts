@@ -22,7 +22,7 @@ export default class MainComponent extends Vue {
     private mounted() {
         _Common.getMenus().then(r => {
             this.menus = r!;
-            debugger;
+            console.log(this.menus);
         });
     }
 }

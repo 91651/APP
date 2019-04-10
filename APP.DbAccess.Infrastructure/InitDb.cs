@@ -52,6 +52,7 @@ namespace APP.DbAccess.Infrastructure
                         Id = Guid.NewGuid().ToString(),
                         Name = "home",
                         Title = "首页",
+                        Icon="home",
                         Path = "/",
                         Order = 1,
                         State = 1

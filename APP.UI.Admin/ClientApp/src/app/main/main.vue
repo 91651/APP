@@ -7,7 +7,6 @@
         mode="horizontal"
         :defaultSelectedKeys="['2']"
         :style="{ lineHeight: '64px' }"
-        :menus="menus"
       >
         <a-menu-item key="1">nav 1</a-menu-item>
         <a-menu-item key="2">nav 2</a-menu-item>
@@ -15,7 +14,7 @@
       </a-menu>
     </a-layout-header>
     <a-layout>
-      <side-menu/>
+      <side-menu :menus="menus"/>
       <a-layout style="padding: 0 24px 24px">
         <a-breadcrumb style="margin: 16px 0">
           <a-breadcrumb-item>Home</a-breadcrumb-item>
