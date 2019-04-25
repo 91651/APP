@@ -92,7 +92,7 @@ namespace APP.UI.Admin
                         document.Info.Title = "APP";
                     };
                 });
-                app.UseSwaggerUi3(settings => settings.DocumentPath = "{documentName}/swagger.json");
+                app.UseSwaggerUi3();
             }
             else
             {
