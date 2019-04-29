@@ -29,8 +29,8 @@ namespace APP.UI.MVC.Controllers
             return View();
         }
 
-        [Pjax, HttpGet(@"/channel/{id:regex(^\w{{10}}$)}"), HttpGet(@"/c/{id:regex(^\w{{10}}$)}")]
-        public IActionResult Channel(string id)
+        [Pjax, HttpGet(@"/channel/{id=null}/{page=1}"), HttpGet(@"/c/{id=null}/{page=1}")]
+        public IActionResult Channel(string id, int page)
         {
             var search = new SearchArticleModel();
             if (!string.IsNullOrWhiteSpace(id))
@@ -39,6 +39,7 @@ namespace APP.UI.MVC.Controllers
                 ViewBag.Channel = _blogService.GetChannel(id);
             }
             search.Take = 20;
+            search.Skip = search.Take * page;
             var articles = _articleService.GetArticles(search).Data;
             ViewBag.Articles = articles;
             return View();

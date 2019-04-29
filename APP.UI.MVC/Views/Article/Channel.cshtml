@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = $"遇见时光 | {ViewBag.Channel.Title}";
+    ViewData["Title"] = $"遇见时光 | {ViewBag.Channel?.Title}";
 }
 @foreach (var article in ViewBag.Articles)
 {
