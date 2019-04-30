@@ -39,7 +39,7 @@ namespace APP.UI.MVC.Controllers
                 ViewBag.Channel = _blogService.GetChannel(id);
             }
             search.Take = 20;
-            search.Skip = search.Take * page;
+            search.Skip = search.Take * (page - 1);
             var articles = _articleService.GetArticles(search).Data;
             ViewBag.Articles = articles;
             return View();

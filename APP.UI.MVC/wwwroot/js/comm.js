@@ -97,31 +97,36 @@ $(function () {
     }
 
     //自动加载内容
-    loadMore = { page: 1, completed: true };
+    loadMore = { page: 2, completed: true, nomore: false };
     $(document).scroll(function () {
-        if (!loadMore.completed) {
+        if (!loadMore.completed || loadMore.nomore) {
             return;
         }
-        loadMore.completed = false;
         var scrollHeight = $(document).scrollTop();
         var viewHeight = $(window).height();
         var documentHeight = $(document).height();
         if (documentHeight <= scrollHeight + viewHeight + 100) {
+            loadMore.completed = false;
             loadData();
         }
 
     });
     loadData = function () {
-        debugger
+        var url = (window.location.pathname === "/" ? "/c/ /" : window.location.pathname) + loadMore.page;
         $.ajax({
             type: "get",
-            url: "/c/",
+            url: url,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader("X-PJAX", true);
             }
         }).then((r) => {
-            $("#pjax-container>.blogtab").append(r);
-            loadMore.page++;
+            let el = $(r).not("title");
+            if (el.length > 0) {
+                el.appendTo($("#pjax-container>.blogtab"));
+                loadMore.page++;
+            } else {
+                loadMore.nomore = true;
+            }
             loadMore.completed = true;
         });
     };

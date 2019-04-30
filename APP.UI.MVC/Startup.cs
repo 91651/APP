@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace APP.UI.MVC
 {
@@ -32,6 +34,7 @@ namespace APP.UI.MVC
             services.AddScopedScan(typeof(Repository<>));
             services.AddScopedScan(typeof(Service));
             services.AddAutoMapper();
+            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
             services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; })
             .AddXmlSerializerFormatters()
             .AddRazorOptions(a => { a.AreaViewLocationFormats.Add("~/{2}/Views/{1}/{0}.cshtml"); a.AreaViewLocationFormats.Add("~/{2}/Views/Shared/{0}.cshtml"); })
