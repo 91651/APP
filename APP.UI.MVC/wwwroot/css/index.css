@@ -32,7 +32,7 @@
 .wdxc li img { height: 100%; min-height: 80px; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; transition: all 0.5s; }
 .wdxc li img:hover { transform: scale(1.05) }
 .fenlei li { margin-bottom: 10px; margin-left: 10px }
-.tuijian li { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; margin-bottom: 5px; background: url(../images/li.png) left center no-repeat; padding-left: 20px }
+.tuijian li { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; margin-bottom: 5px; background: url(../image/li.png) left center no-repeat; padding-left: 20px }
 .guanzhu img { width: 100% }
 /*news_box*/
 .news_box { width: 100% }
