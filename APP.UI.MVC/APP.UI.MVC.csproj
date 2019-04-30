@@ -12,10 +12,10 @@
   <ItemGroup>
     <PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.1" />
     <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
-    <PackageReference Include="Jiuban" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Pjax.AspNetCore.Mvc" Version="1.0.2" />
+    <PackageReference Include="久伴" Version="1.0.936" />
   </ItemGroup>
 
   <ItemGroup>
