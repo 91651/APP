@@ -67,5 +67,10 @@ namespace APP.Business.Services
             _articleRepository.SaveChanges();
             return article.Viewed;
         }
+        public List<ArticleModel> GetHotArticles()
+        {
+            var articles = _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Include(i => i.Files).OrderByDescending(a => a.Viewed).Take(10).ToList();
+            return _mapper.Map<List<ArticleModel>>(articles);
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace APP.Business.Services
         ChannelModel GetChannel(string id);
         List<ChannelModel> GetChannels(string pid = null);
         int UpdateArticleViewed(string id);
+        List<ArticleModel> GetHotArticles();
     }
 }

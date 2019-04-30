@@ -119,11 +119,11 @@ namespace APP.Business.Services
             {
                 ex = ex.And(t => t.ChannelId == model.ChannelId);
             }
-            var users = _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Include(i => i.Files).Where(ex).ToDataSourceResult(model);
+            var articles = _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Include(i => i.Files).Where(ex).ToDataSourceResult(model);
             return new ResultModel<List<ArticleListModel>>
             {
-                Data = _mapper.Map<List<ArticleListModel>>(users.Data),
-                Total = users.Total
+                Data = _mapper.Map<List<ArticleListModel>>(articles.Data),
+                Total = articles.Total
             };
         }
         public ResultModel<string> AddChannel(ChannelModel model)

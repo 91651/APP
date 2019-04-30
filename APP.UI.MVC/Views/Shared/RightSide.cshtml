@@ -1,13 +1,6 @@
 ﻿@using APP.Business.Services;
 @inject IBlogService _blogService;
 <aside class="r_box">
-    <div class="about_me">
-        <h2>博主简介</h2>
-        <ul>
-            <i><img src="~/image/me.jpg"></i>
-            <p><b>博主</b>，一个简单普通的代码工作者，目前供职于BC。 本站由本人独自开发，功能以及体验正逐步完善。 同时希望能得到更多的建议。</p>
-        </ul>
-    </div>
     <div class="fenlei">
         <h2>文章分类</h2>
         <ul>
@@ -16,6 +9,19 @@
                 <li><a href="/c/@channel.Id">@channel.Title</a></li>
             }
         </ul>
+    </div>
+    <div class="tuijian">
+        <h2 id="tab"><a href="#" class="current">点击排行</a></h2>
+
+        <div id="content">
+            <ul style="display: block;">
+
+                @foreach (var article in _blogService.GetHotArticles())
+                {
+                    <li><a href="/p/@article.Id" title="@article.Title" target="_blank">@article.Title</a></li>
+                }
+            </ul>
+        </div>
     </div>
 
 </aside>
