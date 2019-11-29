@@ -52,10 +52,7 @@ namespace APP.DbAccess.Infrastructure
         {
             foreach (IMutableEntityType entity in modelBuilder.Model.GetEntityTypes())
             {
-                entity.Relational().TableName = entity.DisplayName();
-                //if (entity.ClrType == null)
-                //    continue;
-                //entity.Relational().TableName = entity.ClrType.Name;
+                entity.SetTableName(entity.DisplayName());
             }
 
         }

@@ -1,17 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.DbAccess.Entities", "APP.DbAccess.Entities\APP.DbAccess.Entities.csproj", "{5D8314FF-A7C5-4BE1-9CD2-BDF2E7D39443}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.DbAccess.Infrastructure", "APP.DbAccess.Infrastructure\APP.DbAccess.Infrastructure.csproj", "{779D1727-8825-4C34-A96C-C447B702664C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.DbAccess.Repositories", "APP.DbAccess.Repositories\APP.DbAccess.Repositories.csproj", "{0D8D2E9A-F482-4EC9-8E40-931BB238C59F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.UI.Admin", "APP.UI.Admin\APP.UI.Admin.csproj", "{114EE0D3-E6D3-47D9-BB06-6F24E9D503F1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.UI.MVC", "APP.UI.MVC\APP.UI.MVC.csproj", "{5C3BE367-2614-4FCC-9D88-B3E378FD8BB0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.Business.Services", "APP.Business.Services\APP.Business.Services.csproj", "{2709145B-A347-40D5-9B66-207B7574C98F}"
 EndProject
@@ -35,14 +31,6 @@ Global
 		{0D8D2E9A-F482-4EC9-8E40-931BB238C59F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D8D2E9A-F482-4EC9-8E40-931BB238C59F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D8D2E9A-F482-4EC9-8E40-931BB238C59F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{114EE0D3-E6D3-47D9-BB06-6F24E9D503F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{114EE0D3-E6D3-47D9-BB06-6F24E9D503F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{114EE0D3-E6D3-47D9-BB06-6F24E9D503F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{114EE0D3-E6D3-47D9-BB06-6F24E9D503F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C3BE367-2614-4FCC-9D88-B3E378FD8BB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C3BE367-2614-4FCC-9D88-B3E378FD8BB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C3BE367-2614-4FCC-9D88-B3E378FD8BB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C3BE367-2614-4FCC-9D88-B3E378FD8BB0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2709145B-A347-40D5-9B66-207B7574C98F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2709145B-A347-40D5-9B66-207B7574C98F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2709145B-A347-40D5-9B66-207B7574C98F}.Release|Any CPU.ActiveCfg = Release|Any CPU
