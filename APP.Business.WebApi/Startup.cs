@@ -1,4 +1,5 @@
 
+using APP.Framework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +36,8 @@ namespace APP.Business.WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseBusinessException();
 
             app.UseOpenApi(settings =>
             {

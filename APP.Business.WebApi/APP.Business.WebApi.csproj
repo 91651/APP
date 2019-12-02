@@ -8,4 +8,8 @@
     <PackageReference Include="NSwag.AspNetCore" Version="13.1.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\APP.Framework\APP.Framework.csproj" />
+  </ItemGroup>
+
 </Project>
