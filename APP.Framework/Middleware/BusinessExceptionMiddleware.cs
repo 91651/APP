@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace APP.Framework
@@ -19,14 +21,10 @@ namespace APP.Framework
 
         public async Task Invoke(HttpContext context)
         {
-            try
-            {
-                await _next(context);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            await _next(context);
+
+            var b = context.Features.Get<IExceptionHandlerFeature>();
+            var d = context.Features.ToList();
         }
     }
     public static class BusinessException

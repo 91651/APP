@@ -2,6 +2,7 @@
 using APP.Framework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,7 +29,14 @@ namespace APP.Business.WebApi
         {
             if (env.IsDevelopment())
             {
+                app.UseBusinessException();
                 app.UseDeveloperExceptionPage();
+                
+                //app.UseBusinessException(new CustomExceptionMiddleWareOption(
+                //     handleType: CustomExceptionHandleType.Both,  //根据url关键字决定处理方式
+                //     jsonHandleUrlKeys: new PathString[] { "/api" },
+                //     errorHandingPath: "/home/error"));
+
             }
 
             app.UseHttpsRedirection();
@@ -37,7 +45,7 @@ namespace APP.Business.WebApi
 
             app.UseAuthorization();
 
-            app.UseBusinessException();
+            
 
             app.UseOpenApi(settings =>
             {
