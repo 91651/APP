@@ -29,15 +29,9 @@ namespace APP.Business.WebApi
         {
             if (env.IsDevelopment())
             {
-                app.UseBusinessException();
                 app.UseDeveloperExceptionPage();
-                
-                //app.UseBusinessException(new CustomExceptionMiddleWareOption(
-                //     handleType: CustomExceptionHandleType.Both,  //根据url关键字决定处理方式
-                //     jsonHandleUrlKeys: new PathString[] { "/api" },
-                //     errorHandingPath: "/home/error"));
-
             }
+            app.UseBusinessException();
 
             app.UseHttpsRedirection();
 

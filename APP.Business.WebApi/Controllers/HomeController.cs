@@ -22,8 +22,8 @@ namespace APP.Business.WebApi.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            throw new Exception("s");
-            return Ok();
+            throw new UnauthorizedAccessException("");
+            return Unauthorized();
         }
     }
 }
