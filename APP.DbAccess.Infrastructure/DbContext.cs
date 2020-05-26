@@ -29,8 +29,6 @@ namespace APP.DbAccess.Infrastructure
     {
         public AppDbContext(DbContextOptions options) : base(options)
         { }
-        protected AppDbContext()
-        { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //基类OnModelCreating方法需要先执行
@@ -48,11 +46,12 @@ namespace APP.DbAccess.Infrastructure
 
     public static class ModelBuilderExtensions
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "EF1001:Internal EF Core API usage.", Justification = "<挂起>")]
         public static void RemovePluralizingTableNameConvention(this ModelBuilder modelBuilder)
         {
-            foreach (IMutableEntityType entity in modelBuilder.Model.GetEntityTypes())
+            foreach (IMutableEntityType entity in modelBuilder.Model.GetRootEntityTypes())
             {
-                entity.SetTableName(entity.DisplayName());
+                entity.SetTableName(entity.ClrType.Name);
             }
 
         }

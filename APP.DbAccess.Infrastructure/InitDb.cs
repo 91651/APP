@@ -2,15 +2,24 @@
 using System.Linq;
 using APP.DbAccess.Entities;
 using APP.Framework.Util;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace APP.DbAccess.Infrastructure
 {
     public static class InitDb
     {
+        public static void UseInitDb(this IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
+                db.Database.EnsureCreated();
+                db.InitUser();
+            }
+        }
         public static void InitUser(this AppDbContext db)
         {
-            //var db = (AppDbContext)service.GetService(typeof(AppDbContext));
-
             if (db.Database != null)
             {
                 if (!db.Users.Any())

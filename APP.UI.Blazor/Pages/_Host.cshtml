@@ -1,0 +1,52 @@
+﻿@page "/"
+@namespace APP.UI.Blazor.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>APP.UI.Blazor</title>
+    <base href="~/" />
+    <link href="~/css/base.css" rel="stylesheet">
+    <link href="~/css/index.css" rel="stylesheet">
+    <link href="~/css/m.css" rel="stylesheet">
+</head>
+<body>
+    <app>
+        @*<component type="typeof(App)" render-mode="ServerPrerendered" />*@
+    </app>
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.server.js"></script>
+
+    <environment names="Development">
+        <script src="~/js/lib.min.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Production">
+        <script src="~/js/lib.min.js" asp-append-version="true"></script>
+    </environment>
+
+    <script src="~/js/jquery.easyfader.min.js"></script>
+    <script src="~/js/hc-sticky.js"></script>
+    <script src="~/js/comm.js"></script>
+    <script src="~/js/scrollReveal.js"></script>
+    <!--[if lt IE 9]>
+    <script src="js/modernizr.js"></script>
+    <![endif]-->
+</body>
+</html>
