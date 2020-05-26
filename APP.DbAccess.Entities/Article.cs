@@ -7,7 +7,6 @@ using APP.Framework.Util;
 
 namespace APP.DbAccess.Entities
 {
-    [Table("1421asfasd")]
     public class Article
     {
         [Key]

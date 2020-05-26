@@ -14,8 +14,10 @@ namespace APP.DbAccess.Infrastructure
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
-                db.Database.EnsureCreated();
-                db.InitUser();
+                if (db.Database.EnsureCreated())
+                {
+                    db.InitUser();
+                }
             }
         }
         public static void InitUser(this AppDbContext db)

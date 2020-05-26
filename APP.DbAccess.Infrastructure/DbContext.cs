@@ -1,9 +1,10 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using APP.DbAccess.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace APP.DbAccess.Infrastructure
 {
@@ -46,12 +47,14 @@ namespace APP.DbAccess.Infrastructure
 
     public static class ModelBuilderExtensions
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "EF1001:Internal EF Core API usage.", Justification = "<挂起>")]
         public static void RemovePluralizingTableNameConvention(this ModelBuilder modelBuilder)
         {
-            foreach (IMutableEntityType entity in modelBuilder.Model.GetRootEntityTypes())
+            foreach (var entity in modelBuilder.Model.GetEntityTypes())
             {
-                entity.SetTableName(entity.ClrType.Name);
+                if (entity.BaseType == null && entity.ClrType.CustomAttributes.All(a => a.AttributeType != typeof(TableAttribute)))
+                {
+                    entity.SetTableName(entity.GetDefaultTableName());
+                }
             }
 
         }

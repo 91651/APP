@@ -11,6 +11,7 @@ using APP.Business.Services.Models;
 using APP.Framework.Util;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace APP.Business.Services
 {
@@ -94,7 +95,7 @@ namespace APP.Business.Services
                 Data = model
             };
         }
-        public ResultModel<List<ArticleListModel>> GetArticles(SearchArticleModel model)
+        public async Task<ResultModel<List<ArticleListModel>>> GetArticles(SearchArticleModel model)
         {
             model.Sort = new List<Sort> { new Sort { Field = "Created", Desc = true } };
             Expression<Func<Article, bool>> ex = t => true;
@@ -119,7 +120,7 @@ namespace APP.Business.Services
             {
                 ex = ex.And(t => t.ChannelId == model.ChannelId);
             }
-            var users = _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Include(i => i.Files).Where(ex).ToDataSourceResult(model);
+            var users = await _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Include(i => i.Files).Where(ex).ToDataSourceResultAsync(model);
             return new ResultModel<List<ArticleListModel>>
             {
                 Data = _mapper.Map<List<ArticleListModel>>(users.Data),
