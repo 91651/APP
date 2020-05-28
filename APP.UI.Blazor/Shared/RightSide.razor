@@ -1,4 +1,5 @@
-﻿@using APP.Business.Services;
+﻿@using APP.Business.Services.Models;
+@using APP.Business.Services;
 @inject IBlogService _blogService;
 
 <aside class="r_box">
@@ -12,7 +13,7 @@
     <div class="fenlei">
         <h2>文章分类</h2>
         <ul>
-            @foreach (var channel in _blogService.GetChannels())
+            @foreach (var channel in channels)
             {
                 <li><a href="/c/@channel.Id">@channel.Title</a></li>
             }
@@ -20,3 +21,12 @@
     </div>
 
 </aside>
+
+@code {
+    private List<ChannelModel> channels;
+
+    protected override async Task OnInitializedAsync()
+    {
+        channels = await _blogService.GetChannelsAsync();
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using APP.DbAccess.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -10,7 +11,7 @@ namespace APP.DbAccess.Repositories
         AppDbContext _db { get; }
         DbSet<TEntity> _dbSet { get; }
         void Add(TEntity entity);
-        TEntity GetById(string id);
+        Task<TEntity> GetByIdAsync(string id);
         IQueryable<TEntity> GetAll();
         void Update(TEntity entity);
         void Remove(string id);

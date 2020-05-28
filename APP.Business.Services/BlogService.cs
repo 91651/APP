@@ -5,6 +5,7 @@ using APP.DbAccess.Repositories;
 using APP.Business.Services.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace APP.Business.Services
 {
@@ -20,49 +21,49 @@ namespace APP.Business.Services
             _articleRepository = articleRepository;
             _channleRepository = channleRepository;
         }
-        public ArticleModel GetArticle(string id)
+        public async Task<ArticleModel> GetArticleAsync(string id)
         {
-            var entity = _articleRepository.GetAll().Include(i => i.Channel).AsNoTracking().FirstOrDefault(a => a.Id == id);
+            var entity = await _articleRepository.GetAll().Include(i => i.Channel).AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
             var channels = new List<string>();
             var cid = entity.ChannelId;
             while (!string.IsNullOrWhiteSpace(cid))
             {
                 channels.Add(cid);
-                cid = _channleRepository.GetById(cid)?.ParentId;
+                cid = (await _channleRepository.GetByIdAsync(cid))?.ParentId;
             }
             var model = _mapper.Map<ArticleModel>(entity);
             channels.Reverse();
             model.ChannelId = channels.ToArray();
             return model;
         }
-        public ArticleModel GetPrevArticle(string id, string channelId)
+        public async Task<ArticleModel> GetPrevArticleAsync(string id, string channelId)
         {
-            var article = _articleRepository.GetById(id);
-            var entity = _articleRepository.GetAll().Where(a => (string.IsNullOrEmpty(channelId) || a.ChannelId == channelId) && a.Updated < article.Updated).OrderByDescending(o => o.Updated).FirstOrDefault();
+            var article = await _articleRepository.GetByIdAsync(id);
+            var entity = await _articleRepository.GetAll().Where(a => (string.IsNullOrEmpty(channelId) || a.ChannelId == channelId) && a.Updated < article.Updated).OrderByDescending(o => o.Updated).FirstOrDefaultAsync();
             var model = _mapper.Map<ArticleModel>(entity);
             return model;
         }
-        public ArticleModel GetNextArticle(string Id, string channelId)
+        public async Task<ArticleModel> GetNextArticleAsync(string Id, string channelId)
         {
-            var article = _articleRepository.GetById(Id);
-            var entity = _articleRepository.GetAll().Where(a => (string.IsNullOrEmpty(channelId) || a.ChannelId == channelId) && a.Updated > article.Updated).OrderBy(o => o.Updated).FirstOrDefault();
+            var article = await _articleRepository.GetByIdAsync(Id);
+            var entity = await _articleRepository.GetAll().Where(a => (string.IsNullOrEmpty(channelId) || a.ChannelId == channelId) && a.Updated > article.Updated).OrderBy(o => o.Updated).FirstOrDefaultAsync();
             var model = _mapper.Map<ArticleModel>(entity);
             return model;
         }
-        public ChannelModel GetChannel(string id)
+        public async Task<ChannelModel> GetChannelAsync(string id)
         {
-            var entity = _channleRepository.GetById(id);
+            var entity = await _channleRepository.GetByIdAsync(id);
             return _mapper.Map<ChannelModel>(entity);
         }
-        public List<ChannelModel> GetChannels(string pid = null)
+        public async Task<List<ChannelModel>> GetChannelsAsync(string pid = null)
         {
-            var channels = _channleRepository.GetAll().Where(c => c.State == 1 && c.ParentId == pid).ToList();
+            var channels = await _channleRepository.GetAll().Where(c => c.State == 1 && c.ParentId == pid).ToListAsync();
             var list = _mapper.Map<List<ChannelModel>>(channels);
             return list;
         }
-        public int UpdateArticleViewed(string id)
+        public async Task<int> UpdateArticleViewedAsync(string id)
         {
-            var article = _articleRepository.GetById(id);
+            var article = await _articleRepository.GetByIdAsync(id);
             article.Viewed++;
             _articleRepository.SaveChanges();
             return article.Viewed;

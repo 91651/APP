@@ -30,7 +30,7 @@ namespace APP.Business.Services
             _fileRepository = fileRepository;
         }
 
-        public ResultModel<string> AddArticle(ArticleModel model)
+        public async Task<string> AddArticleAsync(ArticleModel model)
         {
             model.Created = DateTime.Now;
             model.Updated = DateTime.Now;
@@ -39,27 +39,20 @@ namespace APP.Business.Services
             entity.Id = Guid.NewGuid().ToString(10);
             _articleRepository.Add(entity);
             //包含的文件处理
-            _fileRepository.GetAll().Where(f => model.Files.Contains(f.Id)).ForEachAsync(f => f.OwnerId = entity.Id);
+            await _fileRepository.GetAll().Where(f => model.Files.Contains(f.Id)).ForEachAsync(f => f.OwnerId = entity.Id);
 
             _articleRepository.SaveChanges();
-            return new ResultModel<string>
-            {
-                Status = true,
-                Data = entity.Id
-            };
+            return entity.Id;
         }
 
-        public ResultModel DelArticle(string id)
+        public async Task<bool> DelArticleAsync(string id)
         {
-            var entity = _articleRepository.GetById(id);
+            var entity = await _articleRepository.GetByIdAsync(id);
             entity.State = 0;
             var rows = _articleRepository.SaveChanges();
-            return new ResultModel
-            {
-                Status = rows > 0
-            };
+            return rows > 0;
         }
-        public ResultModel UpdateArticle(ArticleModel model)
+        public async Task<bool> UpdateArticleAsync(ArticleModel model)
         {
             model.Updated = DateTime.Now;
             var entity = _mapper.Map<Article>(model);
@@ -67,16 +60,13 @@ namespace APP.Business.Services
             _articleRepository.Entry(entity).Property(nameof(entity.Created)).IsModified = false;
             _articleRepository.Entry(entity).Property(nameof(entity.UserId)).IsModified = false;
             //包含的文件处理
-            _fileRepository.GetAll().Where(f => model.Files.Contains(f.Id)).ForEachAsync(f => f.OwnerId = entity.Id);
+            await _fileRepository.GetAll().Where(f => model.Files.Contains(f.Id)).ForEachAsync(f => f.OwnerId = entity.Id);
 
             var rows = _articleRepository.SaveChanges();
-            return new ResultModel
-            {
-                Status = rows > 0
-            };
+            return rows > 0;
         }
 
-        public ResultModel<ArticleModel> GetArticle(string id)
+        public async Task<ArticleModel> GetArticleAsync(string id)
         {
             var entity = _articleRepository.GetAll().Include(i => i.Channel).AsNoTracking().FirstOrDefault(a => a.Id == id);
             var channels = new List<string>();
@@ -84,18 +74,14 @@ namespace APP.Business.Services
             while (!string.IsNullOrWhiteSpace(cid))
             {
                 channels.Add(cid);
-                cid = _channleRepository.GetById(cid)?.ParentId;
+                cid = (await _channleRepository.GetByIdAsync(cid))?.ParentId;
             }
             var model = _mapper.Map<ArticleModel>(entity);
             channels.Reverse();
             model.ChannelId = channels.ToArray();
-            return new ResultModel<ArticleModel>
-            {
-                Status = entity != null,
-                Data = model
-            };
+            return model;
         }
-        public async Task<ResultModel<List<ArticleListModel>>> GetArticles(SearchArticleModel model)
+        public async Task<ResultModel<List<ArticleListModel>>> GetArticlesAsync(SearchArticleModel model)
         {
             model.Sort = new List<Sort> { new Sort { Field = "Created", Desc = true } };
             Expression<Func<Article, bool>> ex = t => true;
@@ -127,31 +113,23 @@ namespace APP.Business.Services
                 Total = users.Total
             };
         }
-        public ResultModel<string> AddChannel(ChannelModel model)
+        public async Task<string> AddChannelAsync(ChannelModel model)
         {
             var channel = _channleRepository.GetAll().Where(c => c.Title == model.Title.Trim() && c.ParentId == model.ParentId).FirstOrDefault();
             if (channel != null)
             {
-                return new ResultModel<string>
-                {
-                    Status = true,
-                    Data = channel.Id
-                };
+                return channel.Id;
             }
             var entity = _mapper.Map<Channel>(model);
             entity.Id = Guid.NewGuid().ToString(10);
             entity.State = 1;
             _channleRepository.Add(entity);
             _articleRepository.SaveChanges();
-            return new ResultModel<string>
-            {
-                Status = true,
-                Data = entity.Id
-            };
+            return entity.Id;
         }
-        public List<Cascader> GetChannelsToCascader(string channelId)
+        public async Task<List<Cascader>> GetChannelsToCascaderAsync(string channelId)
         {
-            var channels = _channleRepository.GetAll().Where(c => c.State == 1).ToList();
+            var channels = await _channleRepository.GetAll().Where(c => c.State == 1).ToListAsync();
             var result = new List<Cascader>();
             foreach (var c in channels.Where(c => c.ParentId == channelId))
             {

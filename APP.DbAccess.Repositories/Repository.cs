@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using APP.DbAccess.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -22,9 +23,9 @@ namespace APP.DbAccess.Repositories
             _dbSet.Add(entity);
         }
 
-        public virtual TEntity GetById(string id)
+        public virtual async Task<TEntity> GetByIdAsync(string id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
         public virtual IQueryable<TEntity> GetAll()

@@ -1,13 +1,51 @@
 ﻿@page "/article/{Id}"
 @page "/p/{Id}"
 
+@using APP.Business.Services.Models;
+@using APP.Business.Services;
+@inject IBlogService _blogService;
+@inject IArticleService _articleService;
 
-<h1>Weather forecast</h1>
+<link href="~/css/info.css" rel="stylesheet">
+@*为Markdown加载样式*@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet" />
+<div class="infosbox">
+    <div class="newsview">
+        <h3 class="news_title">@article.Title</h3>
+        <div class="bloginfo">
+            <ul>
+                <li class="author">作者：<a href="/">@article.Author</a></li>
+                <li class="lmname"><a href="/c/@article.ChannelId[article.ChannelId.Length - 1]">@article.ChannelName</a></li>
+                <li class="timer">时间：@($"{article.Updated:yyyy年M月d日 HH:mm}")</li>
+                <li class="view">@article.Viewed 人已阅读</li>
+            </ul>
+        </div>
+        <div class="news_about"><strong>简介</strong>@article.Summary</div>
+        <div class="@(article.Editor == 1 ? "markdown-body" : "" )">
+            @((MarkupString)article.Content)
+        </div>
+    </div>
 
-<p>aaa.</p>
+    <div class="nextinfo">
+        <p>上一篇：<a href="/Article/@prevArticle?.Id">@(prevArticle?.Title ?? "已经是第一篇") </a></p>
+        <p>下一篇：<a href="/Article/@nextArticle?.Id">@(nextArticle?.Title ?? "已经是最后一篇") </a></p>
+    </div>
+</div>
 
 
 @code {
     [Parameter]
     public string id { get; set; }
+    private ArticleModel article { get; set; }
+    private ArticleModel prevArticle { get; set; }
+    private ArticleModel nextArticle { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        article = await _blogService.GetArticleAsync(id);
+        var channelId = article.ChannelId.Last();
+        prevArticle = await _blogService.GetPrevArticleAsync(id, channelId);
+        nextArticle = await _blogService.GetNextArticleAsync(id, channelId);
+    }
 }

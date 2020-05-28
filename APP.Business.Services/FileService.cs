@@ -5,6 +5,7 @@ using APP.DbAccess.Repositories;
 using APP.Business.Services.Models;
 using APP.Framework.Util;
 using AutoMapper;
+using System.Threading.Tasks;
 
 namespace APP.Business.Services
 {
@@ -36,9 +37,9 @@ namespace APP.Business.Services
                 Status = rows > 0
             };
         }
-        public FileModel GetFile(string id)
+        public async Task<FileModel> GetFile(string id)
         {
-            var entity = _fileRepository.GetById(id);
+            var entity = await _fileRepository.GetByIdAsync(id);
             return _mapper.Map<FileModel>(entity);
         }
         public FileModel GetFileByMd5(string md5)
