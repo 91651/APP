@@ -35,15 +35,39 @@
     <div>
         <AntCard Title="@("评论")">
             <AntRow>
-                <AntCol Span="3" style="text-align: right;">
-                    <Avatar size="large">
-                        评论
-                    </Avatar>
+                <AntCol Span="2" style="text-align: right;">
+                    <Avatar size="large" Icon="user" />
                 </AntCol>
                 <AntCol Span="1">
                 </AntCol>
                 <AntCol Span="20"> <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5"></TextArea></AntCol>
             </AntRow>
+            <br />
+            <AntRow>
+                <AntCol Span="20" Offset="3">
+                    <Form Layout="@(FormLayout.Inline)" Model="@comment">
+                        <FormItem Label="昵称">
+                            <Input @bind-Value="@context.NickName" />
+                        </FormItem>
+
+                        <FormItem Label="邮箱">
+                            <Input @bind-Value="@context.Email" />
+                        </FormItem>
+
+                    </Form>
+                </AntCol>
+            </AntRow>
+            <br />
+            <AntList DataSource="@comments">
+                <Header>热门评论</Header>
+                <Item Context="item">
+                    <AntListItemMeta Description="Ant Design, a design language for background applications, is refined by Ant UED Team">
+                        <Title>
+                            @item.NickName
+                        </Title>
+                    </AntListItemMeta>
+                </Item>
+            </AntList>
         </AntCard>
     </div>
 </div>
@@ -56,11 +80,17 @@
     private ArticleModel prevArticle { get; set; }
     private ArticleModel nextArticle { get; set; }
 
+    private CommentModel comment = new CommentModel();
+    private List<CommentModel> comments = new List<CommentModel>();
+
     protected override async Task OnParametersSetAsync()
     {
         article = await _blogService.GetArticleAsync(id);
         var channelId = article.ChannelId.Last();
         prevArticle = await _blogService.GetPrevArticleAsync(id, channelId);
         nextArticle = await _blogService.GetNextArticleAsync(id, channelId);
+
+        comments.Add(new CommentModel { NickName="奥萨嘎顶顶顶顶", Email="asdfsaasdfasd", Content="大师法士大夫撒地方撒发师德师风" });
+        comments.Add(new CommentModel { NickName = "奥萨嘎顶顶顶顶asdfasd", Email = "asdfsaasdfasdaeee", Content = "大师法士大夫撒地方撒发师德师风asge" });
     }
 }
