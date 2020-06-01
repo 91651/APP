@@ -1,11 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AntDesign" Version="0.1.0-nightly-200531143024" />
     <PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.1" />
+    <PackageReference Include="Jiuban" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

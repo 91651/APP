@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using APP.UI.Blazor.Data;
 using BC.Microsoft.DependencyInjection.Plus;
 using APP.DbAccess.Repositories;
 using APP.Business.Services;
@@ -18,6 +17,8 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using APP.Business.Services.AutoMapper;
 using APP.DbAccess.Entities;
+using System.Text.Unicode;
+using System.Text.Encodings.Web;
 
 namespace APP.UI.Blazor
 {
@@ -34,9 +35,11 @@ namespace APP.UI.Blazor
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddAutoMapper(typeof(Mappings));
+            services.AddAntDesign();
             services.AddDbContext<AppDbContext>(option => option.UseSqlite(Configuration["ConnectionStrings:SqliteConnection"]));
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<AppDbContext>();
             services.AddScopedScan(typeof(Repository<>));

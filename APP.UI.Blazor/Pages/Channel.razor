@@ -30,18 +30,24 @@
 @code {
     [Parameter]
     public string id { get; set; }
+    private int page = default;
     private ChannelModel channel { get; set; }
-    private List<ArticleListModel> articles;
+    private SearchArticleModel search = new SearchArticleModel() { Take = 20 };
+    private List<ArticleListModel> articles = new List<ArticleListModel>();
 
     protected override async Task OnParametersSetAsync()
     {
-        var search = new SearchArticleModel();
         if (!string.IsNullOrWhiteSpace(id))
         {
             search.ChannelId = id;
             channel = await _blogService.GetChannelAsync(id);
         }
-        search.Take = 20;
-        articles = (await _articleService.GetArticlesAsync(search)).Data;
+    }
+
+    private async Task GetArticles()
+    {
+        search.Skip = search.Take * page++;
+        var data = (await _articleService.GetArticlesAsync(search)).Data;
+        articles.AddRange(data);
     }
 }

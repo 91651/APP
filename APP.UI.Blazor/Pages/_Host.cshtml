@@ -10,8 +10,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>APP.UI.Blazor</title>
+    <title>遇见时光</title>
     <base href="~/" />
+    <link href="_content/AntDesign/css/ant-design-blazor.css" rel="stylesheet" />
     <link href="~/css/base.css" rel="stylesheet">
     <link href="~/css/index.css" rel="stylesheet">
     <link href="~/css/m.css" rel="stylesheet">
@@ -40,7 +41,7 @@
     <environment names="Production">
         <script src="~/js/lib.min.js" asp-append-version="true"></script>
     </environment>
-
+    <script src="_content/AntDesign/js/ant-design-blazor.js"></script>
     <script src="~/js/jquery.easyfader.min.js"></script>
     <script src="~/js/hc-sticky.js"></script>
     <script src="~/js/comm.js"></script>
@@ -48,5 +49,10 @@
     <!--[if lt IE 9]>
     <script src="js/modernizr.js"></script>
     <![endif]-->
+
+    <script lang="love">
+        console.info("%c%s", "color: #9399; font-size: 12px;",
+    "@(Jiuban.Fate.Lucky)"
+            )</script>
 </body>
 </html>
