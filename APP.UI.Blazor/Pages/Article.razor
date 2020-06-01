@@ -6,7 +6,7 @@
 @inject IBlogService _blogService;
 @inject IArticleService _articleService;
 
-<link href="~/css/info.css" rel="stylesheet">
+<link href="/css/info.css" rel="stylesheet">
 @*为Markdown加载样式*@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.9.0/github-markdown.min.css" rel="stylesheet" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet" />
@@ -30,6 +30,21 @@
     <div class="nextinfo">
         <p>上一篇：<a href="/Article/@prevArticle?.Id">@(prevArticle?.Title ?? "已经是第一篇") </a></p>
         <p>下一篇：<a href="/Article/@nextArticle?.Id">@(nextArticle?.Title ?? "已经是最后一篇") </a></p>
+    </div>
+
+    <div>
+        <AntCard Title="@("评论")">
+            <AntRow>
+                <AntCol Span="3" style="text-align: right;">
+                    <Avatar size="large">
+                        评论
+                    </Avatar>
+                </AntCol>
+                <AntCol Span="1">
+                </AntCol>
+                <AntCol Span="20"> <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5"></TextArea></AntCol>
+            </AntRow>
+        </AntCard>
     </div>
 </div>
 
