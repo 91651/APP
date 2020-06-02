@@ -18,9 +18,9 @@ namespace APP.DbAccess.Repositories
             _dbSet = _db.Set<TEntity>();
         }
 
-        public virtual void Add(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
-            _dbSet.Add(entity);
+            await _dbSet.AddAsync(entity);
         }
 
         public virtual async Task<TEntity> GetByIdAsync(string id)
@@ -43,9 +43,9 @@ namespace APP.DbAccess.Repositories
             _dbSet.Remove(_dbSet.Find(id));
         }
 
-        public int SaveChanges()
+        public virtual async Task<int> SaveChangesAsync()
         {
-            return _db.SaveChanges();
+            return await _db.SaveChangesAsync();
         }
         public EntityEntry Entry(TEntity entity)
         {

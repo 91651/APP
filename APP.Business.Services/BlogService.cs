@@ -65,7 +65,7 @@ namespace APP.Business.Services
         {
             var article = await _articleRepository.GetByIdAsync(id);
             article.Viewed++;
-            _articleRepository.SaveChanges();
+            await _articleRepository.SaveChangesAsync();
             return article.Viewed;
         }
     }

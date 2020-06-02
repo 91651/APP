@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using APP.Framework.Util;
 using Microsoft.AspNetCore.Identity;
 
 namespace APP.DbAccess.Entities
@@ -9,7 +8,7 @@ namespace APP.DbAccess.Entities
     {
         public Role()
         {
-            Id = Guid.NewGuid().ToString(10);
+            Id = Guid.NewGuid().ToString();
         }
     }
     public class Role<TKey> : IdentityRole<TKey>
@@ -26,7 +25,7 @@ namespace APP.DbAccess.Entities
         public override string NormalizedName { get; set; }
 
         [MaxLength(255)]
-        public override string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString(10);
+        public override string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
 
         [MaxLength(255)]
         public string Discriminator { get; set; }

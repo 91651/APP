@@ -20,9 +20,10 @@ namespace APP.Business.Services.AutoMapper
                 .ForMember(m => m.ChannelName, opt => opt.MapFrom(s => s.Channel.Title))
                 .ForMember(m => m.UserName, opt => opt.MapFrom(s => s.User.UserName))
                 .ForMember(m => m.File, opt => opt.MapFrom(s => s.Files.FirstOrDefault()));
-            CreateMap<User, UserModel>();
             CreateMap<Channel, ChannelModel>();
+            CreateMap<Comment, CommentModel>().ReverseMap();
             CreateMap<File, FileModel>();
+            CreateMap<User, UserModel>();
         }
     }
 }

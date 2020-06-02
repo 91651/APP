@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using APP.DbAccess.Entities;
-using APP.Framework.Util;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,7 +27,7 @@ namespace APP.DbAccess.Infrastructure
                 {
                     var user = new User
                     {
-                        Id = Guid.NewGuid().ToString(10),
+                        Id = Guid.NewGuid().ToString(),
                         AccessFailedCount = 0,
                         ConcurrencyStamp = Guid.NewGuid().ToString("N"),
                         Discriminator = "User",

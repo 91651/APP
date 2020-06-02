@@ -37,11 +37,11 @@ namespace APP.Business.Services
             model.State = 1;
             var entity = _mapper.Map<Article>(model);
             entity.Id = Guid.NewGuid().ToString(10);
-            _articleRepository.Add(entity);
+            await _articleRepository.AddAsync(entity);
             //包含的文件处理
             await _fileRepository.GetAll().Where(f => model.Files.Contains(f.Id)).ForEachAsync(f => f.OwnerId = entity.Id);
 
-            _articleRepository.SaveChanges();
+            await _articleRepository.SaveChangesAsync();
             return entity.Id;
         }
 
@@ -49,7 +49,7 @@ namespace APP.Business.Services
         {
             var entity = await _articleRepository.GetByIdAsync(id);
             entity.State = 0;
-            var rows = _articleRepository.SaveChanges();
+            var rows = await _articleRepository.SaveChangesAsync();
             return rows > 0;
         }
         public async Task<bool> UpdateArticleAsync(ArticleModel model)
@@ -62,7 +62,7 @@ namespace APP.Business.Services
             //包含的文件处理
             await _fileRepository.GetAll().Where(f => model.Files.Contains(f.Id)).ForEachAsync(f => f.OwnerId = entity.Id);
 
-            var rows = _articleRepository.SaveChanges();
+            var rows = await _articleRepository.SaveChangesAsync();
             return rows > 0;
         }
 
@@ -123,8 +123,8 @@ namespace APP.Business.Services
             var entity = _mapper.Map<Channel>(model);
             entity.Id = Guid.NewGuid().ToString(10);
             entity.State = 1;
-            _channleRepository.Add(entity);
-            _articleRepository.SaveChanges();
+            await _channleRepository.AddAsync(entity);
+            await _articleRepository.SaveChangesAsync();
             return entity.Id;
         }
         public async Task<List<Cascader>> GetChannelsToCascaderAsync(string channelId)

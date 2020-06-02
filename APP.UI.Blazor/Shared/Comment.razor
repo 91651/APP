@@ -1,0 +1,98 @@
+﻿@using APP.Business.Services.Models;
+@using APP.Business.Services;
+@inject ICommentService _commentService;
+
+
+@if (ShowAddComment)
+{
+    <AntRow>
+        <AntCol Span="2" style="text-align: right;">
+            <Avatar size="large" Icon="user" />
+        </AntCol>
+        <AntCol Span="1">
+        </AntCol>
+        <AntCol Span="20"> <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5"></TextArea></AntCol>
+    </AntRow>
+    <br />
+    <AntRow>
+        <AntCol Span="20" Offset="3">
+            <Form Layout="@(FormLayout.Inline)" Model="@comment">
+                <FormItem Label="昵称">
+                    <Input @bind-Value="@context.NickName" />
+                </FormItem>
+
+                <FormItem Label="邮箱">
+                    <Input @bind-Value="@context.Email" />
+                </FormItem>
+                
+            </Form>
+        </AntCol>
+    </AntRow>
+    <br />
+
+}
+@if (!IsChild)
+{
+    <AntList Loading="true" Pagination="true" DataSource="@DataSource">
+
+        <Header>热门评论</Header>
+        <Item Context="item">
+            <AntListItemMeta Description="Ant Design, a design language for background applications, is refined by Ant UED Team">
+                <Title>
+                    @item.NickName
+                </Title>
+            </AntListItemMeta>
+            <div>
+                @if (item.Comments != null)
+                {
+                    <Comment ShowAddComment="false" IsChild="true" DataSource="item.Comments" />
+                }
+                    
+                </div>
+        </Item>
+    </AntList>
+}
+else
+{
+    <AntList Loading="true" Pagination="true" DataSource="@DataSource">
+        <Item Context="item">
+            <AntListItemMeta Description="Ant Design, a design language for background applications, is refined by Ant UED Team">
+                <Title>
+                    @item.NickName
+                </Title>
+            </AntListItemMeta>
+            <div>
+                @if (item.Comments != null)
+                {
+                    <Comment ShowAddComment="false" IsChild="true" DataSource="item.Comments" />
+                }
+            </div>
+        </Item>
+    </AntList>
+}
+
+
+@code {
+    [Parameter]
+    public List<CommentModel> DataSource { get; set; }
+    [Parameter]
+    public bool IsChild { get; set; }
+    [Parameter]
+    public bool ShowAddComment { get; set; } = true;
+    private CommentModel comment = new CommentModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!IsChild)
+        {
+            var comments = await _commentService.GetCommentsAsync();
+            DataSource = comments;
+        }
+
+    }
+
+    private async Task SubmitComment()
+    {
+        var a = comment;
+    }
+}

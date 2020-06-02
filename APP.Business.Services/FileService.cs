@@ -20,18 +20,18 @@ namespace APP.Business.Services
             _fileRepository = fileRepository;
         }
 
-        public string AddFile(FileModel model)
+        public async Task<string> AddFileAsync(FileModel model)
         {
             var entity = _mapper.Map<File>(model);
             entity.Id = Guid.NewGuid().ToString(10);
-            _fileRepository.Add(entity);
-            _fileRepository.SaveChanges();
+            await _fileRepository.AddAsync(entity);
+            await _fileRepository.SaveChangesAsync();
             return entity.Id;
         }
-        public ResultModel DelFile(string id)
+        public async Task<ResultModel> DelFileAsync(string id)
         {
             _fileRepository.Remove(id);
-            var rows = _fileRepository.SaveChanges();
+            var rows = await _fileRepository.SaveChangesAsync();
             return new ResultModel
             {
                 Status = rows > 0

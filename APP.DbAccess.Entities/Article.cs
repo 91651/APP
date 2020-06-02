@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using APP.Framework.Util;
 
 namespace APP.DbAccess.Entities
 {
@@ -11,7 +10,7 @@ namespace APP.DbAccess.Entities
     {
         [Key]
         [MaxLength(40)]
-        public string Id { get; set; } = Guid.NewGuid().ToString(10);
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [MaxLength(255)]
         public string Title { get; set; }

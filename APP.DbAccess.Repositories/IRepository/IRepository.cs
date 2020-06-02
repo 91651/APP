@@ -10,12 +10,12 @@ namespace APP.DbAccess.Repositories
     {
         AppDbContext _db { get; }
         DbSet<TEntity> _dbSet { get; }
-        void Add(TEntity entity);
+        Task AddAsync(TEntity entity);
         Task<TEntity> GetByIdAsync(string id);
         IQueryable<TEntity> GetAll();
         void Update(TEntity entity);
         void Remove(string id);
-        int SaveChanges();
+        Task<int> SaveChangesAsync();
         EntityEntry Entry(TEntity entity);
     }
 }

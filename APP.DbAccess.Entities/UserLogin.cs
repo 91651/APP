@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using APP.Framework.Util;
 using Microsoft.AspNetCore.Identity;
 
 namespace APP.DbAccess.Entities
@@ -10,7 +9,7 @@ namespace APP.DbAccess.Entities
     {
         public UserLogin()
         {
-            Id = Guid.NewGuid().ToString(10);
+            Id = Guid.NewGuid().ToString();
         }
     }
     public class UserLogin<TKey> : IdentityUserLogin<TKey>

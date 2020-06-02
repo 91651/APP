@@ -14,6 +14,7 @@ namespace APP.DbAccess.Infrastructure
         { }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Channel> Channels { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<File> Files { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
