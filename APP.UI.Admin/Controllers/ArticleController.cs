@@ -34,38 +34,38 @@ namespace APP.UI.Admin.Controllers
             return _articleService.AddArticleAsync(model);
         }
 
-        [HttpDelete]
-        public Task<bool> DelArticle(string Id)
+        [HttpDelete("{id}")]
+        public Task<bool> DelArticle(string id)
         {
-            return _articleService.DelArticleAsync(Id);
+            return _articleService.DelArticleAsync(id);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public Task<bool> UpdateArticle(ArticleModel model)
         {
             return _articleService.UpdateArticleAsync(model);
         }
 
         [HttpGet("{id}")]
-        public Task<ArticleModel> GetArticle(string Id)
+        public Task<ArticleModel> GetArticle(string id)
         {
-            return _articleService.GetArticleAsync(Id);
+            return _articleService.GetArticleAsync(id);
         }
 
         [HttpGet]
-        public Task<PageResult<List<ArticleListModel>>> GetArticles(SearchArticleModel model)
+        public Task<PageResult<List<ArticleListModel>>> GetArticles([FromQuery]SearchArticleModel model)
         {
             return _articleService.GetArticlesAsync(model);
         }
-        [HttpPost("channel")]
+        [HttpPost("/api/channel")]
         public Task<string> AddChannel(ChannelModel model)
         {
             return _articleService.AddChannelAsync(model);
         }
-        [HttpGet("channel")]
-        public Task<List<Cascader>> GetChannelsToCascader(string channelId)
+        [HttpGet("/api/channel/{id}")]
+        public Task<List<Cascader>> GetChannelsToCascader(string id)
         {
-            return _articleService.GetChannelsToCascaderAsync(channelId);
+            return _articleService.GetChannelsToCascaderAsync(id);
         }
     }
 }

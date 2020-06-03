@@ -32,8 +32,8 @@ namespace APP.Business.Services
                 cid = (await _channleRepository.GetByIdAsync(cid))?.ParentId;
             }
             var model = _mapper.Map<ArticleModel>(entity);
-            channels.Reverse();
-            model.ChannelId = channels.ToArray();
+            //channels.Reverse();
+            //model.ChannelId = channels.ToArray();
             return model;
         }
         public async Task<ArticleModel> GetPrevArticleAsync(string id, string channelId)

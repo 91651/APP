@@ -4,7 +4,6 @@ using System.Linq;
 using APP.DbAccess.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace APP.DbAccess.Infrastructure
 {
@@ -22,7 +21,11 @@ namespace APP.DbAccess.Infrastructure
             modelBuilder.RemovePluralizingTableNameConvention();
             base.OnModelCreating(modelBuilder);
         }
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            //optionsBuilder.UseLoggerFactory(LoggerFactory);
+        }
     }
     public class AppDbContext<TUser, TRole, TKey> : IdentityDbContext<TUser, TRole, TKey, UserClaim<TKey>, UserRole<TKey>, UserLogin<TKey>, RoleClaim<TKey>, UserToken<TKey>>
         where TUser : User<TKey>

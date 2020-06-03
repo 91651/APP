@@ -11,6 +11,7 @@ using APP.Framework.Util;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace APP.Business.Services
 {
@@ -67,17 +68,8 @@ namespace APP.Business.Services
 
         public async Task<ArticleModel> GetArticleAsync(string id)
         {
-            var entity = _articleRepository.GetAll().Include(i => i.Channel).AsNoTracking().FirstOrDefault(a => a.Id == id);
-            var channels = new List<string>();
-            var cid = entity.ChannelId;
-            while (!string.IsNullOrWhiteSpace(cid))
-            {
-                channels.Add(cid);
-                cid = (await _channleRepository.GetByIdAsync(cid))?.ParentId;
-            }
-            var model = _mapper.Map<ArticleModel>(entity);
-            channels.Reverse();
-            model.ChannelId = channels.ToArray();
+            var query =  _articleRepository.GetAll().Where(a => a.Id.EndsWith(id));
+            var model = await _mapper.ProjectTo<ArticleModel>(query).FirstOrDefaultAsync();
             return model;
         }
         public async Task<PageResult<List<ArticleListModel>>> GetArticlesAsync(SearchArticleModel model)

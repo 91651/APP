@@ -15,6 +15,8 @@ using APP.Business.Services.AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 
 namespace APP.UI.Admin
 {
@@ -65,10 +67,11 @@ namespace APP.UI.Admin
             
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
+                loggerFactory.AddProvider(new DebugLoggerProvider());
                 app.UseDeveloperExceptionPage();
 
                 //开发环境可以使用Swagger
@@ -76,7 +79,8 @@ namespace APP.UI.Admin
                 {
                     settings.PostProcess = (document, request) =>
                     {
-                        document.Info.Title = "aa";
+                        var a = GetType();
+                        document.Info.Title = GetType().Assembly.GetName().Name;
                     };
                 });
                 app.UseSwaggerUi3();

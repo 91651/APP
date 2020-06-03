@@ -11,7 +11,7 @@ namespace APP.Business.Services.Models
         public string Summary { get; set; }
         public string UserId { get; set; }
         public string OwnerId { get; set; }
-        public string[] ChannelId { get; set; }
+        public string ChannelId { get; set; }
         public string ChannelName { get; set; }
         public string Author { get; set; }
         public int Editor { get; set; }

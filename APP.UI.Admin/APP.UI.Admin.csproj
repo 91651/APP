@@ -19,9 +19,10 @@
     <PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.4" />
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.6.0" />
-    <PackageReference Include="NSwag.AspNetCore" Version="13.1.6" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.6.0" />
   </ItemGroup>
 
   <ItemGroup>
