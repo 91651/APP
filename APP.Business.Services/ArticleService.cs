@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using APP.DbAccess.Entities;
 using APP.DbAccess.Repositories;
@@ -81,7 +80,7 @@ namespace APP.Business.Services
             model.ChannelId = channels.ToArray();
             return model;
         }
-        public async Task<ResultModel<List<ArticleListModel>>> GetArticlesAsync(SearchArticleModel model)
+        public async Task<PageResult<List<ArticleListModel>>> GetArticlesAsync(SearchArticleModel model)
         {
             model.Sort = new List<Sort> { new Sort { Field = "Created", Desc = true } };
             Expression<Func<Article, bool>> ex = t => true;
@@ -107,7 +106,7 @@ namespace APP.Business.Services
                 ex = ex.And(t => t.ChannelId == model.ChannelId);
             }
             var users = await _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Include(i => i.Files).Where(ex).ToDataSourceResultAsync(model);
-            return new ResultModel<List<ArticleListModel>>
+            return new PageResult<List<ArticleListModel>>
             {
                 Data = _mapper.Map<List<ArticleListModel>>(users.Data),
                 Total = users.Total

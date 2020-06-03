@@ -5,20 +5,16 @@ using APP.DbAccess.Repositories;
 using APP.Business.Services;
 using AutoMapper;
 using BC.Microsoft.DependencyInjection.Plus;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using APP.Business.Services.AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using NSwag;
-using NSwag.AspNetCore;
-using NSwag.SwaggerGeneration.Processors.Security;
+using Microsoft.Extensions.Hosting;
 
 namespace APP.UI.Admin
 {
@@ -43,9 +39,11 @@ namespace APP.UI.Admin
                     RequiredLength = 6
                 };
             });
-            //添加AutoMapper服务
-            services.AddAutoMapper();
-            services.AddCors(options => { options.AddPolicy("AllowAllOrigin", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials(); }); });
+            services.AddControllersWithViews();
+            services.AddOpenApiDocument();
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddAutoMapper(typeof(Mappings));
+            services.AddCors(options => { options.AddPolicy("AllowAllOrigin", builder => { builder.SetIsOriginAllowed(allowed => true).AllowAnyMethod().AllowAnyHeader().AllowCredentials(); }); });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
@@ -60,68 +58,48 @@ namespace APP.UI.Admin
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                 };
             });
-
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
             //注入项目类
             services.AddScopedScan(typeof(Repository<>));
             services.AddScopedScan(typeof(Service));
-            services.AddMvc(options =>
-            {
-                //默认不允许匿名访问
-                options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder().AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build()));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSwaggerDocument(document =>
-            {
-                document.DocumentProcessors.Add(new SecurityDefinitionAppender("Bearer", new SwaggerSecurityScheme
-                {
-                    Type = SwaggerSecuritySchemeType.ApiKey,
-                    Name = "Authorization",
-                    In = SwaggerSecurityApiKeyLocation.Header,
-                }));
-                document.OperationProcessors.Add(new OperationSecurityScopeProcessor("Bearer"));
-            });
+            
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                var db = serviceScope.ServiceProvider.GetService<AppDbContext>();
-                db.Database.EnsureCreated();
-                db.InitUser();
-            }
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
 
                 //开发环境可以使用Swagger
-                app.UseSwagger(settings =>
+                app.UseOpenApi(settings =>
                 {
                     settings.PostProcess = (document, request) =>
                     {
-                        document.Info.Title = "APP";
+                        document.Info.Title = "aa";
                     };
                 });
-                app.UseSwaggerUi3(settings => settings.DocumentPath = "{documentName}/swagger.json");
+                app.UseSwaggerUi3();
             }
             else
             {
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-
+            app.UseInitDb();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
             app.UseCors("AllowAllOrigin");
             app.UseAuthentication();
-            app.UseMvc(routes =>
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>

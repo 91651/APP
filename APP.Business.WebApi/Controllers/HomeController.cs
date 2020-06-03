@@ -23,7 +23,6 @@ namespace APP.Business.WebApi.Controllers
         public ActionResult Get()
         {
             throw new UnauthorizedAccessException("");
-            return Unauthorized();
         }
     }
 }

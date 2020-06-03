@@ -1,17 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using APP.DbAccess.Entities;
 using APP.Business.Services.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using NJsonSchema.Annotations;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace APP.UI.Admin.Controllers
 {
@@ -29,8 +27,7 @@ namespace APP.UI.Admin.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpPost, AllowAnonymous]
-        [return: NotNull]
+        [HttpPost("signin"), AllowAnonymous]
         public async Task<ActionResult<AuthModel>> SignIn(string name, string pwd)
         {
             var result = new AuthModel();

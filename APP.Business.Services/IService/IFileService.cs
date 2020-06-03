@@ -7,9 +7,9 @@ namespace APP.Business.Services
     public interface IFileServicer
     {
         Task<string> AddFileAsync(FileModel model);
-        Task<ResultModel> DelFileAsync(string id);
-        Task<FileModel> GetFile(string id);
-        FileModel GetFileByMd5(string md5);
-        bool IsMultipleOwner(string id, string ownerId);
+        Task<bool> DelFileAsync(string id);
+        Task<FileModel> GetFileAsync(string id);
+        Task<FileModel> GetFileByMd5Async(string md5);
+        Task<bool> IsMultipleOwnerAsync(string id, string ownerId);
     }
 }

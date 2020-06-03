@@ -11,7 +11,8 @@ namespace APP.DbAccess.Entities
 
         [MaxLength(40)]
         public string ParentId { get; set; }
-
+        [MaxLength(40)]
+        public string OwnerId { get; set; }
         [MaxLength(60)]
         public string Author { get; set; }
         [MaxLength(200)]

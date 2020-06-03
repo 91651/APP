@@ -6,6 +6,7 @@ using APP.Business.Services.Models;
 using APP.Framework.Util;
 using AutoMapper;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace APP.Business.Services
 {
@@ -28,28 +29,25 @@ namespace APP.Business.Services
             await _fileRepository.SaveChangesAsync();
             return entity.Id;
         }
-        public async Task<ResultModel> DelFileAsync(string id)
+        public async Task<bool> DelFileAsync(string id)
         {
             _fileRepository.Remove(id);
             var rows = await _fileRepository.SaveChangesAsync();
-            return new ResultModel
-            {
-                Status = rows > 0
-            };
+            return rows > 0;
         }
-        public async Task<FileModel> GetFile(string id)
+        public async Task<FileModel> GetFileAsync(string id)
         {
             var entity = await _fileRepository.GetByIdAsync(id);
             return _mapper.Map<FileModel>(entity);
         }
-        public FileModel GetFileByMd5(string md5)
+        public async Task<FileModel> GetFileByMd5Async(string md5)
         {
-            var entity = _fileRepository.GetAll().FirstOrDefault(f => f.Md5 == md5);
+            var entity = await _fileRepository.GetAll().FirstOrDefaultAsync(f => f.Md5 == md5);
             return _mapper.Map<FileModel>(entity);
         }
-        public bool IsMultipleOwner(string id, string ownerId)
+        public async Task<bool> IsMultipleOwnerAsync(string id, string ownerId)
         {
-            return _fileRepository.GetAll().Where(f => f.Id == id && f.OwnerId != ownerId).Any();
+            return await _fileRepository.GetAll().Where(f => f.Id == id && f.OwnerId != ownerId).AnyAsync();
         }
     }
 }

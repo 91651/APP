@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.UI.Blazor", "APP.UI.Blazor\APP.UI.Blazor.csproj", "{8BB47B49-7B77-4B1E-A679-29518387FDB2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.Business.WebApi", "APP.Business.WebApi\APP.Business.WebApi.csproj", "{5446AD83-CE62-4DE3-8561-015D6EDCDE52}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APP.UI.Admin", "APP.UI.Admin\APP.UI.Admin.csproj", "{5E822A19-E6DE-4069-A1DE-DAC39227BDF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,14 @@ Global
 		{8BB47B49-7B77-4B1E-A679-29518387FDB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BB47B49-7B77-4B1E-A679-29518387FDB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BB47B49-7B77-4B1E-A679-29518387FDB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5446AD83-CE62-4DE3-8561-015D6EDCDE52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5446AD83-CE62-4DE3-8561-015D6EDCDE52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5446AD83-CE62-4DE3-8561-015D6EDCDE52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5446AD83-CE62-4DE3-8561-015D6EDCDE52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E822A19-E6DE-4069-A1DE-DAC39227BDF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E822A19-E6DE-4069-A1DE-DAC39227BDF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E822A19-E6DE-4069-A1DE-DAC39227BDF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E822A19-E6DE-4069-A1DE-DAC39227BDF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

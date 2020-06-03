@@ -6,6 +6,8 @@ using APP.Business.Services.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NJsonSchema.Annotations;
+using System.Threading.Tasks;
+using APP.Framework.DynamicLinq;
 
 namespace APP.UI.Admin.Controllers
 {
@@ -24,53 +26,46 @@ namespace APP.UI.Admin.Controllers
             _articleService = articleService;
         }
 
-        [HttpPost, Route("AddArticle")]
-        [return: NotNull]
-        public ActionResult<ResultModel<string>> AddArticle(ArticleModel model)
+        [HttpPost]
+        public Task<string> AddArticle(ArticleModel model)
         {
             model.UserId = _userManager.GetUserId(_signInManager.Context.User);
             model.OwnerId = _userManager.GetUserId(_signInManager.Context.User);
-            return _articleService.AddArticle(model);
+            return _articleService.AddArticleAsync(model);
         }
 
-        [HttpPost, Route("DelArticle")]
-        [return: NotNull]
-        public ActionResult<ResultModel> DelArticle(string Id)
+        [HttpDelete]
+        public Task<bool> DelArticle(string Id)
         {
-            return _articleService.DelArticle(Id);
+            return _articleService.DelArticleAsync(Id);
         }
 
-        [HttpPost, Route("UpdateArticle")]
-        [return: NotNull]
-        public ActionResult<ResultModel> UpdateArticle(ArticleModel model)
+        [HttpPut]
+        public Task<bool> UpdateArticle(ArticleModel model)
         {
-            return _articleService.UpdateArticle(model);
+            return _articleService.UpdateArticleAsync(model);
         }
 
-        [HttpPost, Route("GetArticle")]
-        [return: NotNull]
-        public ActionResult<ResultModel<ArticleModel>> GetArticle(string Id)
+        [HttpGet("{id}")]
+        public Task<ArticleModel> GetArticle(string Id)
         {
-            return _articleService.GetArticle(Id);
+            return _articleService.GetArticleAsync(Id);
         }
 
-        [HttpPost, Route("GetArticles")]
-        [return: NotNull]
-        public ActionResult<ResultModel<List<ArticleListModel>>> GetArticles(SearchArticleModel model)
+        [HttpGet]
+        public Task<PageResult<List<ArticleListModel>>> GetArticles(SearchArticleModel model)
         {
-            return _articleService.GetArticles(model);
+            return _articleService.GetArticlesAsync(model);
         }
-        [HttpPost, Route("AddChannel")]
-        [return: NotNull]
-        public ActionResult<ResultModel<string>> AddChannel(ChannelModel model)
+        [HttpPost("channel")]
+        public Task<string> AddChannel(ChannelModel model)
         {
-            return _articleService.AddChannel(model);
+            return _articleService.AddChannelAsync(model);
         }
-        [HttpGet, Route("GetChannelsToCascader")]
-        [return: NotNull]
-        public ActionResult<List<Cascader>> GetChannelsToCascader(string channelId)
+        [HttpGet("channel")]
+        public Task<List<Cascader>> GetChannelsToCascader(string channelId)
         {
-            return _articleService.GetChannelsToCascader(channelId);
+            return _articleService.GetChannelsToCascaderAsync(channelId);
         }
     }
 }

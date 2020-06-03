@@ -5,31 +5,38 @@
 
 @if (ShowAddComment)
 {
-    <AntRow>
-        <AntCol Span="2" style="text-align: right;">
-            <Avatar size="large" Icon="user" />
-        </AntCol>
-        <AntCol Span="1">
-        </AntCol>
-        <AntCol Span="20"> <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5"></TextArea></AntCol>
-    </AntRow>
-    <br />
-    <AntRow>
-        <AntCol Span="20" Offset="3">
-            <Form Layout="@(FormLayout.Inline)" Model="@comment">
-                <FormItem Label="昵称">
-                    <Input @bind-Value="@context.NickName" />
+    <Form Model="@comment">
+        <AntRow>
+            <AntCol Span="2" style="text-align: right;">
+                <Avatar size="large" Icon="user" />
+            </AntCol>
+            <AntCol Span="1">
+            </AntCol>
+            <AntCol Span="20">
+                <FormItem>
+                    <TextArea Placeholder="一语中的" AutoSize="true" @bind-Value="@context.Content"></TextArea>
                 </FormItem>
-
+            </AntCol>
+        </AntRow>
+        <AntRow>
+            <AntCol Span="8" Offset="3">
+                <FormItem Label="昵称">
+                    <Input @bind-Value="@context.Author" />
+                </FormItem>
+            </AntCol>
+            <AntCol Span="8" Offset="1">
                 <FormItem Label="邮箱">
                     <Input @bind-Value="@context.Email" />
                 </FormItem>
-                
-            </Form>
-        </AntCol>
-    </AntRow>
-    <br />
+            </AntCol>
+            <AntCol Span="2" Offset="1">
+                <FormItem>
+                    <Button Type="primary" @onclick="SubmitComment">提交</Button>
+                </FormItem>
 
+            </AntCol>
+        </AntRow>
+    </Form>
 }
 @if (!IsChild)
 {
@@ -39,16 +46,16 @@
         <Item Context="item">
             <AntListItemMeta Description="Ant Design, a design language for background applications, is refined by Ant UED Team">
                 <Title>
-                    @item.NickName
+                    @item.Author
                 </Title>
             </AntListItemMeta>
             <div>
                 @if (item.Comments != null)
-                {
+                    {
                     <Comment ShowAddComment="false" IsChild="true" DataSource="item.Comments" />
-                }
-                    
-                </div>
+                    }
+
+            </div>
         </Item>
     </AntList>
 }
@@ -58,7 +65,7 @@ else
         <Item Context="item">
             <AntListItemMeta Description="Ant Design, a design language for background applications, is refined by Ant UED Team">
                 <Title>
-                    @item.NickName
+                    @item.Author
                 </Title>
             </AntListItemMeta>
             <div>
@@ -93,6 +100,7 @@ else
 
     private async Task SubmitComment()
     {
-        var a = comment;
+        await Task.Delay(TimeSpan.FromSeconds(1));
+        throw new NotImplementedException(); 
     }
 }
