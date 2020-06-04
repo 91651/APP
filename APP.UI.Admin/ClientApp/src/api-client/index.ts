@@ -1,4 +1,6 @@
-﻿import { ArticleClient, AuthClient, FileClient } from '@/api-client/client';
+﻿/* tslint:disable */
+
+import { ArticleClient, AuthClient, CommonClient, FileClient } from '@/api-client/client';
 
 export class AppConfig {
     public apiUrl?: string;
@@ -6,7 +8,7 @@ export class AppConfig {
 
 function loadConfig() {
     const xmlHttp = new XMLHttpRequest();
-    xmlHttp.open('GET', process.env.BASE_URL + '/app-config.json', false);
+    xmlHttp.open('GET', '/app-config.json', false);
     xmlHttp.send(null);
     if (xmlHttp && xmlHttp.status === 200) {
         const response = xmlHttp.responseText;
@@ -18,4 +20,5 @@ loadConfig();
 
 export const _Auth = new AuthClient(appConfig.apiUrl);
 export const _Article = new ArticleClient(appConfig.apiUrl);
+export const _Common = new CommonClient(appConfig.apiUrl);
 export const _File = new FileClient(appConfig.apiUrl);

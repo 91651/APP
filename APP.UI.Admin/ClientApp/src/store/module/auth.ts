@@ -2,26 +2,25 @@ import { _Auth } from '@/api-client';
 
 export const auth = {
   state: {
-    token: ''
+    name: '',
+    token: '',
+    status: 1
+  },
+  mutations: {
+    SET_SIGNIN: (state: any, data: any) => {
+      auth.state.name = data.userName;
+      auth.state.token = data.token;
+      auth.state.status = data.status;
+    }
   },
   actions: {
-    signIn(vuex: any, data: any): Promise<any> {
-      return new Promise((resolve, reject) => {
-        _Auth.signIn(data.name, data.pwd).then((d) => {
-          if (d.token) {
-            auth.state.token = d.token;
-            window.localStorage.setItem('Token', d.token);
-          }
-          resolve(d);
-        });
-      });
-  }
-},
-  getters : {
-    getToken: ( state: any ) => {
-    if (!state.token) {
-    return window.localStorage.getItem('Token');
-    } else {
-    return state.token;
+  },
+  getters: {
+    getUserStatus: (state: any) => {
+      if (state.status) {
+        return true;
+      }
+      return false;
     }
-}}}
+  }
+}

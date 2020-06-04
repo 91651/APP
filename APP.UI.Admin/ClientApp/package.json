@@ -15,26 +15,42 @@
     }
   },
   "dependencies": {
-    "iview": "^3.4.0",
-    "mavon-editor": "^2.7.3",
-    "vue": "^2.6.10",
-    "vue-property-decorator": "^8.1.0",
-    "vue-quill-editor": "^3.0.6",
-    "vue-router": "^3.0.6",
-    "vuex": "^3.1.0",
+    "core-js": "^3.6.5",
+    "ant-design-vue": "^1.6.2",
+    "mavon-editor": "^2.9.0",
+    "vue": "^2.6.11",
+    "vue-property-decorator": "^8.4.2",
+    "vue-router": "^3.3.2",
+    "vuex": "^3.4.0",
     "vuex-class": "^0.3.2",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.6.0",
-    "@vue/cli-plugin-typescript": "^3.6.0",
-    "@vue/cli-service": "^3.6.0",
-    "copy-webpack-plugin": "^5.0.2",
-    "less": "^3.9.0",
-    "less-loader": "^4.1.0",
-    "nswag": "^12.2.3",
-    "typescript": "^3.4.5",
-    "vue-template-compiler": "^2.6.10"
+    "@typescript-eslint/eslint-plugin": "^3.1.0",
+    "@typescript-eslint/parser": "^3.1.0",
+    "@vue/cli-plugin-babel": "^4.4.1",
+    "@vue/cli-plugin-eslint": "~4.4.1",
+    "@vue/cli-plugin-typescript": "^4.4.1",
+    "@vue/cli-service": "^4.4.1",
+    "@vue/eslint-config-typescript": "^5.0.2",
+    "copy-webpack-plugin": "^6.0.2",
+    "eslint": "^7.1.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "less": "^3.11.2",
+    "less-loader": "^6.1.0",
+    "lint-staged": "^10.2.8",
+    "nswag": "^13.6.0",
+    "typescript": "^3.9.3",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
   },
   "browserslist": [
     "> 1%",

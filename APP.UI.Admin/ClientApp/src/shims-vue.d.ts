@@ -11,4 +11,3 @@ declare module '*.vue' {
 }*/
 declare module '*.jpg'
 declare module 'mavon-editor'
-declare module 'vue-quill-editor'
