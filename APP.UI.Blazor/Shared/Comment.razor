@@ -3,80 +3,63 @@
 @inject ICommentService _commentService;
 
 
-@if (ShowAddComment)
-{
-    <Form Model="@comment">
-        <AntRow>
-            <AntCol Span="2" style="text-align: right;">
+
+    <Form Model="@comment" OnFinish="SubmitComment" style="@(IsShowAddComment ? "" : "display:none" )">
+        <Row Justify="space-around">
+            <Col Span="1">
+            <FormItem style="text-align: right;">
                 <Avatar size="large" Icon="user" />
-            </AntCol>
-            <AntCol Span="1">
-            </AntCol>
-            <AntCol Span="20">
-                <FormItem>
-                    <TextArea Placeholder="一语中的" AutoSize="true" @bind-Value="@context.Content"></TextArea>
-                </FormItem>
-            </AntCol>
-        </AntRow>
-        <AntRow>
-            <AntCol Span="8" Offset="3">
-                <FormItem Label="昵称">
-                    <Input @bind-Value="@context.Author" />
-                </FormItem>
-            </AntCol>
-            <AntCol Span="8" Offset="1">
-                <FormItem Label="邮箱">
-                    <Input @bind-Value="@context.Email" />
-                </FormItem>
-            </AntCol>
-            <AntCol Span="2" Offset="1">
-                <FormItem>
-                    <Button Type="primary" @onclick="SubmitComment">提交</Button>
-                </FormItem>
+            </FormItem>
+            </Col>
+            <Col Span="22">
+            <FormItem>
+                <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5" @bind-Value="@context.Content"></TextArea>
+            </FormItem>
+            </Col>
 
-            </AntCol>
-        </AntRow>
+        </Row>
+        <Row Justify="space-around">
+            <Col Span="8" Offset="1">
+            <FormItem Label="昵称">
+                <Input @bind-Value="@context.Author" />
+            </FormItem>
+            </Col>
+            <Col Span="8" Offset="1">
+            <FormItem Label="邮箱">
+                <Input @bind-Value="@context.Email" />
+            </FormItem>
+            </Col>
+            <Col Span="2" Offset="1">
+            <FormItem>
+                <Button Type="@ButtonType.Primary" HtmlType="submit">提交</Button>
+            </FormItem>
+
+            </Col>
+        </Row>
     </Form>
-}
-@if (!IsChild)
-{
-    <AntList Loading="true" Pagination="true" DataSource="@DataSource">
 
-        <Header>热门评论</Header>
-        <Item Context="item">
-            <AntListItemMeta Description="Ant Design, a design language for background applications, is refined by Ant UED Team">
-                <Title>
-                    @item.Author
-                </Title>
-            </AntListItemMeta>
-            <div>
-                @if (item.Comments != null)
-                    {
-                    <Comment ShowAddComment="false" IsChild="true" DataSource="item.Comments" />
-                    }
 
-            </div>
-        </Item>
-    </AntList>
-}
-else
-{
-    <AntList Loading="true" Pagination="true" DataSource="@DataSource">
-        <Item Context="item">
-            <AntListItemMeta Description="Ant Design, a design language for background applications, is refined by Ant UED Team">
-                <Title>
-                    @item.Author
-                </Title>
-            </AntListItemMeta>
-            <div>
-                @if (item.Comments != null)
-                {
-                    <Comment ShowAddComment="false" IsChild="true" DataSource="item.Comments" />
-                }
-            </div>
-        </Item>
-    </AntList>
-}
+<AntList Loading="@commentsListLoading" Pagination="true" DataSource="@DataSource">
+    <Header>
+        @if (!IsChild)
+        {
+            <span>热门评论</span>
+        }
+    </Header>
+    <Item Context="item">
+        <AntListItemMeta Description="@item.Content">
+            <Title>
+                @item.Author
+                <Button Size="small" Type="@ButtonType.Link" Danger @onclick="() => ReplyComment(item)">
+                    回复
+                </Button>
+            </Title>
+        </AntListItemMeta>
+        <div>
+            <Comment ShowAddComment="@IsShowAddComment" IsChild="true" DataSource="item.Comments" />
+        </div>
+    </Item>
+</AntList>
 
 
 @code {
@@ -85,22 +68,38 @@ else
     [Parameter]
     public bool IsChild { get; set; }
     [Parameter]
-    public bool ShowAddComment { get; set; } = true;
+    public bool ShowAddComment { get; set; }
+    public bool IsShowAddComment = false;
+    public bool commentsListLoading = true;
     private CommentModel comment = new CommentModel();
 
     protected override async Task OnInitializedAsync()
     {
         if (!IsChild)
         {
-            var comments = await _commentService.GetCommentsAsync();
-            DataSource = comments;
+            await GetComments();
         }
 
     }
 
+    private async Task GetComments()
+    {
+        var comments = await _commentService.GetCommentsAsync();
+        DataSource = comments;
+        commentsListLoading = false;
+    }
+
     private async Task SubmitComment()
     {
-        await Task.Delay(TimeSpan.FromSeconds(1));
-        throw new NotImplementedException(); 
+        var result = await _commentService.AddCommentAsync(comment);
+        if (result)
+        {
+            await GetComments();
+        }
+    }
+
+    private void ReplyComment(CommentModel comment)
+    {
+        IsShowAddComment = !IsShowAddComment;
     }
 }
