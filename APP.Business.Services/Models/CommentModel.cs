@@ -6,6 +6,8 @@ namespace APP.Business.Services.Models
 {
     public class CommentModel
     {
+        public string Id { get; set; }
+        public string ParentId { get; set; }
         [Required]
         public string Author { get; set; }
         [Required]

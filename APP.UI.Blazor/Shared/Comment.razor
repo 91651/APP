@@ -4,7 +4,7 @@
 
 
 
-    <Form Model="@comment" OnFinish="SubmitComment" style="@(IsShowAddComment ? "" : "display:none" )">
+    <Form Model="@comment" OnFinish="SubmitComment" style="@(ShowAddComment ? "" : "display:none" )">
         <Row Justify="space-around">
             <Col Span="1">
             <FormItem style="text-align: right;">
@@ -39,7 +39,7 @@
     </Form>
 
 
-<AntList Loading="@commentsListLoading" Pagination="true" DataSource="@DataSource">
+<AntList Loading="@commentsListLoading" DataSource="@DataSource">
     <Header>
         @if (!IsChild)
         {
@@ -69,8 +69,8 @@
     public bool IsChild { get; set; }
     [Parameter]
     public bool ShowAddComment { get; set; }
-    public bool IsShowAddComment = false;
-    public bool commentsListLoading = true;
+    public bool IsShowAddComment;
+    public bool commentsListLoading;
     private CommentModel comment = new CommentModel();
 
     protected override async Task OnInitializedAsync()

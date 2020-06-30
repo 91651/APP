@@ -30,7 +30,10 @@ namespace APP.Business.Services
         public async Task<List<CommentModel>> GetCommentsAsync()
         {
             var comments = await _commentRepository.GetAll().ToListAsync();
-            return _mapper.Map<List<CommentModel>>(comments);
+            var list =  _mapper.Map<List<CommentModel>>(comments);
+            list.ForEach(m => m.Comments = list.Where(c => c.ParentId == m.Id).ToList());
+            var result = list.Where(t => string.IsNullOrWhiteSpace(t.ParentId)).ToList();
+            return result;
         }
     }
 }
