@@ -8,15 +8,15 @@
     </div>
     <div class="header-navigation">
         <nav>
-            <div class="logo"><a asp-controller="Home">遇见时光</a></div>
+            <div class="logo"><a href="/">遇见时光</a></div>
             <h2 id="mnavh"><span class="navicon"></span></h2>
             <ul id="starlist">
-                <li><a asp-controller="Home">网站首页</a></li>
-                <li><a asp-controller="Timeline">时间轴</a></li>
+                <li><a href="/">网站首页</a></li>
+                <li><a href="timeline">时间轴</a></li>
             </ul>
             <div class="searchbox">
                 <div id="search_bar" class="search_bar">
-                    <form id="searchform" action="[!--news.url--]e/search/index.php" method="post" name="searchform">
+                    <form id="searchform" method="post" name="searchform">
                         <input class="input" placeholder="想搜点什么呢.." type="text" name="keyboard" id="keyboard">
                         <input type="hidden" name="show" value="title" />
                         <input type="hidden" name="tempid" value="1" />

@@ -25,13 +25,14 @@ namespace APP.Business.Services
         {
             var comment = _mapper.Map<Comment>(model);
             comment.Id = Guid.NewGuid().ToString();
+            comment.Created = DateTime.UtcNow;
             await _commentRepository.AddAsync(comment);
             return await _commentRepository.SaveChangesAsync() > 0;
         }
 
-        public async Task<List<CommentModel>> GetCommentsAsync(string pid)
+        public async Task<List<CommentModel>> GetCommentsAsync(string ownerId, string pid)
         {
-            var comments = await _commentRepository.GetAll().ToListAsync();
+            var comments = await _commentRepository.GetAll().Where(c => c.OwnerId.EndsWith(ownerId)).OrderByDescending(c => c.Created).ToListAsync();
             var list =  _mapper.Map<List<CommentModel>>(comments);
             list.ForEach(m => m.Comments = list.Where(c => c.ParentId == m.Id).ToList());
             var result = list.Where(t => t.ParentId == pid).ToList();

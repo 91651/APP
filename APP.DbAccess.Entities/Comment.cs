@@ -19,5 +19,6 @@ namespace APP.DbAccess.Entities
         public string Email { get; set; }
         [MaxLength]
         public string Content { get; set; }
+        public DateTime Created { get; set; }
     }
 }

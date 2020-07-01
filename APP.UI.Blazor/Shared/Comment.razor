@@ -58,7 +58,7 @@
                     </Title>
                 </AntListItemMeta>
                 <div>
-                    <Comment PID="@pid" ShowAddComment="@(IsShowAddComment && @pid == item.Id)" IsChild="true" DataSource="item.Comments" />
+                    <Comment OwnerId="@OwnerId" PID="@pid" ShowAddComment="@(IsShowAddComment && @pid == item.Id)" IsChild="true" DataSource="item.Comments" />
                 </div>
             </Item>
         </AntList>
@@ -69,6 +69,8 @@
 
 
 @code {
+    [Parameter]
+    public string OwnerId { get; set; }
     [Parameter]
     public List<CommentModel> DataSource { get; set; }
     [Parameter]
@@ -93,18 +95,19 @@
 
     private async Task GetComments()
     {
-        var comments = await _commentService.GetCommentsAsync(PID);
+        var comments = await _commentService.GetCommentsAsync(OwnerId, PID);
         DataSource = comments;
         commentsListLoading = false;
     }
 
     private async Task SubmitComment()
     {
+        comment.OwnerId = OwnerId;
         comment.ParentId = PID;
         var result = await _commentService.AddCommentAsync(comment);
         if (result)
         {
-            ShowAddComment = IsChild && true;
+            ShowAddComment = !IsChild && true;
             await GetComments();
         }
     }

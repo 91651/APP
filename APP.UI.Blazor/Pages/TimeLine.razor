@@ -1,0 +1,18 @@
+﻿@page "/timeline/"
+
+<Card Bordered="true">
+    <Timeline Mode="alternate" Reverse="true">
+        <TimelineItem>初版博客上线 2018-12-20</TimelineItem>
+        <TimelineItem>2018-12-20 发布第一篇博客文章</TimelineItem>
+        <TimelineItem Dot="dotTemplate" Color="red">拥抱新技术，使用Blazor重构博客展示页面 2020-05-26</TimelineItem>
+        <TimelineItem>2020-07-01 庆祝建党99周年；博客加入大记事时间轴</TimelineItem>
+    </Timeline>
+</Card>
+
+
+@code {
+    RenderFragment dotTemplate =
+    @<Template>
+        <Icon Type="clock-circle" Theme="outline" Style="font-size: 16px;" />
+    </Template>;
+}

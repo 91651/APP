@@ -39,13 +39,17 @@
     {
         if (!string.IsNullOrWhiteSpace(id))
         {
+            page = default;
+            articles.Clear();
             search.ChannelId = id;
             channel = await _blogService.GetChannelAsync(id);
+            await GetArticles();
         }
     }
 
     private async Task GetArticles()
     {
+        search.ChannelId = id;
         search.Skip = search.Take * page++;
         var data = (await _articleService.GetArticlesAsync(search)).Data;
         articles.AddRange(data);
