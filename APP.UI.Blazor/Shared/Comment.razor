@@ -4,62 +4,68 @@
 
 
 
-    <Form Model="@comment" OnFinish="SubmitComment" style="@(ShowAddComment ? "" : "display:none" )">
-        <Row Justify="space-around">
-            <Col Span="1">
-            <FormItem style="text-align: right;">
-                <Avatar size="large" Icon="user" />
-            </FormItem>
-            </Col>
-            <Col Span="22">
-            <FormItem>
-                <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5" @bind-Value="@context.Content"></TextArea>
-            </FormItem>
-            </Col>
+<Form Model="@comment" OnFinish="SubmitComment" style="@(ShowAddComment ? "" : "display:none" )">
+    <Row Justify="space-around">
+        <Col Span="1">
+        <FormItem style="text-align: right;">
+            <Avatar size="large" Icon="user" />
+        </FormItem>
+        </Col>
+        <Col Span="22">
+        <FormItem>
+            <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5" @bind-Value="@context.Content"></TextArea>
+        </FormItem>
+        </Col>
 
-        </Row>
-        <Row Justify="space-around">
-            <Col Span="8" Offset="1">
-            <FormItem Label="昵称">
-                <Input @bind-Value="@context.Author" />
-            </FormItem>
-            </Col>
-            <Col Span="8" Offset="1">
-            <FormItem Label="邮箱">
-                <Input @bind-Value="@context.Email" />
-            </FormItem>
-            </Col>
-            <Col Span="2" Offset="1">
-            <FormItem>
-                <Button Type="@ButtonType.Primary" HtmlType="submit">提交</Button>
-            </FormItem>
+    </Row>
+    <Row Justify="space-around">
+        <Col Span="8" Offset="1">
+        <FormItem Label="昵称">
+            <Input @bind-Value="@context.Author" />
+        </FormItem>
+        </Col>
+        <Col Span="8" Offset="1">
+        <FormItem Label="邮箱">
+            <Input @bind-Value="@context.Email" />
+        </FormItem>
+        </Col>
+        <Col Span="2" Offset="1">
+        <FormItem>
+            <Button Type="@ButtonType.Primary" HtmlType="submit">提交</Button>
+        </FormItem>
 
-            </Col>
-        </Row>
-    </Form>
+        </Col>
+    </Row>
+</Form>
 
+@if (DataSource.Any())
+{
+    <div style="@(IsChild ? "margin:0 20px" : "" )">
+        <AntList Loading="@commentsListLoading" DataSource="@DataSource">
+            <Header>
+                @if (!IsChild)
+                {
+                    <span>热门评论</span>
+                }
+            </Header>
+            <Item Context="item">
+                <AntListItemMeta Description="@item.Content">
+                    <Title>
+                        @item.Author
+                        <Button Size="small" Type="@ButtonType.Link" Danger @onclick="() => ReplyComment(item)">
+                            回复
+                        </Button>
+                    </Title>
+                </AntListItemMeta>
+                <div>
+                    <Comment PID="@pid" ShowAddComment="@(IsShowAddComment && @pid == item.Id)" IsChild="true" DataSource="item.Comments" />
+                </div>
+            </Item>
+        </AntList>
+    </div>
 
-<AntList Loading="@commentsListLoading" DataSource="@DataSource">
-    <Header>
-        @if (!IsChild)
-        {
-            <span>热门评论</span>
-        }
-    </Header>
-    <Item Context="item">
-        <AntListItemMeta Description="@item.Content">
-            <Title>
-                @item.Author
-                <Button Size="small" Type="@ButtonType.Link" Danger @onclick="() => ReplyComment(item)">
-                    回复
-                </Button>
-            </Title>
-        </AntListItemMeta>
-        <div>
-            <Comment ShowAddComment="@IsShowAddComment" IsChild="true" DataSource="item.Comments" />
-        </div>
-    </Item>
-</AntList>
+}
+
 
 
 @code {
@@ -69,6 +75,9 @@
     public bool IsChild { get; set; }
     [Parameter]
     public bool ShowAddComment { get; set; }
+    [Parameter]
+    public string PID { get; set; }
+    public string pid { get; set; }
     public bool IsShowAddComment;
     public bool commentsListLoading;
     private CommentModel comment = new CommentModel();
@@ -84,22 +93,25 @@
 
     private async Task GetComments()
     {
-        var comments = await _commentService.GetCommentsAsync();
+        var comments = await _commentService.GetCommentsAsync(PID);
         DataSource = comments;
         commentsListLoading = false;
     }
 
     private async Task SubmitComment()
     {
+        comment.ParentId = PID;
         var result = await _commentService.AddCommentAsync(comment);
         if (result)
         {
+            ShowAddComment = IsChild && true;
             await GetComments();
         }
     }
 
     private void ReplyComment(CommentModel comment)
     {
+        pid = comment.Id;
         IsShowAddComment = !IsShowAddComment;
     }
 }
