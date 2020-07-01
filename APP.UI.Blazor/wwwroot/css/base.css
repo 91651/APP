@@ -143,7 +143,7 @@ nav { max-width: 1200px; margin: auto; position: relative }
 /*search*/
 .searchbox { position: absolute; right: 0; }
 .search_bar { position: relative; width: 0%; min-width: 60px; height: 60px; float: right; overflow: hidden; -webkit-transition: width 0.3s; -moz-transition: width 0.3s; transition: width 0.3s; -webkit-backface-visibility: hidden; }
-.search_bar .input { position: absolute; top: 16px; right: 0; border: none; outline: none; height: 30px; line-height: 30px; z-index: 10; font-size: 16px; color: #333; background: none }
+.search_bar .input { width:0; position: absolute; top: 16px; right: 0; border: none; outline: none; height: 30px; line-height: 30px; z-index: 10; font-size: 16px; color: #333; background: none }
 .search_ico, .search_btn { width: 60px; height: 60px; display: block; position: absolute; right: 0; top: 0; padding: 0; margin: 0; line-height: 60px; cursor: pointer; }
 .search_ico { z-index: 90; }
 .search_open { width: 200px; display: inline-block }

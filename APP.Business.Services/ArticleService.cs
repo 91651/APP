@@ -97,6 +97,10 @@ namespace APP.Business.Services
             {
                 ex = ex.And(t => t.ChannelId == model.ChannelId);
             }
+            if (!string.IsNullOrWhiteSpace(model.MatchWord))
+            {
+                ex = ex.And(t => t.Title.Contains(model.MatchWord) || t.SubTitle.Contains(model.MatchWord) || t.Summary.Contains(model.MatchWord) || t.Content.Contains(model.MatchWord));
+            }
             var users = await _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Include(i => i.Files).Where(ex).ToDataSourceResultAsync(model);
             return new PageResult<List<ArticleListModel>>
             {

@@ -1,0 +1,62 @@
+﻿@page "/search"
+
+@using APP.Framework.DynamicLinq;
+@using APP.Business.Services.Models;
+@using APP.Business.Services;
+@using Microsoft.AspNetCore.WebUtilities;
+@inject NavigationManager _navigationManager;
+@inject IBlogService _blogService;
+@inject IArticleService _articleService;
+
+<div class="blogtab">
+    <ul id="blogtab">
+        <li class="current">搜索结果</li>
+    </ul>
+    @foreach (var article in articles)
+    {
+        <div class="blogs">
+            <h3 class="blogtitle"><a href="/p/@article.Id" target="_blank">@article.Title</a></h3>
+            <span class="blogpic">
+                @if (@article.File != null)
+                {<a href="/p/@article.Id" title=""><img src="@(article.File.Path + article.File.Name)"></a>}
+            </span>
+            <p class="blogtext">@article.Summary</p>
+            <div class="bloginfo" style="@(article.File !=null ? "margin-top:80px" : "" )">
+                <ul>
+                    <li class="author"><a>@article.Author</a></li>
+                    <li class="lmname"><a href="/c/@article.ChannelId">@article.ChannelName</a></li>
+                    <li class="timer">@($"{article.Updated:yyyy年M月d日 HH:mm}")</li>
+                    <li class="view"><span>@article.Viewed</span>已阅读</li>
+                </ul>
+            </div>
+        </div>
+    }
+    <Button block size="large" @onclick="GetArticles">加载更多</Button>
+</div>
+
+@code {
+    public string word;
+    private int page = default;
+    private SearchArticleModel search = new SearchArticleModel() { Take = 20 };
+    private List<ArticleListModel> articles = new List<ArticleListModel>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = _navigationManager.ToAbsoluteUri(_navigationManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue(nameof(word), out var p))
+        {
+            word = p.First();
+        }
+
+        await GetArticles();
+    }
+
+    private async Task GetArticles()
+    {
+        search.MatchWord = word.Trim();
+        search.Skip = search.Take * page++;
+        var data = (await _articleService.GetArticlesAsync(search)).Data;
+        articles.AddRange(data);
+    }
+}

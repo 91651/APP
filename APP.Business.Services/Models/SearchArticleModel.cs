@@ -9,5 +9,6 @@ namespace APP.Business.Services.Models
         public string UserName { get; set; }
         public string CreatedDate { get; set; }
         public string ChannelId { get; set; }
+        public string MatchWord { get; set; }
     }
 }

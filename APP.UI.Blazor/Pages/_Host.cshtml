@@ -21,6 +21,7 @@
 <body>
     <app>
         <component type="typeof(App)" render-mode="Server" />
+        @*@(await Html.RenderComponentAsync<App>(RenderMode.Server))*@
     </app>
 
     <div id="blazor-error-ui">
@@ -45,7 +46,6 @@
     <script src="_content/AntDesign/js/ant-design-blazor.js"></script>
     <script src="~/js/jquery.easyfader.min.js"></script>
     <script src="~/js/hc-sticky.js"></script>
-    <script src="~/js/comm.js"></script>
     <script src="~/js/scrollReveal.js"></script>
     <!--[if lt IE 9]>
     <script src="js/modernizr.js"></script>
