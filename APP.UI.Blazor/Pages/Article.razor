@@ -32,6 +32,7 @@
         <p>下一篇：<a href="/Article/@nextArticle?.Id">@(nextArticle?.Title ?? "已经是最后一篇") </a></p>
     </div>
 
+    <Captcha/>
     <div>
         <Card Title="@("评论")">
             <Comment OwnerId="@id" ShowAddComment="true" />

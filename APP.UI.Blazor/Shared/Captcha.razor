@@ -1,0 +1,61 @@
+﻿
+
+    <div class="slidercaptcha">
+        <div class="captcha-header">
+            <span>请完成安全验证!</span>
+        </div>
+        <div class="captcha-body" >
+            <div style="position: relative; width: 280px; margin: 0px auto;">
+                <canvas width="278" height="155" /><i class="refreshIcon fa fa-redo" />
+                <canvas ref="canvasBlock" width="50" height="155" class="block" style="left: @(left)px;" />
+                <div class="sliderContainer @(captchaStatus == CaptchaStatus.Succeed ? "sliderContainer_success" : (captchaStatus == CaptchaStatus.Failed ? "sliderContainer_fail" : ""))">
+                    <div class="sliderbg" /><div class="sliderMask" style="left: @(left)px;">
+                        <div class="slider" style="left: @(left)px;" @onmousedown="SliderMousedown" @onmouseup="SliderMouseup" @onmousemove="SliderMousemove"
+                            >
+                            <i class="mdi mdi-arrow-right-thick sliderIcon" />
+                        </div>
+                    </div>
+                    <span class="sliderText" data-text="再试一次" style="@(active ? "display:none" : "" )">再试一次</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@code {
+    private int SliderBoxWidth = 278;
+    private double left = 0;
+    private double xDefaultClientPosition;
+    private CaptchaStatus captchaStatus = CaptchaStatus.Initial;
+    private bool active;
+
+    private void SliderMousemove(MouseEventArgs e)
+    {
+        if (active && left >=0 && left <= SliderBoxWidth)
+        {
+            left = e.ClientX - xDefaultClientPosition;
+        }
+    }
+
+    private void SliderMousedown(MouseEventArgs e)
+    {
+        xDefaultClientPosition = e.ClientX;
+        DragStart();
+    }
+
+    private void SliderMouseup(MouseEventArgs e)
+    {
+        xDefaultClientPosition = e.ClientX;
+        DragStart();
+    }
+
+    private void DragStart(){
+        active = true;
+    }
+
+    enum CaptchaStatus
+    {
+        Initial,
+        Succeed,
+        Failed
+    }
+}
