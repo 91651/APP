@@ -1,4 +1,8 @@
-﻿@inject IJSRuntime JSRuntime;
+﻿@using APP.Framework.Captcha;
+@using APP.Business.Services;
+
+@inject IJSRuntime JSRuntime;
+@inject IAuthService _authService;
 
 <div class="slidercaptcha">
     <div class="captcha-header">
@@ -6,16 +10,16 @@
     </div>
     <div class="captcha-body">
         <div style="position: relative; width: 280px; margin: 0px auto;">
-            <canvas width="278" height="155" @ondrop="Drop" ondragover="event.preventDefault();" /><i class="refreshIcon fa fa-redo" />
-            <canvas width="50" height="50" class="block" style="background-color: aqua; left:@(left)px; top:@(top)px; " draggable="true" @ondrag="Drag" @ondragstart="DragStart" />
+            <canvas @ref="canvasBack" width="278" height="155" @ondrop="Drop" ondragover="event.preventDefault();" /><i class="refreshIcon fa fa-redo" />
+            <canvas @ref="canvasBlock" width="50" height="50" class="block" style="background-color: aqua; left:@(point.X)px; top:@(point.Y)px; " draggable="true" @ondragstart="DragStart" />
             <div class="sliderContainer @(Slider.SliderStatus == SliderStatus.Succeed ? "sliderContainer_success" : (Slider.SliderStatus == SliderStatus.Failed ? "sliderContainer_fail" : ""))">
                 <div class="sliderbg" />
-                @*<div class="sliderMask">
-                        <div class="slider" style="left: @(left)px; top:@(top)px; "
+                <div class="sliderMask">
+                        @*<div class="slider" style="left: @(left)px; top:@(top)px; "
                             >
                             <i class="mdi mdi-arrow-right-thick sliderIcon" />
-                        </div>
-                    </div>*@
+                        </div>*@
+                    </div>
                 <span class="sliderText" style="@(active ? "display:none" : "" )">@Slider.Text</span>
             </div>
         </div>
@@ -23,51 +27,57 @@
 </div>
 
 @code {
+    private ElementReference canvasBack;
+    private ElementReference canvasBlock;
     private bool active;
-    private double left;
-    private double top;
-    private Position defaultPosition = new Position();
+    private const int offset = 2;
+    private Framework.Captcha.Point point = new Framework.Captcha.Point() { X = offset, Y = offset };
+    private Framework.Captcha.Point defaultPosition = new Framework.Captcha.Point();
     private ISlider Slider = new SliderInitial();
 
-    protected override async Task OnInitializedAsync()
-    {
-
-
-    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var text = await JSRuntime.InvokeAsync<string>("canvasDrawImage", "dddd");
+        if (firstRender)
+        {
+            await CaptchaInit();
+        }
     }
 
     private void DragStart(DragEventArgs e)
     {
-        defaultPosition.X = e.ClientX;
-        defaultPosition.Y = e.ClientY;
+        defaultPosition.X = (int)e.ClientX;
+        defaultPosition.Y = (int)e.ClientY;
         active = true;
-    }
-
-    private void Drag(DragEventArgs e)
-    {
-
     }
 
     private async Task Drop(DragEventArgs e)
     {
         active = false;
-        left = e.ClientX - defaultPosition.X;
-        top = e.ClientY - defaultPosition.Y;
-        if (1 == 2)
+        point.X = (int)e.ClientX - defaultPosition.X + offset;
+        point.Y = (int)e.ClientY - defaultPosition.Y + offset;
+        var result = await _authService.CaptchaVerifyAsync(point);
+        if (!string.IsNullOrWhiteSpace(result))
         {
             Slider = new SliderSucceed();
         }
         else
         {
             Slider = new SliderFailed();
-            await Task.Delay(5000);
-            Slider = new SliderInitial();
-            left = default;
-            top = default;
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            await CaptchaInit();
+
         }
+    }
+
+    private async Task CaptchaInit()
+    {
+        active = false;
+        Slider = new SliderInitial();
+        point = new Framework.Captcha.Point() { X = offset, Y = offset };
+        defaultPosition = new Framework.Captcha.Point();
+        var captcha = await _authService.CaptchaGenerateAsync();
+        await JSRuntime.InvokeAsync<Task>("appjs.canvas.drawImage", canvasBack, captcha.NormalImg);
+        await JSRuntime.InvokeAsync<Task>("appjs.canvas.drawImage", canvasBlock, captcha.SlideImg);
     }
 
 
@@ -93,12 +103,6 @@
     {
         SliderStatus SliderStatus { get; set; }
         string Text { get; set; }
-    }
-
-    class Position
-    {
-        public double X { get; set; }
-        public double Y { get; set; }
     }
 
     enum SliderStatus

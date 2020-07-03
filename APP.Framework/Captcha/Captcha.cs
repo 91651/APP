@@ -54,10 +54,16 @@ namespace APP.Framework.Captcha
             return r;
         }
 
-        public static bool CaptchaVerify(Point source, Point target)
+        public static string CaptchaVerify(Point source, Point target)
         {
-            var isChecked = Math.Abs(source.X - target.X) <= 2;
-            return isChecked;
+            var isChecked = Math.Abs(source.X - target.X) <= 2 && Math.Abs(source.Y - target.Y) <= 2;
+            if (isChecked)
+            {
+                var guid = Guid.NewGuid().ToString();
+                var code = guid.Substring(guid.Length - 10);
+                return code;
+            }
+            return null;
         }
     }
 
