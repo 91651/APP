@@ -6,53 +6,92 @@
         </div>
         <div class="captcha-body" >
             <div style="position: relative; width: 280px; margin: 0px auto;">
-                <canvas width="278" height="155" /><i class="refreshIcon fa fa-redo" />
-                <canvas ref="canvasBlock" width="50" height="155" class="block" style="left: @(left)px;" />
-                <div class="sliderContainer @(captchaStatus == CaptchaStatus.Succeed ? "sliderContainer_success" : (captchaStatus == CaptchaStatus.Failed ? "sliderContainer_fail" : ""))">
-                    <div class="sliderbg" /><div class="sliderMask" style="left: @(left)px;">
-                        <div class="slider" style="left: @(left)px;" @onmousedown="SliderMousedown" @onmouseup="SliderMouseup" @onmousemove="SliderMousemove"
-                            >
-                            <i class="mdi mdi-arrow-right-thick sliderIcon" />
-                        </div>
-                    </div>
-                    <span class="sliderText" data-text="再试一次" style="@(active ? "display:none" : "" )">再试一次</span>
+                <canvas width="278" height="155" @ondrop="Drop" ondragover="event.preventDefault();" /><i class="refreshIcon fa fa-redo" />
+                <canvas width="50" height="50" class="block" style="background-color: aqua; left:@(left)px; top:@(top)px; " draggable="true" @ondrag="Drag" @ondragstart="DragStart" />
+                <div class="sliderContainer @(Slider.SliderStatus == SliderStatus.Succeed ? "sliderContainer_success" : (Slider.SliderStatus == SliderStatus.Failed ? "sliderContainer_fail" : ""))">
+                    <div class="sliderbg" />
+                        @*<div class="sliderMask">
+                            <div class="slider" style="left: @(left)px; top:@(top)px; " 
+                                >
+                                <i class="mdi mdi-arrow-right-thick sliderIcon" />
+                            </div>
+                        </div>*@
+                    <span class="sliderText" style="@(active ? "display:none" : "" )">@Slider.Text</span>
                 </div>
             </div>
         </div>
     </div>
 
 @code {
-    private int SliderBoxWidth = 278;
-    private double left = 0;
-    private double xDefaultClientPosition;
-    private CaptchaStatus captchaStatus = CaptchaStatus.Initial;
     private bool active;
+    private double left;
+    private double top;
+    private Position defaultPosition = new Position();
+    private ISlider Slider = new SliderInitial();
 
-    private void SliderMousemove(MouseEventArgs e)
+    private void DragStart(DragEventArgs e)
     {
-        if (active && left >=0 && left <= SliderBoxWidth)
-        {
-            left = e.ClientX - xDefaultClientPosition;
-        }
-    }
-
-    private void SliderMousedown(MouseEventArgs e)
-    {
-        xDefaultClientPosition = e.ClientX;
-        DragStart();
-    }
-
-    private void SliderMouseup(MouseEventArgs e)
-    {
-        xDefaultClientPosition = e.ClientX;
-        DragStart();
-    }
-
-    private void DragStart(){
+        defaultPosition.X = e.ClientX;
+        defaultPosition.Y = e.ClientY;
         active = true;
     }
 
-    enum CaptchaStatus
+    private void Drag(DragEventArgs e)
+    {
+
+    }
+
+    private async Task Drop(DragEventArgs e)
+    {
+        active = false;
+        left = e.ClientX - defaultPosition.X;
+        top = e.ClientY - defaultPosition.Y;
+        if (1 == 2)
+        {
+            Slider = new SliderSucceed();
+        }
+        else
+        {
+            Slider = new SliderFailed();
+            await Task.Delay(5000);
+            Slider = new SliderInitial();
+            left = default;
+            top = default;
+        }
+    }
+
+
+    class SliderInitial: ISlider
+    {
+        public SliderStatus SliderStatus { get; set; } = SliderStatus.Initial;
+        public string Text { get; set; } = "拖动图案到缺口完成验证";
+    }
+
+    class SliderSucceed : ISlider
+    {
+        public SliderStatus SliderStatus { get; set; } = SliderStatus.Succeed;
+        public string Text { get; set; } = "验证通过";
+    }
+
+    class SliderFailed : ISlider
+    {
+        public SliderStatus SliderStatus { get; set; } = SliderStatus.Failed;
+        public string Text { get; set; } = "再次一次";
+    }
+
+    interface ISlider
+    {
+        SliderStatus SliderStatus { get; set; }
+        string Text { get; set; }
+    }
+
+    class Position
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+    }
+
+    enum SliderStatus
     {
         Initial,
         Succeed,
