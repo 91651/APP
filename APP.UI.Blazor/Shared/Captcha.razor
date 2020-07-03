@@ -1,26 +1,26 @@
-﻿
+﻿@inject IJSRuntime JSRuntime;
 
-    <div class="slidercaptcha">
-        <div class="captcha-header">
-            <span>请完成安全验证!</span>
-        </div>
-        <div class="captcha-body" >
-            <div style="position: relative; width: 280px; margin: 0px auto;">
-                <canvas width="278" height="155" @ondrop="Drop" ondragover="event.preventDefault();" /><i class="refreshIcon fa fa-redo" />
-                <canvas width="50" height="50" class="block" style="background-color: aqua; left:@(left)px; top:@(top)px; " draggable="true" @ondrag="Drag" @ondragstart="DragStart" />
-                <div class="sliderContainer @(Slider.SliderStatus == SliderStatus.Succeed ? "sliderContainer_success" : (Slider.SliderStatus == SliderStatus.Failed ? "sliderContainer_fail" : ""))">
-                    <div class="sliderbg" />
-                        @*<div class="sliderMask">
-                            <div class="slider" style="left: @(left)px; top:@(top)px; " 
-                                >
-                                <i class="mdi mdi-arrow-right-thick sliderIcon" />
-                            </div>
-                        </div>*@
-                    <span class="sliderText" style="@(active ? "display:none" : "" )">@Slider.Text</span>
-                </div>
+<div class="slidercaptcha">
+    <div class="captcha-header">
+        <span>请完成安全验证!</span>
+    </div>
+    <div class="captcha-body">
+        <div style="position: relative; width: 280px; margin: 0px auto;">
+            <canvas width="278" height="155" @ondrop="Drop" ondragover="event.preventDefault();" /><i class="refreshIcon fa fa-redo" />
+            <canvas width="50" height="50" class="block" style="background-color: aqua; left:@(left)px; top:@(top)px; " draggable="true" @ondrag="Drag" @ondragstart="DragStart" />
+            <div class="sliderContainer @(Slider.SliderStatus == SliderStatus.Succeed ? "sliderContainer_success" : (Slider.SliderStatus == SliderStatus.Failed ? "sliderContainer_fail" : ""))">
+                <div class="sliderbg" />
+                @*<div class="sliderMask">
+                        <div class="slider" style="left: @(left)px; top:@(top)px; "
+                            >
+                            <i class="mdi mdi-arrow-right-thick sliderIcon" />
+                        </div>
+                    </div>*@
+                <span class="sliderText" style="@(active ? "display:none" : "" )">@Slider.Text</span>
             </div>
         </div>
     </div>
+</div>
 
 @code {
     private bool active;
@@ -31,8 +31,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var a = new Image
 
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var text = await JSRuntime.InvokeAsync<string>("canvasDrawImage", "dddd");
     }
 
     private void DragStart(DragEventArgs e)
@@ -67,7 +71,7 @@
     }
 
 
-    class SliderInitial: ISlider
+    class SliderInitial : ISlider
     {
         public SliderStatus SliderStatus { get; set; } = SliderStatus.Initial;
         public string Text { get; set; } = "拖动图案到缺口完成验证";
