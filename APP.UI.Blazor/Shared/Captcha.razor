@@ -29,6 +29,12 @@
     private Position defaultPosition = new Position();
     private ISlider Slider = new SliderInitial();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var a = new Image
+
+    }
+
     private void DragStart(DragEventArgs e)
     {
         defaultPosition.X = e.ClientX;

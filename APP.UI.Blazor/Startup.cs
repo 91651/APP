@@ -39,6 +39,7 @@ namespace APP.UI.Blazor
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<AppDbContext>();
             services.AddScopedScan(typeof(Repository<>));
             services.AddScopedScan(typeof(Service));
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

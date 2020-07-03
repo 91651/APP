@@ -16,6 +16,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.DynamicLinq" Version="1.1.5" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.5" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0010" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Captcha\" />
   </ItemGroup>
 
 </Project>
