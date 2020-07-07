@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="0.1.0-rc.4" />
+    <PackageReference Include="AntDesign" Version="0.1.0" />
     <PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.1" />
     <PackageReference Include="Jiuban" Version="1.0.0" />
   </ItemGroup>
