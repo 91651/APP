@@ -3,8 +3,8 @@
 @inject ICommentService _commentService;
 
 
-<Comment Avatar="@(@"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png")" Content="@(GetEditor(() => {}))"></Comment>
-@comments(DataSource)
+<Comment Avatar="@(@"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png")" Content="@(GetEditor(comment))"></Comment>
+@CommentContent(comments)
 
 
 
@@ -13,80 +13,79 @@
 @code {
     [Parameter]
     public string OwnerId { get; set; }
-    [Parameter]
-    public List<CommentModel> DataSource { get; set; }
-    [Parameter]
-    public bool IsChild { get; set; }
-    [Parameter]
-    public bool ShowAddComment { get; set; }
-    [Parameter]
-    public string PID { get; set; }
-    public string pid { get; set; }
-    public bool IsShowAddComment;
-    public bool commentsListLoading;
+    private List<CommentModel> comments = new List<CommentModel>();
     private CommentModel comment = new CommentModel();
+    private string replyId;
+    private CommentModel replyComment = new CommentModel();
 
     protected override async Task OnInitializedAsync()
     {
-        if (!IsChild)
-        {
-            await GetComments();
-        }
+        await GetComments();
 
     }
 
     private async Task GetComments()
     {
-        var comments = await _commentService.GetCommentsAsync(OwnerId, PID);
-        DataSource = comments;
-        commentsListLoading = false;
+        comments = await _commentService.GetCommentsAsync(OwnerId, null);
     }
 
-    private async Task SubmitComment()
+    private async Task SubmitComment(CommentModel comment, string pid)
     {
         comment.OwnerId = OwnerId;
-        comment.ParentId = PID;
+        comment.ParentId = pid;
         var result = await _commentService.AddCommentAsync(comment);
         if (result)
         {
-            ShowAddComment = !IsChild && true;
+            replyId = default;
             await GetComments();
         }
     }
 
     private void ReplyComment(CommentModel comment)
     {
-        pid = comment.Id;
-        IsShowAddComment = !IsShowAddComment;
+        replyComment = new CommentModel();
+        replyId = comment.Id;
     }
 
-    RenderFragment comments(List<CommentModel> DataSource) =>
+    RenderFragment CommentContent(List<CommentModel> DataSource) =>
     @<div>
-        @foreach (var item in DataSource)
-        {
-            <Comment Avatar="item.Author" Content="item.Content">
-                @comments(item.Comments)
-            </Comment>
-        }
-    </div>;
-
-    RenderFragment GetEditor(Action onSubmit)
+    @foreach (var item in DataSource)
     {
-      return
-        @<div>
-    <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5" @bind-Value="@comment.Content"></TextArea>
+        <Comment Avatar="item.Author" Content="item.Content" Actions="@(new []{replyAction(item)})">
+            @CommentContent(item.Comments)
+        </Comment>
+        @if (item.Id == replyId)
+        {
+            <Comment Avatar="@(@"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png")" Content="@(GetEditor(replyComment, item.Id))"></Comment>
+        }
+    }
+</div>;
+
+    RenderFragment replyAction(CommentModel comment) =>
+    @<Template>
+    <Button Type="@ButtonType.Link" @onclick="() => ReplyComment(comment)">回复</Button>
+   
+
+</Template>;
+
+RenderFragment GetEditor(CommentModel model, string pid = null)
+{
+return
+@<div>
+    <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5" @bind-Value="@model.Content"></TextArea>
     <br />
-    <Input @bind-Value="@comment.Author" />
-    <Input @bind-Value="@comment.Email" />
-    <Button Type="@ButtonType.Primary" HtmlType="submit">提交</Button>
+    <br />
+    昵称：<Input Type="text" @bind-Value="@model.Author" style="width:30%" /> &emsp;
+    邮箱：<Input type="email" @bind-Value="@model.Email" style="width:30%" />
+    <Button Type="@ButtonType.Primary" HtmlType="submit" @onclick="() => SubmitComment(model, pid)">提交</Button>
 
 
     @*<Row Justify="space-around">
-        <AntDesign.Col Span="22">
-            <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5" @bind-Value="@comment.Content"></TextArea>
-        </AntDesign.Col>
+            <AntDesign.Col Span="22">
+                <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5" @bind-Value="@comment.Content"></TextArea>
+            </AntDesign.Col>
 
-    </Row>*@
+        </Row>*@
 </div>;
-    }
+}
 }
