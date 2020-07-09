@@ -20,15 +20,12 @@
     private CommentModel comment = new CommentModel();
     private string replyId;
     private CommentModel replyComment = new CommentModel();
-    [Parameter]
-    public RenderFragment captcha { get; set; }
-    [Parameter]
-    public bool IsShowCaptcha { get; set; }
+    public RenderFragment captcha;
+    public bool IsShowCaptcha;
 
     protected override async Task OnInitializedAsync()
     {
         await GetComments();
-
     }
 
     private async Task GetComments()
@@ -36,30 +33,30 @@
         comments = await _commentService.GetCommentsAsync(OwnerId, null);
     }
 
-    private async Task SubmitComment(CommentModel comment, string pid)
+    private void SubmitComment(CommentModel comment, string pid)
     {
         IsShowCaptcha = true;
         captcha =
-    @<Template>
-        <Captcha OnSucceed="async () => {await CaptchaSucceed(comment, pid); }" />
-
-    </Template>;
-
+        @<Template>
+            <Captcha OnSucceed="() => CaptchaSucceed(comment, pid)" />
+        </Template>;
     }
 
 
     private async Task CaptchaSucceed(CommentModel comment, string pid)
     {
         IsShowCaptcha = false;
-    //comment.OwnerId = OwnerId;
-    //comment.ParentId = pid;
-    //var result = await _commentService.AddCommentAsync(comment);
-    //if (result)
-    //{
-    //    replyId = default;
-    //    await GetComments();
-    //    comment = new CommentModel();
-    //}
+        StateHasChanged();
+        comment.OwnerId = OwnerId;
+        comment.ParentId = pid;
+        var result = await _commentService.AddCommentAsync(comment);
+        if (result)
+        {
+            replyId = default;
+            comment = new CommentModel();
+            await GetComments();
+
+        }
     }
 
     private void ReplyComment(CommentModel comment)
