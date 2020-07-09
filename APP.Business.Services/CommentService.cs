@@ -31,6 +31,14 @@ namespace APP.Business.Services
             {
                 return false;
             }
+            if (!string.IsNullOrWhiteSpace(model.ParentId))
+            {
+               var existComment = _commentRepository.GetAll().Any(c => c.Id == model.ParentId);
+                if (!existComment)
+                {
+                    return false;
+                }
+            }
             var comment = _mapper.Map<Comment>(model);
             comment.Id = Guid.NewGuid().ToString();
             comment.Created = DateTime.UtcNow;
