@@ -1,12 +1,15 @@
 ﻿@using APP.Business.Services.Models;
 @using APP.Business.Services;
+@inject ModalService _modalService
 @inject ICommentService _commentService;
 
 
 <Comment Avatar="@(@"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png")" Content="@(GetEditor(comment))"></Comment>
 @CommentContent(comments)
-
-
+@if (IsShowCaptcha)
+{
+    @captcha
+}
 
 
 
@@ -17,6 +20,10 @@
     private CommentModel comment = new CommentModel();
     private string replyId;
     private CommentModel replyComment = new CommentModel();
+    [Parameter]
+    public RenderFragment captcha { get; set; }
+    [Parameter]
+    public bool IsShowCaptcha { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -31,14 +38,28 @@
 
     private async Task SubmitComment(CommentModel comment, string pid)
     {
-        comment.OwnerId = OwnerId;
-        comment.ParentId = pid;
-        var result = await _commentService.AddCommentAsync(comment);
-        if (result)
-        {
-            replyId = default;
-            await GetComments();
-        }
+        IsShowCaptcha = true;
+        captcha =
+    @<Template>
+        <Captcha OnSucceed="async () => {await CaptchaSucceed(comment, pid); }" />
+
+    </Template>;
+
+    }
+
+
+    private async Task CaptchaSucceed(CommentModel comment, string pid)
+    {
+        IsShowCaptcha = false;
+    //comment.OwnerId = OwnerId;
+    //comment.ParentId = pid;
+    //var result = await _commentService.AddCommentAsync(comment);
+    //if (result)
+    //{
+    //    replyId = default;
+    //    await GetComments();
+    //    comment = new CommentModel();
+    //}
     }
 
     private void ReplyComment(CommentModel comment)
@@ -47,11 +68,12 @@
         replyId = comment.Id;
     }
 
+
     RenderFragment CommentContent(List<CommentModel> DataSource) =>
-    @<div>
+@<div>
     @foreach (var item in DataSource)
     {
-        <Comment Avatar="item.Author" Content="item.Content" Actions="@(new []{replyAction(item)})">
+        <Comment Avatar="@(@"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png")" Author="@item.Author" Content="item.Content" Datetime="@dateTime(item.Created)" Actions="@(new []{replyAction(item)})">
             @CommentContent(item.Comments)
         </Comment>
         @if (item.Id == replyId)
@@ -61,10 +83,10 @@
     }
 </div>;
 
-    RenderFragment replyAction(CommentModel comment) =>
-    @<Template>
+RenderFragment replyAction(CommentModel comment) =>
+@<Template>
     <Button Type="@ButtonType.Link" @onclick="() => ReplyComment(comment)">回复</Button>
-   
+
 
 </Template>;
 
@@ -72,20 +94,34 @@ RenderFragment GetEditor(CommentModel model, string pid = null)
 {
 return
 @<div>
-    <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5" @bind-Value="@model.Content"></TextArea>
-    <br />
-    <br />
-    昵称：<Input Type="text" @bind-Value="@model.Author" style="width:30%" /> &emsp;
-    邮箱：<Input type="email" @bind-Value="@model.Email" style="width:30%" />
-    <Button Type="@ButtonType.Primary" HtmlType="submit" @onclick="() => SubmitComment(model, pid)">提交</Button>
+    <EditForm Model="@model" OnValidSubmit="() => SubmitComment(model, pid)">
+        <DataAnnotationsValidator />
+        <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5" @bind-Value="@model.Content"></TextArea>
+        <br />
+        <br />
+        昵称：<Input Type="text" @bind-Value="@model.Author" style="width:30%" /> &emsp;
+        邮箱：<Input type="email" @bind-Value="@model.Email" style="width:30%" />
+        <Button Type="@ButtonType.Primary" HtmlType="submit">提交</Button>
+        <div style="color:red">
+            <br />
+            <ValidationSummary />
+        </div>
 
+    </EditForm>
 
     @*<Row Justify="space-around">
             <AntDesign.Col Span="22">
-                <TextArea Placeholder="一语中的" MinRows="3" MaxRows="5" @bind-Value="@comment.Content"></TextArea>
+                // todo
             </AntDesign.Col>
-
         </Row>*@
 </div>;
 }
+
+RenderFragment dateTime(DateTime dateTime) =>
+@<Tooltip Title="@(dateTime.ToString("yyyy-MM-dd HH:mm:ss"))">
+    <span>
+        @(MomentHelper.FromNow(dateTime))
+    </span>
+</Tooltip>;
 }
+

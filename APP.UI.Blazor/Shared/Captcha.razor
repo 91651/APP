@@ -4,29 +4,36 @@
 @inject IJSRuntime JSRuntime;
 @inject IAuthService _authService;
 
-<div class="slidercaptcha">
-    <div class="captcha-header">
-        <span>请完成安全验证!</span>
-    </div>
-    <div class="captcha-body">
-        <div style="position: relative; width: 280px; margin: 0px auto;">
-            <canvas @ref="canvasBack" width="278" height="155" @ondrop="Drop" ondragover="event.preventDefault();" /><i class="refreshIcon fa fa-redo" />
-            <canvas @ref="canvasBlock" width="50" height="50" class="block" style="background-color: aqua; left:@(point.X)px; top:@(point.Y)px; " draggable="true" @ondragstart="DragStart" />
-            <div class="sliderContainer @(Slider.SliderStatus == SliderStatus.Succeed ? "sliderContainer_success" : (Slider.SliderStatus == SliderStatus.Failed ? "sliderContainer_fail" : ""))">
-                <div class="sliderbg" />
-                <div class="sliderMask">
-                        @*<div class="slider" style="left: @(left)px; top:@(top)px; "
-                            >
-                            <i class="mdi mdi-arrow-right-thick sliderIcon" />
-                        </div>*@
+    <div class="captcha-container">
+        <div class="slidercaptcha">
+            <div class="captcha-header">
+                <span>请完成安全验证!</span>
+            </div>
+            <div class="captcha-body">
+                <div style="position: relative; width: 280px; margin: 0px auto;">
+                    <canvas @ref="canvasBack" width="278" height="155" @ondrop="Drop" ondragover="event.preventDefault();" /><i class="refreshIcon fa fa-redo" />
+                    <canvas @ref="canvasBlock" width="50" height="50" class="block" style="background-color: aqua; left:@(point.X)px; top:@(point.Y)px; " draggable="true" @ondragstart="DragStart" />
+                    <div class="sliderContainer @(Slider.SliderStatus == SliderStatus.Succeed ? "sliderContainer_success" : (Slider.SliderStatus == SliderStatus.Failed ? "sliderContainer_fail" : ""))">
+                        <div class="sliderbg" />
+                        <div class="sliderMask">
+                            @*<div class="slider" style="left: @(left)px; top:@(top)px; "
+                                >
+                                <i class="mdi mdi-arrow-right-thick sliderIcon" />
+                            </div>*@
+                        </div>
+                        <span class="sliderText" style="@(active ? "display:none" : "" )">@Slider.Text</span>
                     </div>
-                <span class="sliderText" style="@(active ? "display:none" : "" )">@Slider.Text</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 
 @code {
+    [Parameter]
+    public bool IsShow { get; set; }
+    [Parameter]
+    public Action OnSucceed { get; set; }
     private ElementReference canvasBack;
     private ElementReference canvasBlock;
     private bool active;
@@ -59,6 +66,7 @@
         if (!string.IsNullOrWhiteSpace(result))
         {
             Slider = new SliderSucceed();
+            OnSucceed.Invoke();
         }
         else
         {

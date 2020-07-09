@@ -1,10 +1,19 @@
-﻿.slidercaptcha {
+﻿
+.captcha-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: white;
+}
+
+
+.slidercaptcha {
     margin: 0 auto;
     width: 314px;
     height: 286px;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.125);
-    margin-top: 40px;
 }
 
 .captcha-header {
