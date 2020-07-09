@@ -25,25 +25,28 @@
         @*@(await Html.RenderComponentAsync<App>(RenderMode.Server))*@
     </app>
 
-    <div id="blazor-error-ui">
-        <environment include="Staging,Production">
-            An error has occurred. This application may no longer respond until reloaded.
-        </environment>
-        <environment include="Development">
-            An unhandled exception has occurred. See browser dev tools for details.
-        </environment>
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>
+    <environment names="Development">
+        <div id="blazor-error-ui">
+            <environment include="Staging,Production">
+                An error has occurred. This application may no longer respond until reloaded.
+            </environment>
+            <environment include="Development">
+                An unhandled exception has occurred. See browser dev tools for details.
+            </environment>
+            <a href="" class="reload">Reload</a>
+            <a class="dismiss">🗙</a>
+        </div>
+    </environment>
+    
 
     <script src="_framework/blazor.server.js"></script>
 
-    <environment names="Development">
+    @*<environment names="Development">
         <script src="~/js/lib.min.js" asp-append-version="true"></script>
     </environment>
     <environment names="Production">
         <script src="~/js/lib.min.js" asp-append-version="true"></script>
-    </environment>
+    </environment>*@
     <script src="_content/AntDesign/js/ant-design-blazor.js"></script>
     <script src="~/js/jquery.easyfader.min.js"></script>
     <script src="~/js/hc-sticky.js"></script>
@@ -53,8 +56,8 @@
     <![endif]-->
     <script src="~/js/blazor-app.js"></script>
     <script lang="love">
-        console.info("%c%s", "color: #9399; font-size: 12px;",
-    "@(Jiuban.Fate.Lucky)"
-            )</script>
+        console.info("%c%s", "color: #9399; font-size: 12px;", "@(久伴.初见.缘份)");
+        console.log("%c ", "padding:70px;background:url(@Html.Raw(@久伴.照片.照片_201804_2)) no-repeat;");
+    </script>
 </body>
 </html>

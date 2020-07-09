@@ -7,22 +7,30 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using APP.DbAccess.Entities;
 using System;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace APP.Business.Services
 {
     public class CommentService : ICommentService
     {
         private readonly IMapper _mapper;
+        private readonly IMemoryCache _memoryCache;
         private readonly ICommentRepository _commentRepository;
 
-        public CommentService(IMapper mapper, ICommentRepository commentRepository)
+        public CommentService(IMapper mapper, IMemoryCache memoryCache, ICommentRepository commentRepository)
         {
             _mapper = mapper;
+            _memoryCache = memoryCache;
             _commentRepository = commentRepository;
         }
 
-        public async Task<bool> AddCommentAsync(CommentModel model)
+        public async Task<bool> AddCommentAsync(CommentModel model, string captchaCode)
         {
+            var validation = _memoryCache.Get<bool>(captchaCode);
+            if(!validation)
+            {
+                return false;
+            }
             var comment = _mapper.Map<Comment>(model);
             comment.Id = Guid.NewGuid().ToString();
             comment.Created = DateTime.UtcNow;

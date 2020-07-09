@@ -38,18 +38,18 @@
         IsShowCaptcha = true;
         captcha =
         @<Template>
-            <Captcha OnSucceed="() => CaptchaSucceed(comment, pid)" />
+            <Captcha OnSucceed="(string captchaCode) => CaptchaSucceed(comment, pid, captchaCode)" />
         </Template>;
     }
 
 
-    private async Task CaptchaSucceed(CommentModel comment, string pid)
+    private async Task CaptchaSucceed(CommentModel comment, string pid, string captchaCode)
     {
         IsShowCaptcha = false;
         StateHasChanged();
         comment.OwnerId = OwnerId;
         comment.ParentId = pid;
-        var result = await _commentService.AddCommentAsync(comment);
+        var result = await _commentService.AddCommentAsync(comment, captchaCode);
         if (result)
         {
             replyId = default;

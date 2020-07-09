@@ -7,6 +7,7 @@ using APP.Framework.Captcha;
 using Microsoft.Extensions.Caching.Memory;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System;
 
 namespace APP.Business.Services
 {
@@ -26,7 +27,7 @@ namespace APP.Business.Services
         {
             var captcha = new ImageCaptcha().Generate();
             var point = JsonConvert.DeserializeObject<Point>(JsonConvert.SerializeObject(captcha.Point));
-            _memoryCache.Set(nameof(ImageCaptcha), point);
+            _memoryCache.Set(nameof(ImageCaptcha), point, new MemoryCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(20) });
             captcha.Point.X = default;
             captcha.Point.Y = default;
             return await Task.FromResult(captcha);
