@@ -4,8 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="0.2.0-nightly-200709081807" />
+    <PackageReference Include="AntDesign" Version="0.2.0-nightly-200715120727" />
     <PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.1" />
     <PackageReference Include="Toolbelt.Blazor.HeadElement" Version="1.2.0" />
     <PackageReference Include="Toolbelt.Blazor.HeadElement.ServerPrerendering" Version="1.2.0.1" />
