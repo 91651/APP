@@ -2,34 +2,40 @@
 
 @using APP.Business.Services.Models;
 @using APP.Business.Services;
+@inject IHeadElementHelper HeadElementHelper
+@using static Toolbelt.Blazor.HeadElement.MetaElement
 @inject IBlogService _blogService;
 @inject IArticleService _articleService;
 
-    <div class="blogtab">
-        <ul id="blogtab">
-            <li class="current">最新文章</li>
-        </ul>
-        @foreach (var article in articles)
-        {
-            <div class="blogs">
-                <h3 class="blogtitle"><a href="/p/@article.Id" target="_blank">@article.Title</a></h3>
-                <span class="blogpic">
-                    @if (@article.File != null)
-                    {<a href="/p/@article.Id" title=""><img src="@(article.File.Path + article.File.Name)"></a>}
-                </span>
-                <p class="blogtext">@article.Summary</p>
-                <div class="bloginfo" style="@(article.File !=null ? "margin-top:80px" : "" )">
-                    <ul>
-                        <li class="author"><a>@article.Author</a></li>
-                        <li class="lmname"><a href="/c/@article.ChannelId">@article.ChannelName</a></li>
-                        <li class="timer">@($"{article.Updated:yyyy年M月d日 HH:mm}")</li>
-                        <li class="view"><span>@article.Viewed</span>已阅读</li>
-                    </ul>
-                </div>
+    <Toolbelt.Blazor.HeadElement.Title>
+        遇见时光 | 博客首页
+    </Toolbelt.Blazor.HeadElement.Title>
+
+<div class="blogtab">
+    <ul id="blogtab">
+        <li class="current">最新文章</li>
+    </ul>
+    @foreach (var article in articles)
+    {
+        <div class="blogs">
+            <h3 class="blogtitle"><a href="/p/@article.Id" target="_blank">@article.Title</a></h3>
+            <span class="blogpic">
+                @if (@article.File != null)
+                {<a href="/p/@article.Id" title=""><img src="@(article.File.Path + article.File.Name)"></a>}
+            </span>
+            <p class="blogtext">@article.Summary</p>
+            <div class="bloginfo" style="@(article.File !=null ? "margin-top:80px" : "" )">
+                <ul>
+                    <li class="author"><a>@article.Author</a></li>
+                    <li class="lmname"><a href="/c/@article.ChannelId">@article.ChannelName</a></li>
+                    <li class="timer">@($"{article.Updated:yyyy年M月d日 HH:mm}")</li>
+                    <li class="view"><span>@article.Viewed</span>已阅读</li>
+                </ul>
             </div>
-        }
-        <Button block size="large" @onclick="GetArticles">加载更多</Button>
-    </div>
+        </div>
+    }
+    <Button block size="large" @onclick="GetArticles">加载更多</Button>
+</div>
 
 @code {
     private int page = default;

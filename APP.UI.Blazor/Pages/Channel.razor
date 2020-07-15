@@ -6,6 +6,10 @@
 @inject IBlogService _blogService;
 @inject IArticleService _articleService;
 
+    <Toolbelt.Blazor.HeadElement.Title>
+        遇见时光 | @channel.Title
+    </Toolbelt.Blazor.HeadElement.Title>
+
 @foreach (var article in articles)
 {
     <div class="blogs" style="-webkit-transform: translatey(0);transform: translatey(0);opacity: 1;-webkit-transition: -webkit-transform 1s ease-in-out 0s,  opacity 1s ease-in-out 0s;transition: transform 1s ease-in-out 0s, opacity 1s ease-in-out 0s;-webkit-perspective: 1000;-webkit-backface-visibility: hidden;" data-scroll-reveal-initialized="true">

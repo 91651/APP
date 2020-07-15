@@ -14,6 +14,7 @@ using APP.Business.Services.AutoMapper;
 using APP.DbAccess.Entities;
 using System.Text.Unicode;
 using System.Text.Encodings.Web;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace APP.UI.Blazor
 {
@@ -33,6 +34,7 @@ namespace APP.UI.Blazor
             services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddHeadElementHelper();
             services.AddAutoMapper(typeof(Mappings));
             services.AddAntDesign();
             services.AddDbContext<AppDbContext>(option => option.UseSqlite(Configuration["ConnectionStrings:SqliteConnection"]));
@@ -59,6 +61,8 @@ namespace APP.UI.Blazor
             app.UseInitDb();
 
             app.UseHttpsRedirection();
+
+            app.UseHeadElementServerPrerendering();
             app.UseStaticFiles();
 
             app.UseRouting();
