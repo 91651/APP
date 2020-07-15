@@ -67,7 +67,7 @@ namespace APP.UI.Blazor
 
             app.UseHeadElementServerPrerendering();
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions { RequestPath = "/static", FileProvider = new PhysicalFileProvider(Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), Configuration["AppSettings:StaticContentPath"])).FullName) });
+            app.UseStaticFiles(new StaticFileOptions { RequestPath = "/static", FileProvider = new PhysicalFileProvider(Directory.CreateDirectory(Configuration["AppSettings:StaticContentPath"]).FullName) });
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
