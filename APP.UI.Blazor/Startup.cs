@@ -15,6 +15,9 @@ using APP.DbAccess.Entities;
 using System.Text.Unicode;
 using System.Text.Encodings.Web;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using System.Threading;
 
 namespace APP.UI.Blazor
 {
@@ -64,7 +67,7 @@ namespace APP.UI.Blazor
 
             app.UseHeadElementServerPrerendering();
             app.UseStaticFiles();
-
+            app.UseStaticFiles(new StaticFileOptions { RequestPath = "/static", FileProvider = new PhysicalFileProvider(Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), Configuration["AppSettings:StaticContentPath"])).FullName) });
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
