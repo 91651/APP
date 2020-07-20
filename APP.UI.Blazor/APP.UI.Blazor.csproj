@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="0.2.0-nightly-200715120727" />
+    <PackageReference Include="AntDesign" Version="0.2.0-nightly-200717054910" />
     <PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.1" />
     <PackageReference Include="Toolbelt.Blazor.HeadElement" Version="1.2.0" />
     <PackageReference Include="Toolbelt.Blazor.HeadElement.ServerPrerendering" Version="1.2.0.1" />

@@ -6,9 +6,8 @@
 @inject IBlogService _blogService;
 @inject IArticleService _articleService;
 
-    <Toolbelt.Blazor.HeadElement.Title>
-        遇见时光 | @article.Title
-    </Toolbelt.Blazor.HeadElement.Title>
+    <Toolbelt.Blazor.HeadElement.Title>遇见时光 | @article.Title</Toolbelt.Blazor.HeadElement.Title>
+    <Meta Name="description" Content="@(article.Summary ?? string.Empty)" />
 
 <link href="/css/info.css" rel="stylesheet">
 @*为Markdown加载样式*@
