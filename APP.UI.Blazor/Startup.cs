@@ -38,7 +38,9 @@ namespace APP.UI.Blazor
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddHeadElementHelper();
-            services.AddAutoMapper(typeof(Mappings));
+            services.AddAutoMapper(c => { 
+                c.AddProfile(new Mappings());
+            });
             services.AddAntDesign();
             services.AddDbContext<AppDbContext>(option => option.UseSqlite(Configuration["ConnectionStrings:SqliteConnection"]));
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<AppDbContext>();
