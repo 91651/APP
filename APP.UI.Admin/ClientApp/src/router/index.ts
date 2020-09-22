@@ -1,11 +1,23 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import Main from '../layout/Main'
 import Home from '../views/Home.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Main',
+    redirect: '/home',
+    component: Main,
+    meta: {
+      title: '首页'
+    },
+    children: [
+      {
+        path: '/home',
+        name: 'Home',
+        component: Home
+      }
+    ]
   },
   {
     path: '/signin',
