@@ -18,23 +18,26 @@ export default defineComponent({
     }
   },
   render() {
-    const collapsed = ref<boolean>(false)
+    const collapsed = false;
 
     const testMsg = () => {
       message.success(h('span', '啥子'), 2)
     }
 
-    const asiderWidth = computed(() => collapsed.value ? '80px' : '256px')
+    const asiderWidth = computed(() => collapsed ? '80px' : '256px')
 
     return <>
       <a-layout class="layout">
-    <a-layout-sider v-model-collapsed={collapsed} trigger={null} collapsible class="layout-sider">
+    <a-layout-sider collapsed={collapsed} trigger={null} collapsible class="layout-sider">
       <sider-menu collapsed={collapsed}/>
     </a-layout-sider>
     <a-layout>
-      <page-header v-model-collapsed="collapsed" />
+      <Header collapsed={collapsed} />
       <a-layout-content class="layout-content">
-        <tabs-view/>
+        {/* <tabs-view/> */}
+        <router-view>
+        
+      </router-view>
       </a-layout-content>
     </a-layout>
   </a-layout>

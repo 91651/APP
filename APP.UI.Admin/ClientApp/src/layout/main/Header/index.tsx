@@ -37,8 +37,7 @@ export default defineComponent({
       <Layout.Header class="layout-header">
         <div class="left-options">
           <span onClick={() => this.$emit('update:collapsed', !this.collapsed)} class="menu-fold">
-            <menu-unfold-outlined v-if="collapsed" />
-            <menu-fold-outlined v-else />
+            {this.collapsed  ? <menu-unfold-outlined/> : <menu-fold-outlined />}
           </span>
           <a-breadcrumb>
             {route.matched.map((routeItem, i) => {
