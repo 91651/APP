@@ -15,7 +15,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/home',
         name: 'Home',
-        component: Home
+        component: Home,
+        meta: {
+          title: '测试'
+        }
       }
     ]
   },

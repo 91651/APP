@@ -24,6 +24,7 @@ export default defineComponent({
     const username = ref(localStorage.getItem('username') || '');
     const router = useRouter();
     const route = useRoute();
+    debugger;
     const signout = () => {
       console.log(router, '退出登录')
       router.replace({
@@ -41,11 +42,11 @@ export default defineComponent({
           </span>
           <a-breadcrumb>
             {route.matched.map((routeItem, i) => {
-              <a-breadcrumb-item key={routeItem.name}>
+              return <>
+                  <a-breadcrumb-item key={routeItem.name}>
                 <a>{routeItem.meta.title}</a>
-                <template v-slot="overlay">
-                  {routeItem.children.length &&
-                    <a-menu v-if="routeItem.children.length">
+                <template slot="overlay">
+                <a-menu>
                       {routeItem.children.map((childItem, i) => {
                         childItem.meta?.hidden && <a-menu-item key={childItem.path}>
                           <router-link to={routeItem.path == '/' ? childItem.path : (routeItem.path + '/' + childItem.path)}>
@@ -54,10 +55,10 @@ export default defineComponent({
                         </a-menu-item>
                       })}
                     </a-menu>
-                  }
 
                 </template>
               </a-breadcrumb-item>
+              </>
             })}
 
           </a-breadcrumb>
