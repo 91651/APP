@@ -1,5 +1,6 @@
 
 using APP.Framework;
+using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -48,6 +49,13 @@ namespace APP.Business.WebApi
                     document.Info.Title = Configuration["Project:Name"];
                 };
             });
+
+            app.UseKnife4UI(c =>
+            {
+                c.RoutePrefix = ""; // serve the UI at root
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Docs");
+            });
+
             app.UseSwaggerUi3();
 
             app.UseEndpoints(endpoints =>
