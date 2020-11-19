@@ -45,7 +45,7 @@ export default defineComponent({
               return <>
                   <a-breadcrumb-item key={routeItem.name}>
                 <a>{routeItem.meta.title}</a>
-                <template slot="overlay">
+                <template slot="Home">
                 <a-menu>
                       {routeItem.children.map((childItem, i) => {
                         childItem.meta?.hidden && <a-menu-item key={childItem.path}>

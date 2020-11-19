@@ -4,7 +4,11 @@
 @inject ICommentService _commentService;
 
 
-<Comment Avatar="@(@"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png")" Content="@(GetEditor(comment))"></Comment>
+<Comment Avatar="@(@"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png")">
+    <ContentTemplate>
+        @GetEditor(comment)
+    </ContentTemplate>
+</Comment>
 @CommentContent(comments)
 @if (IsShowCaptcha)
 {
@@ -37,45 +41,52 @@
     {
         IsShowCaptcha = true;
         captcha =
-        @<Template>
-            <Captcha OnSucceed="(string captchaCode) => CaptchaSucceed(comment, pid, captchaCode)" />
-        </Template>;
-    }
+    @<Template>
+        <Captcha OnSucceed="(string captchaCode) => CaptchaSucceed(comment, pid, captchaCode)" />
+    </Template>;
+}
 
 
-    private async Task CaptchaSucceed(CommentModel comment, string pid, string captchaCode)
-    {
-        IsShowCaptcha = false;
-        StateHasChanged();
-        comment.OwnerId = OwnerId;
-        comment.ParentId = pid;
-        var result = await _commentService.AddCommentAsync(comment, captchaCode);
-        if (result)
-        {
-            replyId = default;
-            comment = new CommentModel();
-            await GetComments();
+private async Task CaptchaSucceed(CommentModel comment, string pid, string captchaCode)
+{
+IsShowCaptcha = false;
+StateHasChanged();
+comment.OwnerId = OwnerId;
+comment.ParentId = pid;
+var result = await _commentService.AddCommentAsync(comment, captchaCode);
+if (result)
+{
+ replyId = default;
+ comment = new CommentModel();
+ await GetComments();
 
-        }
-    }
+}
+}
 
-    private void ReplyComment(CommentModel comment)
-    {
-        replyComment = new CommentModel();
-        replyId = comment.Id;
-    }
+private void ReplyComment(CommentModel comment)
+{
+replyComment = new CommentModel();
+replyId = comment.Id;
+}
 
 
-    RenderFragment CommentContent(List<CommentModel> DataSource) =>
+RenderFragment CommentContent(List<CommentModel> DataSource) =>
 @<div>
     @foreach (var item in DataSource)
     {
-        <Comment Avatar="@(@"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png")" Author="@item.Author" Content="item.Content" Datetime="@dateTime(item.Created)" Actions="@(new []{replyAction(item)})">
-            @CommentContent(item.Comments)
+        <Comment Avatar="@(@"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png")" Author="@item.Author" Content="@item.Content" Actions="@(new []{replyAction(item)})">
+            <DatetimeTemplate>
+                @dateTime(item.Created)
+            </DatetimeTemplate>
+            <ChildContent>@CommentContent(item.Comments)</ChildContent>
         </Comment>
         @if (item.Id == replyId)
         {
-            <Comment Avatar="@(@"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png")" Content="@(GetEditor(replyComment, item.Id))"></Comment>
+            <Comment Avatar="@(@"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png")">
+                <ContentTemplate>
+                    @(GetEditor(replyComment, item.Id))
+                </ContentTemplate>
+            </Comment>
         }
     }
 </div>;

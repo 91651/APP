@@ -18,6 +18,7 @@
     <link href="~/css/index.css" rel="stylesheet">
     <link href="~/css/m.css" rel="stylesheet">
     <link href="~/css/captcha.css" rel="stylesheet">
+    <link href="@(AppDomain.CurrentDomain.FriendlyName).styles.css" rel="stylesheet" />
 </head>
 <body>
     <app>
@@ -37,16 +38,16 @@
             <a class="dismiss">🗙</a>
         </div>
     </environment>
-    
+
 
     <script src="_framework/blazor.server.js"></script>
 
     @*<environment names="Development">
-        <script src="~/js/lib.min.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Production">
-        <script src="~/js/lib.min.js" asp-append-version="true"></script>
-    </environment>*@
+            <script src="~/js/lib.min.js" asp-append-version="true"></script>
+        </environment>
+        <environment names="Production">
+            <script src="~/js/lib.min.js" asp-append-version="true"></script>
+        </environment>*@
     <script src="_content/AntDesign/js/ant-design-blazor.js"></script>
     <script src="~/js/hc-sticky.js"></script>
     <script src="~/js/scrollReveal.js"></script>

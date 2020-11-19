@@ -1,23 +1,22 @@
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using BC.Microsoft.DependencyInjection.Plus;
-using APP.DbAccess.Repositories;
+using System.IO;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using APP.Business.Services;
-using APP.DbAccess.Infrastructure;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using APP.Business.Services.AutoMapper;
 using APP.DbAccess.Entities;
-using System.Text.Unicode;
-using System.Text.Encodings.Web;
-using Toolbelt.Blazor.Extensions.DependencyInjection;
+using APP.DbAccess.Infrastructure;
+using APP.DbAccess.Repositories;
+using AutoMapper;
+using BC.Microsoft.DependencyInjection.Plus;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using System.IO;
-using System.Threading;
+using Microsoft.Extensions.Hosting;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace APP.UI.Blazor
 {
@@ -34,11 +33,13 @@ namespace APP.UI.Blazor
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
+            services.AddMemoryCache();
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
             services.AddHeadElementHelper();
-            services.AddAutoMapper(c => { 
+            services.AddAutoMapper(c =>
+            {
                 c.AddProfile(new Mappings());
             });
             services.AddAntDesign();
@@ -46,7 +47,7 @@ namespace APP.UI.Blazor
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<AppDbContext>();
             services.AddScopedScan(typeof(Repository<>));
             services.AddScopedScan(typeof(Service));
-            services.AddMemoryCache();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

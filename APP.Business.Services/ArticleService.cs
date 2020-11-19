@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using APP.Business.Services.Models;
 using APP.DbAccess.Entities;
 using APP.DbAccess.Repositories;
 using APP.Framework.DynamicLinq;
 using APP.Framework.IView;
-using APP.Business.Services.Models;
 using APP.Framework.Util;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Internal;
 
 namespace APP.Business.Services
@@ -68,7 +68,7 @@ namespace APP.Business.Services
 
         public async Task<ArticleModel> GetArticleAsync(string id)
         {
-            var query =  _articleRepository.GetAll().Where(a => a.Id.EndsWith(id));
+            var query = _articleRepository.GetAll().Where(a => a.Id.EndsWith(id));
             var model = await _mapper.ProjectTo<ArticleModel>(query).FirstOrDefaultAsync();
             return model;
         }
@@ -101,7 +101,7 @@ namespace APP.Business.Services
             {
                 ex = ex.And(t => t.Title.Contains(model.MatchWord) || t.SubTitle.Contains(model.MatchWord) || t.Summary.Contains(model.MatchWord) || t.Content.Contains(model.MatchWord));
             }
-            var users = await _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Include(i => i.Files).Where(ex).ToDataSourceResultAsync(model);
+            var users = await _articleRepository.GetAll().Include(i => i.Channel).Include(i => i.User).Include(i => i.Comments).Include(i => i.Files).Where(ex).ToDataSourceResultAsync(model);
             return new PageResult<List<ArticleListModel>>
             {
                 Data = _mapper.Map<List<ArticleListModel>>(users.Data),

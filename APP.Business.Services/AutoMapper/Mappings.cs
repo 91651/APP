@@ -1,7 +1,6 @@
 ﻿using System.Linq;
-using System.Reflection;
-using APP.DbAccess.Entities;
 using APP.Business.Services.Models;
+using APP.DbAccess.Entities;
 using AutoMapper;
 
 namespace APP.Business.Services.AutoMapper
@@ -19,6 +18,7 @@ namespace APP.Business.Services.AutoMapper
             CreateMap<Article, ArticleListModel>()
                 .ForMember(m => m.ChannelName, opt => opt.MapFrom(s => s.Channel.Title))
                 .ForMember(m => m.UserName, opt => opt.MapFrom(s => s.User.UserName))
+                .ForMember(m => m.CommentCount, opt => opt.MapFrom(s => s.Comments.Count))
                 .ForMember(m => m.File, opt => opt.MapFrom(s => s.Files.FirstOrDefault()));
             CreateMap<Channel, ChannelModel>();
             CreateMap<Comment, CommentModel>().ReverseMap();

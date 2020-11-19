@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -10,10 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="0.2.0-nightly-200717054910" />
+    <PackageReference Include="AntDesign" Version="0.4.1" />
     <PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.1" />
-    <PackageReference Include="Toolbelt.Blazor.HeadElement" Version="1.2.0" />
-    <PackageReference Include="Toolbelt.Blazor.HeadElement.ServerPrerendering" Version="1.2.0.1" />
+    <PackageReference Include="Toolbelt.Blazor.HeadElement" Version="5.0.0" />
+    <PackageReference Include="Toolbelt.Blazor.HeadElement.ServerPrerendering" Version="1.2.2" />
     <PackageReference Include="久伴" Version="1.0.936" />
   </ItemGroup>
 

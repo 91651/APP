@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace APP.Business.Services.Models
 {
@@ -14,6 +13,7 @@ namespace APP.Business.Services.Models
         public string Summary { get; set; }
         public int Viewed { get; set; }
         public string Author { get; set; }
+        public int CommentCount { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public int State { get; set; }

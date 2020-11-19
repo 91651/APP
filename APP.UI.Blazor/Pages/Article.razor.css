@@ -1,0 +1,103 @@
+.infosbox {
+    width: 100%;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 20px
+}
+
+.newsview {
+    padding: 0 30px
+}
+
+.intitle {
+    line-height: 40px;
+    height: 40px;
+    font-size: 14px;
+    ;
+    border-bottom: #000 2px solid;
+}
+
+    .intitle a {
+        font-weight: normal;
+    }
+
+.news_title {
+    font-size: 24px;
+    font-weight: normal;
+    padding: 20px 0;
+    color: #333;
+}
+
+.infosbox .bloginfo {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 10px;
+    clear: both
+}
+
+    .infosbox .bloginfo ul {
+        overflow: hidden
+    }
+
+    .infosbox .bloginfo li {
+        float: left;
+        margin-right: 20px
+    }
+
+.news_about {
+    color: #888888;
+    border: 1px solid #F3F3F3;
+    padding: 10px;
+    margin: 20px auto 15px auto;
+    line-height: 23px;
+    background: none repeat 0 0 #F6F6F6;
+}
+
+    .news_about strong {
+        color: #38485A;
+        font-weight: 400 !important;
+        font-size: 13px;
+        padding-right: 8px;
+    }
+
+.tags a {
+    background: #F4650E;
+    padding: 3px 8px;
+    margin: 0 5px 0 0;
+    color: #fff;
+    display: block;
+    float: left
+}
+
+.tags {
+    width: 100%;
+    overflow: hidden;
+    clear: both
+}
+
+.infosbox img {
+    max-width: 650px;
+    height: auto;
+    width: 100%
+}
+
+.share {
+    padding: 20px;
+}
+
+.nextinfo {
+    line-height: 24px;
+    width: 100%;
+    overflow: hidden;
+    margin: 20px 0
+}
+    /*上一篇下一篇*/
+    .nextinfo p {
+        padding: 4px 10px;
+        border-radius: 5px;
+    }
+
+    .nextinfo a:hover {
+        color: #000;
+        text-decoration: underline
+    }

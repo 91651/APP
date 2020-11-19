@@ -8,7 +8,7 @@
 @inject IBlogService _blogService;
 @inject IArticleService _articleService;
 
-    <Toolbelt.Blazor.HeadElement.Title>遇见时光 | 搜索结果</Toolbelt.Blazor.HeadElement.Title>
+<Toolbelt.Blazor.HeadElement.Title>遇见时光 | 搜索结果</Toolbelt.Blazor.HeadElement.Title>
 
 <div class="blogtab">
     <ul id="blogtab">
@@ -28,7 +28,8 @@
                     <li class="author"><a>@article.Author</a></li>
                     <li class="lmname"><a href="/c/@article.ChannelId">@article.ChannelName</a></li>
                     <li class="timer">@($"{article.Updated:yyyy年M月d日 HH:mm}")</li>
-                    <li class="view"><span>@article.Viewed</span>已阅读</li>
+                    <li class="view"><span>@article.Viewed</span> 阅读</li>
+                    <li class="view"><span>@article.CommentCount</span> 评论</li>
                 </ul>
             </div>
         </div>
