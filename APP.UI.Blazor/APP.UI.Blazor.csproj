@@ -1,24 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net5.0</TargetFramework>
+	<StaticWebAssetBasePath>_content/$(PackageId)</StaticWebAssetBasePath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
+	<DebugType>none</DebugType>
+	<DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AntDesign" Version="0.4.1" />
-    <PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.1" />
-    <PackageReference Include="Toolbelt.Blazor.HeadElement" Version="5.0.0" />
-    <PackageReference Include="Toolbelt.Blazor.HeadElement.ServerPrerendering" Version="1.2.2" />
-    <PackageReference Include="久伴" Version="1.0.936" />
+	<PackageReference Include="AntDesign" Version="0.4.1" />
+	<PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.1" />
+	<PackageReference Include="Toolbelt.Blazor.HeadElement" Version="5.0.0" />
+	<PackageReference Include="Toolbelt.Blazor.HeadElement.ServerPrerendering" Version="1.2.2" />
+	<PackageReference Include="久伴" Version="1.0.936" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\APP.Business.Services\APP.Business.Services.csproj" />
+	<ProjectReference Include="..\APP.Business.Services\APP.Business.Services.csproj" />
   </ItemGroup>
 
 </Project>
