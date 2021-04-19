@@ -45,6 +45,7 @@ namespace APP.UI.Blazor
             services.AddAntDesign();
             services.AddDbContext<AppDbContext>(option => option.UseSqlite(Configuration["ConnectionStrings:SqliteConnection"]));
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<AppDbContext>();
+            services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddScopedScan(typeof(Repository<>));
             services.AddScopedScan(typeof(Service));
 
@@ -56,6 +57,7 @@ namespace APP.UI.Blazor
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
@@ -75,6 +77,7 @@ namespace APP.UI.Blazor
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
