@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "iview": "^3.4.0",
-    "mavon-editor": "^2.7.3",
+    "mavon-editor": "^2.8.2",
     "vue": "^2.6.10",
     "vue-property-decorator": "^8.1.0",
     "vue-quill-editor": "^3.0.6",
