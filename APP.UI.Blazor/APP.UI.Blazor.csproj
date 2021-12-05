@@ -11,11 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="AntDesign" Version="0.8.0" />
-	<PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.1" />
+	<PackageReference Include="AntDesign" Version="0.10.1" />
+	<PackageReference Include="BC.Microsoft.DependencyInjection.Plus" Version="1.0.3" />
 	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.0-preview.3.21201.13" />
-	<PackageReference Include="Toolbelt.Blazor.HeadElement" Version="5.4.1" />
-	<PackageReference Include="Toolbelt.Blazor.HeadElement.ServerPrerendering" Version="1.5.1" />
+	<PackageReference Include="Toolbelt.Blazor.HeadElement" Version="6.0.0" />
+	<PackageReference Include="Toolbelt.Blazor.HeadElement.ServerPrerendering" Version="6.0.0" />
 	<PackageReference Include="久伴" Version="1.0.936" />
   </ItemGroup>
 
